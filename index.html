@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Interactive 3D Electromagnetic Lab Simulator - Learn electromagnetic concepts through visual simulations including bar magnets, solenoids, induction, and more.">
+    <title>Electromagnetic Lab Simulator | Interactive Physics Learning</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <h2>Electromagnetic Lab</h2>
+            <p>Initializing simulation...</p>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div id="app">
+        <!-- Sidebar Toggle Button -->
+        <button id="sidebar-toggle" class="sidebar-toggle-btn" title="Toggle Sidebar">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 12h18M3 6h18M3 18h18" />
+            </svg>
+        </button>
+
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <span class="logo-icon">⚡</span>
+                    <h1>EM Lab</h1>
+                </div>
+                <p class="tagline">Interactive Physics Simulator</p>
+            </div>
+
+            <nav class="module-nav">
+                <h3>Simulation Modules</h3>
+                <ul id="module-list">
+                    <li class="module-item active" data-module="barMagnet">
+                        <span class="module-icon">🧲</span>
+                        <div class="module-info">
+                            <span class="module-name">Bar Magnet & Compass</span>
+                            <span class="module-desc">Explore magnetic fields</span>
+                        </div>
+                    </li>
+                    <li class="module-item" data-module="solenoid">
+                        <span class="module-icon">🔄</span>
+                        <div class="module-info">
+                            <span class="module-name">Solenoid</span>
+                            <span class="module-desc">Right-hand rule demo</span>
+                        </div>
+                    </li>
+                    <li class="module-item" data-module="induction">
+                        <span class="module-icon">⚡</span>
+                        <div class="module-info">
+                            <span class="module-name">Electromagnetic Induction</span>
+                            <span class="module-desc">Generate electricity</span>
+                        </div>
+                    </li>
+                    <li class="module-item" data-module="transformer">
+                        <span class="module-icon">🔌</span>
+                        <div class="module-info">
+                            <span class="module-name">Transformer</span>
+                            <span class="module-desc">AC voltage transfer</span>
+                        </div>
+                    </li>
+                    <li class="module-item" data-module="lenz">
+                        <span class="module-icon">🪫</span>
+                        <div class="module-info">
+                            <span class="module-name">Lenz's Law</span>
+                            <span class="module-desc">Magnetic braking</span>
+                        </div>
+                    </li>
+                    <li class="module-item" data-module="sandbox">
+                        <span class="module-icon">🧪</span>
+                        <div class="module-info">
+                            <span class="module-name">Sandbox Mode</span>
+                            <span class="module-desc">Free experimentation</span>
+                        </div>
+                    </li>
+                </ul>
+
+                <!-- Learn More Link -->
+                <div class="learn-more-section">
+                    <a href="https://www.damtp.cam.ac.uk/user/tong/em/em.pdf" target="_blank" rel="noopener noreferrer"
+                        class="learn-more-link">
+                        <span class="learn-icon">📚</span>
+                        <div class="learn-info">
+                            <span class="learn-title">Learn More</span>
+                            <span class="learn-desc">Cambridge Physics Notes (PDF)</span>
+                        </div>
+                        <span class="external-icon">↗</span>
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main id="main-content">
+            <!-- Top Bar -->
+            <header id="top-bar">
+                <div class="module-title">
+                    <h2 id="current-module-title">Bar Magnet & Compass</h2>
+                    <p id="current-module-desc">Drag the magnet to see how compasses respond to magnetic fields</p>
+                </div>
+                <div class="view-controls">
+                    <button id="reset-view-btn" class="icon-btn" title="Reset View">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                            <path d="M3 3v5h5" />
+                        </svg>
+                    </button>
+                    <button id="fullscreen-btn" class="icon-btn" title="Fullscreen">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path
+                                d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
+                        </svg>
+                    </button>
+                </div>
+            </header>
+
+            <!-- 3D Canvas Container -->
+            <div id="canvas-container">
+                <canvas id="simulator-canvas"></canvas>
+
+                <!-- FPS Counter -->
+                <div id="fps-counter">60 FPS</div>
+
+                <!-- Instructions Overlay -->
+                <div id="instructions-overlay">
+                    <div class="instruction-item">
+                        <span class="key">Left Click + Drag</span>
+                        <span class="action">Rotate view</span>
+                    </div>
+                    <div class="instruction-item">
+                        <span class="key">Right Click + Drag</span>
+                        <span class="action">Pan view</span>
+                    </div>
+                    <div class="instruction-item">
+                        <span class="key">Scroll</span>
+                        <span class="action">Zoom in/out</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Control Panel -->
+            <div id="control-panel">
+                <div class="panel-section" id="simulation-controls">
+                    <h4>Simulation</h4>
+                    <div class="control-group">
+                        <button id="play-pause-btn" class="control-btn primary">
+                            <span class="play-icon">▶</span>
+                            <span class="pause-icon" style="display:none;">⏸</span>
+                        </button>
+                        <button id="reset-btn" class="control-btn">Reset</button>
+                    </div>
+                </div>
+
+                <div class="panel-section" id="parameter-controls">
+                    <h4>Parameters</h4>
+                    <div id="sliders-container">
+                        <!-- Dynamic sliders will be inserted here -->
+                    </div>
+                </div>
+
+                <!-- Module-specific options panel -->
+                <div class="panel-section" id="module-options">
+                    <h4>Options</h4>
+                    <div id="options-container">
+                        <!-- Dynamic options will be inserted here -->
+                    </div>
+                </div>
+
+                <div class="panel-section" id="visualization-controls">
+                    <h4>Visualization</h4>
+                    <div class="toggle-group">
+                        <label class="toggle-label">
+                            <input type="checkbox" id="show-field-lines" checked>
+                            <span class="toggle-switch"></span>
+                            <span>Field Lines</span>
+                        </label>
+                        <label class="toggle-label">
+                            <input type="checkbox" id="show-arrows" checked>
+                            <span class="toggle-switch"></span>
+                            <span>Direction Arrows</span>
+                        </label>
+                        <label class="toggle-label">
+                            <input type="checkbox" id="show-grid">
+                            <span class="toggle-switch"></span>
+                            <span>Reference Grid</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Component Palette (for Sandbox mode) -->
+        <aside id="component-palette" class="hidden">
+            <h3>Components</h3>
+            <div class="component-grid">
+                <div class="component-item" data-component="barMagnet">
+                    <div class="component-preview magnet-preview"></div>
+                    <span>Bar Magnet</span>
+                </div>
+                <div class="component-item" data-component="compass">
+                    <div class="component-preview compass-preview"></div>
+                    <span>Compass</span>
+                </div>
+                <div class="component-item" data-component="solenoid">
+                    <div class="component-preview solenoid-preview"></div>
+                    <span>Solenoid</span>
+                </div>
+                <div class="component-item" data-component="wire">
+                    <div class="component-preview wire-preview"></div>
+                    <span>Wire</span>
+                </div>
+                <div class="component-item" data-component="battery">
+                    <div class="component-preview battery-preview"></div>
+                    <span>Battery</span>
+                </div>
+            </div>
+            <div class="palette-actions">
+                <button id="clear-scene-btn" class="action-btn danger">Clear All</button>
+                <button id="save-config-btn" class="action-btn">Save Setup</button>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Three.js and Application Scripts -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
+    <script type="module" src="js/main.js"></script>
+</body>
+
+</html>
