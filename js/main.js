@@ -37,54 +37,67 @@ class ElectromagneticLabApp {
     }
 
     init() {
-        // Setup scene
-        this.sceneManager = new SceneManager(this.canvas);
+        try {
+            // Setup scene
+            this.sceneManager = new SceneManager(this.canvas);
 
-        // Setup component library
-        this.components = new ComponentLibrary();
+            // Setup component library
+            this.components = new ComponentLibrary();
 
-        // Setup field visualizer
-        this.fieldVisualizer = new FieldVisualizer(this.sceneManager.scene);
+            // Setup field visualizer
+            this.fieldVisualizer = new FieldVisualizer(this.sceneManager.scene);
 
-        // Setup interaction
-        this.interaction = new InteractionManager(
-            this.sceneManager,
-            this.sceneManager.camera,
-            this.canvas
-        );
+            // Setup interaction
+            this.interaction = new InteractionManager(
+                this.sceneManager,
+                this.sceneManager.camera,
+                this.canvas
+            );
 
-        // Setup slider manager
-        const slidersContainer = document.getElementById('sliders-container');
-        this.sliders = new SliderManager(slidersContainer);
+            // Setup slider manager
+            const slidersContainer = document.getElementById('sliders-container');
+            this.sliders = new SliderManager(slidersContainer);
 
-        // Setup options container for module-specific controls
-        this.optionsContainer = document.getElementById('options-container');
+            // Setup options container for module-specific controls
+            this.optionsContainer = document.getElementById('options-container');
 
-        // Initialize modules
-        this.modules = {
-            barMagnet: new BarMagnetModule(this),
-            solenoid: new SolenoidModule(this),
-            induction: new InductionModule(this),
-            transformer: new TransformerModule(this),
-            lenz: new LenzLawModule(this),
-            sandbox: new SandboxModule(this)
-        };
+            // Initialize modules
+            this.modules = {
+                barMagnet: new BarMagnetModule(this),
+                solenoid: new SolenoidModule(this),
+                induction: new InductionModule(this),
+                transformer: new TransformerModule(this),
+                lenz: new LenzLawModule(this),
+                sandbox: new SandboxModule(this)
+            };
 
-        this.currentModule = null;
+            this.currentModule = null;
 
-        // Setup UI event listeners
-        this.setupUIListeners();
+            // Setup UI event listeners
+            this.setupUIListeners();
 
-        // Setup in-scene click detection
-        this.setupSceneClickDetection();
+            // Setup in-scene click detection
+            this.setupSceneClickDetection();
 
-        // Load first module
-        this.loadModule('barMagnet');
+            // Load first module
+            this.loadModule('barMagnet');
+
+        } catch (error) {
+            console.error('Initialization error:', error);
+            const loadingScreen = document.getElementById('loading-screen');
+            if (loadingScreen) {
+                loadingScreen.innerHTML = `<div style="color:red; padding:2rem; text-align:center;">
+                    <h2>Error Initializing</h2>
+                    <p>${error.message}</p>
+                </div>`;
+            }
+            return;
+        }
 
         // Hide loading screen
         setTimeout(() => {
             const loadingScreen = document.getElementById('loading-screen');
-            loadingScreen.classList.add('hidden');
+            if (loadingScreen) loadingScreen.classList.add('hidden');
         }, 500);
 
         // Start animation loop

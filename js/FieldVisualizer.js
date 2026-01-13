@@ -124,8 +124,18 @@ export class FieldVisualizer {
         const magnetRotation = new THREE.Quaternion();
         magnet.getWorldQuaternion(magnetRotation);
 
-        const northWorld = magnet.userData.northPole.clone().applyQuaternion(magnetRotation).add(worldPos);
-        const southWorld = magnet.userData.southPole.clone().applyQuaternion(magnetRotation).add(worldPos);
+        let northPole = magnet.userData.northPole;
+        let southPole = magnet.userData.southPole;
+
+        // Fallback if user data is missing
+        if (!northPole || !southPole) {
+            const len = (magnet.userData.dimensions && magnet.userData.dimensions.length) || 2;
+            northPole = new THREE.Vector3(len / 2, 0, 0);
+            southPole = new THREE.Vector3(-len / 2, 0, 0);
+        }
+
+        const northWorld = northPole.clone().applyQuaternion(magnetRotation).add(worldPos);
+        const southWorld = southPole.clone().applyQuaternion(magnetRotation).add(worldPos);
 
         const toNorth = new THREE.Vector3().subVectors(point, northWorld);
         const toSouth = new THREE.Vector3().subVectors(point, southWorld);
@@ -204,7 +214,13 @@ export class FieldVisualizer {
             let axis = new THREE.Vector3(1, 0, 0).applyQuaternion(rotation);
 
             if (source.userData.type === 'barMagnet') {
-                seedCenter = source.userData.northPole.clone().applyQuaternion(rotation).add(worldPos);
+                let northPole = source.userData.northPole;
+                // Fallback
+                if (!northPole) {
+                    const len = (source.userData.dimensions && source.userData.dimensions.length) || 2;
+                    northPole = new THREE.Vector3(len / 2, 0, 0);
+                }
+                seedCenter = northPole.clone().applyQuaternion(rotation).add(worldPos);
                 seedRadius = 0.15;
             } else if (source.userData.type === 'solenoid') {
                 const { length, radius, currentDirection } = source.userData;
