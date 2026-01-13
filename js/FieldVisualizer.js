@@ -8,6 +8,7 @@ export class FieldVisualizer {
         this.scene = scene;
         this.fieldLines = [];
         this.arrows = [];
+        this.gridArrows = [];
         this.particles = [];
         this.fluxLines = [];
         this.showFieldLines = true;
@@ -38,10 +39,7 @@ export class FieldVisualizer {
                 fluxLine: 0x00d4aa
             };
         }
-        // Force update of existing visuals if needed, 
-        // typically user plays interacting so next frame update might catch it, 
-        // but for static lines we might need to regenerate or update material.
-        // For simplicity, we can iterate and update materials that are accessible.
+        // Force update of existing visuals if needed
         this.updateMaterials();
     }
 
@@ -49,9 +47,14 @@ export class FieldVisualizer {
         this.fieldLines.forEach(l => l.material.color.setHex(this.colors.fieldLine));
         this.arrows.forEach(a => {
             if (a.material) a.material.color.setHex(this.colors.arrow);
-            // Opposing arrows might be grouped, simple traversal needed if so
         });
         this.fluxLines.forEach(l => l.line.material.color.setHex(this.colors.fluxLine));
+
+        if (this.gridArrows) {
+            this.gridArrows.forEach(a => {
+                if (a.material) a.material.color.setHex(this.colors.arrow);
+            });
+        }
     }
 
     /**
@@ -103,7 +106,6 @@ export class FieldVisualizer {
 
         if (source.userData.type === 'barMagnet') {
             // Inside magnet, field goes S -> N (approximate uniform for viz)
-            // Using simple vector along X axis
             const direction = new THREE.Vector3(1, 0, 0).applyQuaternion(rotation);
             return direction.multiplyScalar(source.userData.strength * 2);
         } else if (source.userData.type === 'solenoid') {
@@ -167,8 +169,6 @@ export class FieldVisualizer {
 
         const localPoint = point.clone().sub(worldPos).applyQuaternion(rotation.clone().invert());
 
-        // Simple approximation for solenoid outside field (similar to dipole)
-        // Treated as poles at ends
         const leftEnd = new THREE.Vector3(-length / 2, 0, 0);
         const rightEnd = new THREE.Vector3(length / 2, 0, 0);
 
@@ -180,8 +180,6 @@ export class FieldVisualizer {
 
         const strength = effectiveCurrent * turns * 0.02;
 
-        // If current is positive, Right is North, Left is South
-        // Field points away from North, towards South
         const fieldFromRight = toRight.normalize().multiplyScalar(strength / (distRight * distRight)); // North
         const fieldFromLeft = toLeft.normalize().multiplyScalar(-strength / (distLeft * distLeft)); // South
 
@@ -209,13 +207,10 @@ export class FieldVisualizer {
             const rotation = new THREE.Quaternion();
             source.getWorldQuaternion(rotation);
 
-            // Determine seed points (around North pole)
             let seedCenter, seedRadius;
-            let axis = new THREE.Vector3(1, 0, 0).applyQuaternion(rotation);
 
             if (source.userData.type === 'barMagnet') {
                 let northPole = source.userData.northPole;
-                // Fallback
                 if (!northPole) {
                     const len = (source.userData.dimensions && source.userData.dimensions.length) || 2;
                     northPole = new THREE.Vector3(len / 2, 0, 0);
@@ -224,7 +219,6 @@ export class FieldVisualizer {
                 seedRadius = 0.15;
             } else if (source.userData.type === 'solenoid') {
                 const { length, radius, currentDirection } = source.userData;
-                // Seed from the North end
                 const dir = (currentDirection || 1);
                 const xOffset = (length / 2) * dir;
                 seedCenter = new THREE.Vector3(xOffset, 0, 0).applyQuaternion(rotation).add(worldPos);
@@ -236,7 +230,6 @@ export class FieldVisualizer {
 
             for (let i = 0; i < numLines; i++) {
                 const angle = (i / numLines) * Math.PI * 2;
-                // Perpendicular vectors to axis
                 const perp1 = new THREE.Vector3(0, 1, 0).applyQuaternion(rotation);
                 const perp2 = new THREE.Vector3(0, 0, 1).applyQuaternion(rotation);
 
@@ -248,7 +241,6 @@ export class FieldVisualizer {
                 const linePoints = this.traceFieldLine(startPoint, sources, steps, stepSize);
 
                 if (linePoints.length > 5) {
-                    // Create line
                     const geometry = new THREE.BufferGeometry().setFromPoints(linePoints);
                     const line = new THREE.Line(geometry, new THREE.LineBasicMaterial({
                         color: this.colors.fieldLine,
@@ -259,9 +251,8 @@ export class FieldVisualizer {
                     this.scene.add(line);
                     this.fieldLines.push(line);
 
-                    // Add arrows along the line
                     if (this.showArrows) {
-                        this.addArrowsToLine(linePoints, 5); // Add 5 arrows per line
+                        this.addArrowsToLine(linePoints, 5);
                     }
                 }
             }
@@ -280,13 +271,11 @@ export class FieldVisualizer {
             const step = field.normalize().multiplyScalar(stepSize);
             currentPoint.add(step);
 
-            // Check if loop closed (close to start)
             if (i > 10 && currentPoint.distanceTo(startPoint) < stepSize * 2) {
                 points.push(startPoint.clone());
                 break;
             }
 
-            // Stop if too far
             if (currentPoint.length() > 20) break;
 
             points.push(currentPoint.clone());
@@ -300,7 +289,7 @@ export class FieldVisualizer {
         const totalLen = points.length;
         const interval = Math.floor(totalLen / count);
 
-        const arrowGeometry = this.createArrowGeometry(0.2); // Smaller scale
+        const arrowGeometry = this.createArrowGeometry(0.2);
         const arrowMaterial = new THREE.MeshBasicMaterial({ color: this.colors.arrow });
 
         for (let i = interval; i < totalLen; i += interval) {
@@ -322,13 +311,65 @@ export class FieldVisualizer {
         }
     }
 
-    // Keep legacy methods wrappers if needed, or remove them
     generateMagnetFieldLines(magnet, options) {
         this.generateFieldLines([magnet], options);
     }
 
     generateSolenoidField(solenoid, options) {
         this.generateFieldLines([solenoid], options);
+    }
+
+    /**
+     * Generate a vector field of arrows on a grid
+     */
+    generateArrowField(sources, options = {}) {
+        const { gridSize = 5, spacing = 1.0, yLevel = 0 } = options;
+
+        this.clearGridArrows();
+        if (!this.gridArrows) this.gridArrows = [];
+
+        if (!sources || sources.length === 0) return;
+
+        const arrowGeometry = this.createArrowGeometry(0.15); // Smaller scale for grid
+        const arrowMaterial = new THREE.MeshBasicMaterial({ color: this.colors.arrow });
+
+        const start = -(gridSize - 1) * spacing / 2;
+
+        for (let i = 0; i < gridSize; i++) {
+            for (let j = 0; j < gridSize; j++) {
+                const x = start + i * spacing;
+                const z = start + j * spacing;
+
+                // Skip if too close to any source
+                let tooClose = false;
+                for (const source of sources) {
+                    const worldPos = new THREE.Vector3();
+                    source.getWorldPosition(worldPos);
+                    const dist = Math.sqrt(Math.pow(x - worldPos.x, 2) + Math.pow(z - worldPos.z, 2));
+                    if (dist < 0.6) {
+                        tooClose = true;
+                        break;
+                    }
+                }
+                if (tooClose) continue;
+
+                const pos = new THREE.Vector3(x, yLevel, z);
+                const field = this.calculateTotalField(pos, sources);
+
+                if (field.length() > 0.01) {
+                    const arrow = new THREE.Mesh(arrowGeometry, arrowMaterial.clone());
+                    arrow.position.copy(pos);
+
+                    const dir = field.normalize();
+                    const quaternion = new THREE.Quaternion();
+                    quaternion.setFromUnitVectors(new THREE.Vector3(1, 0, 0), dir);
+                    arrow.quaternion.copy(quaternion);
+
+                    this.scene.add(arrow);
+                    this.gridArrows.push(arrow);
+                }
+            }
+        }
     }
 
     createArrowGeometry(scale) {
@@ -347,9 +388,6 @@ export class FieldVisualizer {
         return geometry;
     }
 
-    /**
-     * Create animated flux lines for transformer
-     */
     createFluxLines(transformer, options = {}) {
         this.clearFluxLines();
 
@@ -363,12 +401,10 @@ export class FieldVisualizer {
             opacity: 0.6
         });
 
-        // Create closed loop flux lines through the core
         for (let i = 0; i < numLines; i++) {
             const offset = (i - numLines / 2 + 0.5) * 0.08;
             const points = [];
 
-            // Create rectangular loop
             const w = 0.8;
             const h = 0.5;
             const segments = 40;
@@ -401,9 +437,6 @@ export class FieldVisualizer {
         }
     }
 
-    /**
-     * Animate flux lines for AC visualization
-     */
     animateFluxLines(time, frequency = 1) {
         for (const flux of this.fluxLines) {
             const intensity = Math.sin(time * frequency * Math.PI * 2 + flux.phase);
@@ -412,11 +445,7 @@ export class FieldVisualizer {
         }
     }
 
-    /**
-     * Create Lenz's law opposing field visualization
-     */
     createOpposingField(fallingMagnet, tube, velocity) {
-        // This creates visual arrows showing the induced opposing field
         const arrows = [];
         const speed = Math.abs(velocity);
 
@@ -428,13 +457,11 @@ export class FieldVisualizer {
         const tubePos = new THREE.Vector3();
         tube.getWorldPosition(tubePos);
 
-        // Check if magnet is inside tube
         const relY = magnetPos.y - tubePos.y;
         const tubeHeight = tube.userData.height;
 
         if (Math.abs(relY) > tubeHeight / 2 + 0.5) return arrows;
 
-        // Create opposing field arrows around the magnet
         const numArrows = 6;
         const opposingDirection = velocity > 0 ? 1 : -1;
 
@@ -450,7 +477,6 @@ export class FieldVisualizer {
 
             const arrowGroup = new THREE.Group();
 
-            // Create simple arrow
             const bodyGeom = new THREE.CylinderGeometry(0.02, 0.02, 0.2, 6);
             const headGeom = new THREE.ConeGeometry(0.04, 0.1, 6);
 
@@ -470,7 +496,6 @@ export class FieldVisualizer {
                 magnetPos.z + Math.sin(angle) * radius
             );
 
-            // Scale by velocity
             const scale = 0.5 + speed * 2;
             arrowGroup.scale.setScalar(Math.min(scale, 1.5));
 
@@ -490,6 +515,9 @@ export class FieldVisualizer {
     setArrowsVisible(visible) {
         this.showArrows = visible;
         this.arrows.forEach(arrow => arrow.visible = visible);
+        if (this.gridArrows) {
+            this.gridArrows.forEach(arrow => arrow.visible = visible);
+        }
     }
 
     clearFieldLines() {
@@ -508,6 +536,18 @@ export class FieldVisualizer {
             if (arrow.material) arrow.material.dispose();
         });
         this.arrows = [];
+        this.clearGridArrows();
+    }
+
+    clearGridArrows() {
+        if (!this.gridArrows) return;
+
+        this.gridArrows.forEach(arrow => {
+            this.scene.remove(arrow);
+            if (arrow.geometry) arrow.geometry.dispose();
+            if (arrow.material) arrow.material.dispose();
+        });
+        this.gridArrows = [];
     }
 
     clearFluxLines() {

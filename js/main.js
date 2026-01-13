@@ -46,6 +46,7 @@ class ElectromagneticLabApp {
 
             // Setup field visualizer
             this.fieldVisualizer = new FieldVisualizer(this.sceneManager.scene);
+            console.log('FieldVisualizer initialized', this.fieldVisualizer);
 
             // Setup interaction
             this.interaction = new InteractionManager(
