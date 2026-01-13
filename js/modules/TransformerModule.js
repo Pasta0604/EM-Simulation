@@ -455,6 +455,36 @@ export class TransformerModule {
     updateTurnsRatio() {
         const primary = this.transformer.userData.primaryTurns;
         const secondary = this.transformer.userData.secondaryTurns;
+        const coreWidth = 2.5;
+        const coreHeight = 2;
+
+        // Reconstruct Primary Coil if changed
+        if (this.transformer.userData.primaryCoil) {
+            this.transformer.remove(this.transformer.userData.primaryCoil);
+            this.transformer.userData.primaryCoil.traverse(c => {
+                if (c.geometry) c.geometry.dispose();
+                if (c.material) c.material.dispose();
+            });
+        }
+
+        const primaryCoil = this.createCoilWinding(-coreWidth / 3, primary, 0.4, coreHeight * 0.6, 0xd4a574);
+        primaryCoil.userData.isPrimary = true;
+        this.transformer.add(primaryCoil);
+        this.transformer.userData.primaryCoil = primaryCoil;
+
+        // Reconstruct Secondary Coil if changed
+        if (this.transformer.userData.secondaryCoil) {
+            this.transformer.remove(this.transformer.userData.secondaryCoil);
+            this.transformer.userData.secondaryCoil.traverse(c => {
+                if (c.geometry) c.geometry.dispose();
+                if (c.material) c.material.dispose();
+            });
+        }
+
+        const secondaryCoil = this.createCoilWinding(coreWidth / 3, secondary, 0.35, coreHeight * 0.6, 0xd4a574);
+        secondaryCoil.userData.isSecondary = true;
+        this.transformer.add(secondaryCoil);
+        this.transformer.userData.secondaryCoil = secondaryCoil;
 
         // Update ratio label
         if (this.ratioLabel) {

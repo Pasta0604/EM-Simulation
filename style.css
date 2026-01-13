@@ -49,6 +49,36 @@
     --transition-slow: 0.4s ease;
 }
 
+body.light-mode {
+    /* Light Mode Colors */
+    --bg-gradient-start: #f0f7f5;
+    --bg-gradient-end: #e0ece9;
+    --primary: #2a8a75;
+    --primary-light: #4db39d;
+    --primary-dark: #1e6b5c;
+    --secondary: #00997a;
+    --secondary-light: #00bd96;
+    --secondary-dark: #00755e;
+    --accent: #00cc99;
+
+    /* Neutrals */
+    --surface: rgba(255, 255, 255, 0.85);
+    --surface-light: rgba(240, 250, 248, 0.9);
+    --surface-dark: rgba(230, 240, 238, 0.95);
+    --text-primary: #1a3a35;
+    --text-secondary: #4a7a70;
+    --text-muted: #6a9a8f;
+    --border: rgba(0, 153, 122, 0.2);
+    --border-hover: rgba(0, 153, 122, 0.4);
+
+    /* Effects */
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(0, 153, 122, 0.15);
+    --glow: 0 0 20px rgba(0, 153, 122, 0.2);
+    --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    --shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
 /* Reset & Base */
 *,
 *::before,
@@ -519,6 +549,16 @@ h4 {
     display: flex;
     gap: 2rem;
     z-index: 50;
+    transition: transform var(--transition-base), height var(--transition-base), padding var(--transition-base), opacity var(--transition-base);
+}
+
+#control-panel.hidden {
+    height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    overflow: hidden;
+    opacity: 0;
+    border-top: none;
 }
 
 .panel-section {

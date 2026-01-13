@@ -125,12 +125,11 @@ export class SandboxModule {
             obj => obj.userData.type === 'barMagnet' || obj.userData.type === 'solenoid'
         );
 
-        // Update field lines (from first magnet only to avoid clutter)
-        const magnets = this.placedObjects.filter(obj => obj.userData.type === 'barMagnet');
-        if (magnets.length > 0 && this.app.showFieldLines) {
-            this.app.fieldVisualizer.generateMagnetFieldLines(magnets[0], {
+        // Update field lines
+        if (fieldSources.length > 0 && this.app.showFieldLines) {
+            this.app.fieldVisualizer.generateFieldLines(fieldSources, {
                 numLines: 8,
-                steps: 40,
+                steps: 60,
                 stepSize: 0.12
             });
         } else {
@@ -162,15 +161,7 @@ export class SandboxModule {
             compass.getWorldPosition(compassPos);
 
             // Calculate total field from all sources
-            let totalField = new THREE.Vector3();
-
-            for (const source of fieldSources) {
-                if (source.userData.type === 'barMagnet') {
-                    totalField.add(this.app.fieldVisualizer.calculateDipoleField(compassPos, source));
-                } else if (source.userData.type === 'solenoid' && source.userData.current > 0.1) {
-                    totalField.add(this.app.fieldVisualizer.calculateSolenoidField(compassPos, source));
-                }
-            }
+            const totalField = this.app.fieldVisualizer.calculateTotalField(compassPos, fieldSources);
 
             if (totalField.length() > 0.001) {
                 const targetAngle = Math.atan2(totalField.x, totalField.z);

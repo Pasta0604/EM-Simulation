@@ -159,6 +159,38 @@ class ElectromagneticLabApp {
             }
         });
 
+        // Theme Toggle
+        const themeToggleBtn = document.getElementById('theme-toggle-btn');
+        themeToggleBtn.addEventListener('click', () => {
+            document.body.classList.toggle('light-mode');
+            const isLight = document.body.classList.contains('light-mode');
+            this.fieldVisualizer.setTheme(isLight ? 'light' : 'dark');
+
+            // Re-render current module field visualization
+            if (this.currentModule && this.currentModule.updateFieldVisualization) {
+                this.currentModule.updateFieldVisualization();
+            }
+
+            // Update tooltip/icon if needed
+            themeToggleBtn.title = isLight ? "Switch to Dark Mode" : "Switch to Light Mode";
+        });
+
+        // Panel Toggle
+        const panelToggleBtn = document.getElementById('panel-toggle-btn');
+        const controlPanel = document.getElementById('control-panel');
+        panelToggleBtn.addEventListener('click', () => {
+            controlPanel.classList.toggle('hidden');
+            const isHidden = controlPanel.classList.contains('hidden');
+
+            // Adjust panel toggle button visual state if needed
+            panelToggleBtn.classList.toggle('active', isHidden);
+
+            // Trigger resize to update canvas
+            setTimeout(() => {
+                this.sceneManager.handleResize();
+            }, 300);
+        });
+
         // Visualization toggles
         const showFieldLinesToggle = document.getElementById('show-field-lines');
         showFieldLinesToggle.addEventListener('change', (e) => {

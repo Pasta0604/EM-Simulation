@@ -29,7 +29,7 @@ export class SolenoidModule {
         });
         this.solenoid.position.set(0, 0.5, 0);
         this.solenoid.userData.current = 1;
-        this.solenoid.userData.currentDirection = 1;
+        this.solenoid.userData.currentDirection = -1;
         this.app.sceneManager.add(this.solenoid);
 
         // Create current flow particles on the wire
@@ -38,8 +38,12 @@ export class SolenoidModule {
         // Create right-hand rule indicator
         this.createHandIndicator();
 
+        // Update hand indicator to match fixed direction
+        this.handIndicator.scale.x = -1.5;
+
         // Create pole labels
         this.createPoleLabels();
+        this.updatePoleLabels(); // Ensure correct initial position
 
         // Create sliders
         this.app.sliders.createSlider({
@@ -53,21 +57,6 @@ export class SolenoidModule {
             onChange: (val) => {
                 this.solenoid.userData.current = val;
                 this.updateVisualization();
-            }
-        });
-
-        this.app.sliders.createSlider({
-            id: 'current-direction',
-            label: 'Direction',
-            min: -1,
-            max: 1,
-            value: 1,
-            step: 2,
-            unit: '',
-            onChange: (val) => {
-                this.solenoid.userData.currentDirection = val || 1;
-                this.updateVisualization();
-                this.updatePoleLabels();
             }
         });
 

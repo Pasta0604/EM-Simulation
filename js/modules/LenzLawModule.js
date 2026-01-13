@@ -29,17 +29,26 @@ export class LenzLawModule {
             innerRadius: 0.42
         });
         this.tube.position.set(0, 2.5, 0);
+
+        // Make tube transparent as requested (50-70%)
+        this.tube.traverse(child => {
+            if (child.isMesh) {
+                child.material = child.material.clone();
+                child.material.transparent = true;
+                child.material.opacity = 0.4; // 60% transparent
+                child.material.side = THREE.DoubleSide;
+                // Reduce metalness/roughness for better transparency look
+                child.material.metalness = 0.3;
+                child.material.roughness = 0.1;
+                child.material.needsUpdate = true;
+            }
+        });
+
         this.app.sceneManager.add(this.tube);
 
-        // Create bar magnet (smaller to fit in tube)
-        this.magnet = this.app.components.createBarMagnet({
-            strength: 1.5,
-            length: 0.8,
-            width: 0.3,
-            height: 0.25
-        });
+        // Create Spherical Magnet
+        this.magnet = this.createSphericalMagnet(0.25);
         this.magnet.position.set(0, 5.5, 0);
-        this.magnet.rotation.z = Math.PI / 2; // Vertical orientation
         this.app.sceneManager.add(this.magnet);
 
         // Create comparison non-magnetic object
@@ -70,6 +79,50 @@ export class LenzLawModule {
 
         // Auto-start the demonstration after a delay
         setTimeout(() => this.startDrop(), 1500);
+    }
+
+    createSphericalMagnet(radius) {
+        const group = new THREE.Group();
+        group.userData = { type: 'barMagnet', strength: 1.5, northPole: new THREE.Vector3(0, radius, 0), southPole: new THREE.Vector3(0, -radius, 0) };
+
+        // North pole (top half - red)
+        const northGeom = new THREE.SphereGeometry(radius, 32, 32, 0, Math.PI * 2, 0, Math.PI / 2);
+        const northMesh = new THREE.Mesh(northGeom, new THREE.MeshStandardMaterial({
+            color: 0xe74c3c, metalness: 0.3, roughness: 0.4
+        }));
+        northMesh.castShadow = true;
+        group.add(northMesh);
+
+        // South pole (bottom half - blue)
+        const southGeom = new THREE.SphereGeometry(radius, 32, 32, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2);
+        const southMesh = new THREE.Mesh(southGeom, new THREE.MeshStandardMaterial({
+            color: 0x3498db, metalness: 0.3, roughness: 0.4
+        }));
+        southMesh.castShadow = true;
+        group.add(southMesh);
+
+        // Add "N" and "S" labels
+        const addLabel = (text, height) => {
+            const canvas = document.createElement('canvas');
+            canvas.width = 64; canvas.height = 64;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 48px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(text, 32, 32);
+            const texture = new THREE.CanvasTexture(canvas);
+            const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: texture }));
+            sprite.scale.set(0.15, 0.15, 1);
+            sprite.position.y = height;
+            sprite.position.z = radius + 0.02;
+            group.add(sprite);
+        };
+
+        addLabel('N', radius * 0.5);
+        addLabel('S', -radius * 0.5);
+
+        return group;
     }
 
     createComparisonObject() {
