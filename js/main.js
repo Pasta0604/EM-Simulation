@@ -179,6 +179,7 @@ class ElectromagneticLabApp {
             document.body.classList.toggle('light-mode');
             const isLight = document.body.classList.contains('light-mode');
             this.fieldVisualizer.setTheme(isLight ? 'light' : 'dark');
+            this.sceneManager.setTheme(isLight ? 'light' : 'dark');
 
             // Re-render current module field visualization
             if (this.currentModule && this.currentModule.updateFieldVisualization) {

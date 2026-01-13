@@ -26,8 +26,8 @@ export class FieldVisualizer {
     setTheme(theme) {
         if (theme === 'light') {
             this.colors = {
-                fieldLine: 0x006655,
-                arrow: 0x00997a,
+                fieldLine: 0x00d4aa, // Keep mint green
+                arrow: 0x00ffcc,     // Keep mint green
                 opposingArrow: 0xd93636,
                 fluxLine: 0x006655
             };
@@ -180,8 +180,8 @@ export class FieldVisualizer {
 
         const strength = effectiveCurrent * turns * 0.02;
 
-        const fieldFromRight = toRight.normalize().multiplyScalar(strength / (distRight * distRight)); // North
-        const fieldFromLeft = toLeft.normalize().multiplyScalar(-strength / (distLeft * distLeft)); // South
+        const fieldFromRight = toRight.normalize().multiplyScalar(-strength / (distRight * distRight)); // North (Away)
+        const fieldFromLeft = toLeft.normalize().multiplyScalar(strength / (distLeft * distLeft)); // South (Towards)
 
         const totalLocal = fieldFromRight.add(fieldFromLeft);
         return totalLocal.applyQuaternion(rotation);
@@ -251,8 +251,11 @@ export class FieldVisualizer {
                     this.scene.add(line);
                     this.fieldLines.push(line);
 
+                    // Store line points for arrow animation
+                    line.userData.points = linePoints;
+
                     if (this.showArrows) {
-                        this.addArrowsToLine(linePoints, 5);
+                        this.addArrowsToLine(line, 5);
                     }
                 }
             }
@@ -283,8 +286,9 @@ export class FieldVisualizer {
         return points;
     }
 
-    addArrowsToLine(points, count) {
-        if (points.length < 2) return;
+    addArrowsToLine(line, count) {
+        const points = line.userData.points;
+        if (!points || points.length < 2) return;
 
         const totalLen = points.length;
         const interval = Math.floor(totalLen / count);
@@ -292,23 +296,63 @@ export class FieldVisualizer {
         const arrowGeometry = this.createArrowGeometry(0.2);
         const arrowMaterial = new THREE.MeshBasicMaterial({ color: this.colors.arrow });
 
-        for (let i = interval; i < totalLen; i += interval) {
-            const p1 = points[i - 1];
-            const p2 = points[i];
+        // Phase offset for each line to create varied flow
+        const phaseOffset = Math.random();
 
-            const dir = new THREE.Vector3().subVectors(p2, p1).normalize();
-            const pos = p2.clone();
-
+        for (let i = 0; i < count; i++) {
             const arrow = new THREE.Mesh(arrowGeometry, arrowMaterial.clone());
-            arrow.position.copy(pos);
-
-            const quaternion = new THREE.Quaternion();
-            quaternion.setFromUnitVectors(new THREE.Vector3(1, 0, 0), dir);
-            arrow.quaternion.copy(quaternion);
+            arrow.userData.t = i / count + phaseOffset; // Parameter along line (0-1)
+            arrow.userData.line = line;
 
             this.scene.add(arrow);
             this.arrows.push(arrow);
+
+            // Initial position
+            this.updateArrowPosition(arrow);
         }
+    }
+
+    updateArrowPosition(arrow) {
+        const line = arrow.userData.line;
+        if (!line || !line.userData.points) return;
+
+        const points = line.userData.points;
+        const t = (arrow.userData.t % 1 + 1) % 1; // Wrap 0-1
+
+        // Find index in points array
+        const totalIdx = (points.length - 1) * t;
+        const idx = Math.floor(totalIdx);
+        const alpha = totalIdx - idx;
+
+        if (idx >= points.length - 1) return;
+
+        const p1 = points[idx];
+        const p2 = points[idx + 1];
+
+        // Interpolate position
+        const pos = new THREE.Vector3().lerpVectors(p1, p2, alpha);
+        arrow.position.copy(pos);
+
+        // Orient
+        const dir = new THREE.Vector3().subVectors(p2, p1).normalize();
+
+        // If direction is NaN (zero length segment), skip orientation update
+        if (dir.lengthSq() > 0.0001) {
+            const quaternion = new THREE.Quaternion();
+            quaternion.setFromUnitVectors(new THREE.Vector3(1, 0, 0), dir);
+            arrow.quaternion.copy(quaternion);
+        }
+    }
+
+    animateFieldLines(time, speed = 0.5) {
+        if (!this.showArrows) return;
+
+        this.arrows.forEach(arrow => {
+            if (arrow.userData.line) {
+                arrow.userData.t += 0.005 * speed; // Move along line
+                this.updateArrowPosition(arrow);
+            }
+        });
     }
 
     generateMagnetFieldLines(magnet, options) {

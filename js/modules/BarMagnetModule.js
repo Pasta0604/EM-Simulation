@@ -141,6 +141,9 @@ export class BarMagnetModule {
             // Smooth interpolation
             needle.rotation.y += diff * Math.min(deltaTime * 5, 1);
         }
+
+        // Animate field lines
+        this.app.fieldVisualizer.animateFieldLines(deltaTime * 60, 1.0);
     }
 
     cleanup() {

@@ -35,11 +35,7 @@ export class SolenoidModule {
         // Create current flow particles on the wire
         this.createCurrentParticles();
 
-        // Create right-hand rule indicator
-        this.createHandIndicator();
-
-        // Update hand indicator to match fixed direction
-        this.handIndicator.scale.x = -1.5;
+        // Hand indicator removed per user request
 
         // Create pole labels
         this.createPoleLabels();
@@ -230,56 +226,7 @@ export class SolenoidModule {
         }
     }
 
-    createHandIndicator() {
-        // Create a visual representation of the right-hand rule
-        this.handIndicator = new THREE.Group();
 
-        // Simple hand representation using shapes
-        const handMaterial = new THREE.MeshStandardMaterial({
-            color: 0xffcc99,
-            transparent: true,
-            opacity: 0.75
-        });
-
-        // Palm
-        const palmGeom = new THREE.BoxGeometry(0.35, 0.12, 0.45);
-        const palm = new THREE.Mesh(palmGeom, handMaterial);
-        this.handIndicator.add(palm);
-
-        // Thumb (points in field/north direction)
-        const thumbGeom = new THREE.CylinderGeometry(0.035, 0.035, 0.3, 8);
-        thumbGeom.rotateZ(Math.PI / 2);
-        const thumb = new THREE.Mesh(thumbGeom, handMaterial);
-        thumb.position.set(0.25, 0, -0.1);
-        this.handIndicator.add(thumb);
-
-        // Fingers (curl in current direction)
-        for (let i = 0; i < 4; i++) {
-            const fingerGeom = new THREE.CylinderGeometry(0.025, 0.025, 0.22, 6);
-            const finger = new THREE.Mesh(fingerGeom, handMaterial);
-            finger.position.set(-0.12 + i * 0.09, 0, 0.32);
-            finger.rotation.x = Math.PI / 4;
-            this.handIndicator.add(finger);
-        }
-
-        // Position hand indicator
-        this.handIndicator.position.set(2.5, 1.5, 0);
-        this.handIndicator.rotation.y = Math.PI / 4;
-        this.handIndicator.scale.setScalar(1.5);
-
-        // Add labels
-        const thumbLabel = this.createTextSprite('North (B)', 0x00d4aa);
-        thumbLabel.position.set(0.5, 0.25, -0.1);
-        thumbLabel.scale.set(0.6, 0.3, 1);
-        this.handIndicator.add(thumbLabel);
-
-        const fingerLabel = this.createTextSprite('Current (I)', 0xf39c12);
-        fingerLabel.position.set(0, 0.25, 0.5);
-        fingerLabel.scale.set(0.6, 0.3, 1);
-        this.handIndicator.add(fingerLabel);
-
-        this.app.sceneManager.scene.add(this.handIndicator);
-    }
 
     createPoleLabels() {
         // North pole label (right side when current is positive)
@@ -365,13 +312,7 @@ export class SolenoidModule {
             this.app.fieldVisualizer.clearAll();
         }
 
-        // Update hand indicator visibility and orientation
-        if (this.handIndicator) {
-            this.handIndicator.visible = current > 0.1;
-            // Mirror hand for opposite current direction
-            const direction = this.solenoid.userData.currentDirection;
-            this.handIndicator.scale.x = direction > 0 ? 1.5 : -1.5;
-        }
+
 
         // Update pole labels visibility
         if (this.northLabel) this.northLabel.visible = current > 0.1;
@@ -405,17 +346,7 @@ export class SolenoidModule {
         }
         this.currentParticles = [];
 
-        // Remove hand indicator
-        if (this.handIndicator) {
-            this.app.sceneManager.scene.remove(this.handIndicator);
-            this.handIndicator.traverse(child => {
-                if (child.geometry) child.geometry.dispose();
-                if (child.material) {
-                    if (child.material.map) child.material.map.dispose();
-                    child.material.dispose();
-                }
-            });
-        }
+
 
         // Remove pole labels
         if (this.northLabel) {
