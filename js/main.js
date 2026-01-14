@@ -13,6 +13,7 @@ import { SolenoidModule } from './modules/SolenoidModule.js';
 import { InductionModule } from './modules/InductionModule.js';
 import { TransformerModule } from './modules/TransformerModule.js';
 import { LenzLawModule } from './modules/LenzLawModule.js';
+import { ElectromagnetModule } from './modules/ElectromagnetModule.js';
 import { SandboxModule } from './modules/SandboxModule.js';
 
 class ElectromagneticLabApp {
@@ -69,6 +70,7 @@ class ElectromagneticLabApp {
                 induction: new InductionModule(this),
                 transformer: new TransformerModule(this),
                 lenz: new LenzLawModule(this),
+                electromagnet: new ElectromagnetModule(this),
                 sandbox: new SandboxModule(this)
             };
 
