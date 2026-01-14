@@ -87,7 +87,8 @@ export class SceneManager {
         this.gridHelper = new THREE.GridHelper(20, 40, 0x1e6b5c, 0x0d3530);
         this.gridHelper.material.opacity = 0.3;
         this.gridHelper.material.transparent = true;
-        this.gridHelper.visible = false;
+        this.gridHelper.visible = true; // Make grid visible by default
+        this.currentGridVisible = true;
         this.scene.add(this.gridHelper);
 
         // Ground plane (invisible but for shadows)

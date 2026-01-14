@@ -607,6 +607,11 @@ export class AssemblyManager {
         this.hoveredPiece = null;
         this.isDragging = false;
         this.currentComponent = null;
+
+        // IMPORTANT: Restore camera controls for other modules
+        this.sceneManager.controls.enableRotate = true;
+        this.sceneManager.camera.up.set(0, 1, 0); // Reset camera up vector
+        this.sceneManager.resetCamera(); // Reset to default position
     }
 
     /**
