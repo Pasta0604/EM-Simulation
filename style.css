@@ -4,16 +4,21 @@
 
 /* CSS Variables / Design Tokens */
 :root {
-    /* Deep Indigo Theme Colors */
+    /* Lovable Gradient Theme */
+    --gradient-start: #0052FF;
+    --gradient-end: #F43F5E;
+    --lovable-gradient: linear-gradient(90deg, #0052FF 0%, #F43F5E 100%);
+
+    /* Deep Indigo Background */
     --bg-gradient-start: #1a1b3d;
     --bg-gradient-end: #2d2f5e;
-    --primary: #3d4080;
-    --primary-light: #5456a8;
-    --primary-dark: #2a2c5c;
-    --secondary: #00e5cc;
-    --secondary-light: #33eed9;
-    --secondary-dark: #00b3a0;
-    --accent: #00ffee;
+    --primary: #0052FF;
+    --primary-light: #3374FF;
+    --primary-dark: #0041CC;
+    --secondary: #F43F5E;
+    --secondary-light: #FF6B85;
+    --secondary-dark: #D91D47;
+    --accent: #A855F7;
 
     /* Neutrals */
     --surface: rgba(45, 47, 94, 0.6);
@@ -22,18 +27,18 @@
     --text-primary: #e8f4ff;
     --text-secondary: #a0c8e8;
     --text-muted: #6a8db0;
-    --border: rgba(0, 229, 204, 0.25);
-    --border-hover: rgba(0, 229, 204, 0.5);
+    --border: rgba(0, 82, 255, 0.25);
+    --border-hover: rgba(244, 63, 94, 0.5);
 
-    /* Liquid Glass Effects */
+    /* Liquid Glass Effects with Lovable Colors */
     --glass-bg: rgba(45, 47, 94, 0.4);
-    --glass-border: rgba(0, 229, 204, 0.2);
+    --glass-border: rgba(0, 82, 255, 0.2);
     --glass-blur: blur(20px);
-    --glow: 0 0 30px rgba(0, 229, 204, 0.4), 0 0 60px rgba(0, 229, 204, 0.1);
-    --glow-strong: 0 0 40px rgba(0, 229, 204, 0.6), 0 0 80px rgba(0, 229, 204, 0.2);
+    --glow: 0 0 30px rgba(0, 82, 255, 0.4), 0 0 60px rgba(244, 63, 94, 0.2);
+    --glow-strong: 0 0 40px rgba(0, 82, 255, 0.6), 0 0 80px rgba(244, 63, 94, 0.4);
     --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
     --shadow-hover: 0 12px 48px rgba(0, 0, 0, 0.5);
-    --inner-glow: inset 0 0 30px rgba(0, 229, 204, 0.1);
+    --inner-glow: inset 0 0 30px rgba(0, 82, 255, 0.1);
 
     /* Typography */
     --font-primary: 'Crimson Text', Georgia, serif;
@@ -53,16 +58,16 @@
 }
 
 body.light-mode {
-    /* Light Mode - Softer Indigo */
+    /* Light Mode - Softer Lovable */
     --bg-gradient-start: #e8ebf5;
-    --bg-gradient-end: #d4d9ed;
-    --primary: #5456a8;
-    --primary-light: #7679c8;
-    --primary-dark: #3d4080;
-    --secondary: #00b3a0;
-    --secondary-light: #00d9c3;
-    --secondary-dark: #008c7a;
-    --accent: #00ccbb;
+    --bg-gradient-end: #fce7f3;
+    --primary: #0052FF;
+    --primary-light: #3374FF;
+    --primary-dark: #0041CC;
+    --secondary: #F43F5E;
+    --secondary-light: #FF6B85;
+    --secondary-dark: #D91D47;
+    --accent: #A855F7;
 
     /* Neutrals */
     --surface: rgba(255, 255, 255, 0.7);
@@ -71,18 +76,18 @@ body.light-mode {
     --text-primary: #2a2c5c;
     --text-secondary: #5456a8;
     --text-muted: #7a8db0;
-    --border: rgba(0, 179, 160, 0.25);
-    --border-hover: rgba(0, 179, 160, 0.5);
+    --border: rgba(0, 82, 255, 0.25);
+    --border-hover: rgba(244, 63, 94, 0.5);
 
     /* Effects */
     --glass-bg: rgba(255, 255, 255, 0.5);
-    --glass-border: rgba(0, 179, 160, 0.2);
+    --glass-border: rgba(0, 82, 255, 0.2);
     --glass-blur: blur(20px);
-    --glow: 0 0 20px rgba(0, 179, 160, 0.3);
-    --glow-strong: 0 0 30px rgba(0, 179, 160, 0.5);
+    --glow: 0 0 20px rgba(0, 82, 255, 0.3), 0 0 30px rgba(244, 63, 94, 0.2);
+    --glow-strong: 0 0 30px rgba(0, 82, 255, 0.5), 0 0 50px rgba(244, 63, 94, 0.3);
     --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     --shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.15);
-    --inner-glow: inset 0 0 30px rgba(0, 179, 160, 0.08);
+    --inner-glow: inset 0 0 30px rgba(0, 82, 255, 0.08);
 }
 
 /* Reset & Base */
@@ -216,7 +221,7 @@ h4 {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(0, 229, 204, 0.03) 0%, transparent 100%);
+    background: linear-gradient(180deg, rgba(0, 82, 255, 0.03) 0%, rgba(244, 63, 94, 0.02) 100%);
     pointer-events: none;
 }
 
@@ -235,14 +240,17 @@ h4 {
 
 .logo-icon {
     font-size: 1.75rem;
-    filter: drop-shadow(0 0 12px var(--secondary));
+    filter: drop-shadow(0 0 12px var(--primary));
 }
 
 .logo h1 {
-    color: var(--secondary);
+    background: var(--lovable-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     font-size: 1.5rem;
     font-weight: 700;
-    text-shadow: 0 0 20px rgba(0, 229, 204, 0.5);
+    filter: drop-shadow(0 0 20px rgba(0, 82, 255, 0.5));
     letter-spacing: 0.02em;
 }
 
@@ -266,7 +274,10 @@ h4 {
     font-size: 0.7rem;
     text-transform: uppercase;
     letter-spacing: 0.15em;
-    color: var(--secondary);
+    background: var(--lovable-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     margin-bottom: 0.75rem;
     padding-left: 0.5rem;
     font-weight: 700;
@@ -298,13 +309,13 @@ h4 {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, transparent, rgba(0, 229, 204, 0.05));
+    background: var(--lovable-gradient);
     opacity: 0;
     transition: opacity var(--transition-base);
 }
 
 .module-item:hover::before {
-    opacity: 1;
+    opacity: 0.05;
 }
 
 .module-item:hover {
@@ -315,13 +326,13 @@ h4 {
 }
 
 .module-item.active {
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    background: var(--lovable-gradient);
     border-color: var(--secondary);
     box-shadow: var(--glow);
 }
 
 .module-item.active::before {
-    opacity: 0.3;
+    opacity: 0.2;
 }
 
 .module-icon {
@@ -500,7 +511,7 @@ h4 {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(90deg, rgba(0, 229, 204, 0.03) 0%, transparent 50%, rgba(0, 229, 204, 0.03) 100%);
+    background: linear-gradient(90deg, rgba(0, 82, 255, 0.03) 0%, transparent 50%, rgba(244, 63, 94, 0.03) 100%);
     pointer-events: none;
 }
 
@@ -514,9 +525,12 @@ h4 {
 .module-header h2 {
     font-family: var(--font-primary);
     font-size: 1.25rem;
-    color: var(--secondary);
+    background: var(--lovable-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     font-weight: 700;
-    text-shadow: 0 0 20px rgba(0, 229, 204, 0.5);
+    filter: drop-shadow(0 0 20px rgba(0, 82, 255, 0.5));
     letter-spacing: 0.02em;
 }
 
@@ -647,7 +661,7 @@ h4 {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(0, 229, 204, 0.03) 0%, transparent 100%);
+    background: linear-gradient(180deg, rgba(0, 82, 255, 0.03) 0%, rgba(244, 63, 94, 0.02) 100%);
     pointer-events: none;
 }
 

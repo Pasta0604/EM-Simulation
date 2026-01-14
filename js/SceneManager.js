@@ -134,14 +134,14 @@ export class SceneManager {
 
     setTheme(theme) {
         if (theme === 'light') {
-            // Light mode: Soft Purple/Indigo
+            // Light mode: Soft Blue/Pink
             this.bgMaterial.uniforms.topColor.value.setHex(0xe8ebf5);
-            this.bgMaterial.uniforms.bottomColor.value.setHex(0xd4d9ed);
+            this.bgMaterial.uniforms.bottomColor.value.setHex(0xfce7f3);
 
-            // Grid: Darker for visibility
+            // Grid: Blue with pink hint
             this.scene.remove(this.gridHelper);
-            this.gridHelper = new THREE.GridHelper(20, 40, 0x7679c8, 0xd0d5e5);
-            this.gridHelper.material.opacity = 0.4;
+            this.gridHelper = new THREE.GridHelper(20, 40, 0x3374FF, 0xF43F5E);
+            this.gridHelper.material.opacity = 0.3;
             this.gridHelper.material.transparent = true;
             this.gridHelper.visible = this.currentGridVisible !== undefined ? this.currentGridVisible : false;
             this.scene.add(this.gridHelper);
@@ -150,13 +150,13 @@ export class SceneManager {
             this.ground.material.opacity = 0.08;
 
         } else {
-            // Dark mode: Deep Indigo
+            // Dark mode: Lovable Gradient
             this.bgMaterial.uniforms.topColor.value.setHex(0x2d2f5e);
             this.bgMaterial.uniforms.bottomColor.value.setHex(0x1a1b3d);
 
-            // Grid: Cyan glow
+            // Grid: Blue to Rose gradient effect
             this.scene.remove(this.gridHelper);
-            this.gridHelper = new THREE.GridHelper(20, 40, 0x00e5cc, 0x3d4080);
+            this.gridHelper = new THREE.GridHelper(20, 40, 0x0052FF, 0xF43F5E);
             this.gridHelper.material.opacity = 0.25;
             this.gridHelper.material.transparent = true;
             this.gridHelper.visible = this.currentGridVisible !== undefined ? this.currentGridVisible : false;
