@@ -325,9 +325,23 @@ h4 {
 }
 
 .module-icon {
-    font-size: 1.25rem;
-    width: 2rem;
-    text-align: center;
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    color: var(--text-secondary);
+    transition: all var(--transition-base);
+    filter: drop-shadow(0 0 4px rgba(0, 229, 204, 0.3));
+}
+
+.module-item:hover .module-icon {
+    color: var(--secondary);
+    filter: drop-shadow(0 0 8px rgba(0, 229, 204, 0.6));
+    transform: scale(1.1);
+}
+
+.module-item.active .module-icon {
+    color: var(--secondary);
+    filter: drop-shadow(0 0 12px rgba(0, 229, 204, 0.8));
 }
 
 .module-info {
