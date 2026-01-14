@@ -134,30 +134,30 @@ export class SceneManager {
 
     setTheme(theme) {
         if (theme === 'light') {
-            // Light mode: White/Light Mint background
-            this.bgMaterial.uniforms.topColor.value.setHex(0xffffff);
-            this.bgMaterial.uniforms.bottomColor.value.setHex(0xe8f5f2); // Very light mint
+            // Light mode: Soft Purple/Indigo
+            this.bgMaterial.uniforms.topColor.value.setHex(0xe8ebf5);
+            this.bgMaterial.uniforms.bottomColor.value.setHex(0xd4d9ed);
 
-            // Grid: Darker for visibility on white
+            // Grid: Darker for visibility
             this.scene.remove(this.gridHelper);
-            this.gridHelper = new THREE.GridHelper(20, 40, 0x88b0a9, 0xcccccc);
-            this.gridHelper.material.opacity = 0.5;
+            this.gridHelper = new THREE.GridHelper(20, 40, 0x7679c8, 0xd0d5e5);
+            this.gridHelper.material.opacity = 0.4;
             this.gridHelper.material.transparent = true;
             this.gridHelper.visible = this.currentGridVisible !== undefined ? this.currentGridVisible : false;
             this.scene.add(this.gridHelper);
 
             // Ground shadow opacity
-            this.ground.material.opacity = 0.1;
+            this.ground.material.opacity = 0.08;
 
         } else {
-            // Dark mode (Original)
-            this.bgMaterial.uniforms.topColor.value.setHex(0x1a3a35);
-            this.bgMaterial.uniforms.bottomColor.value.setHex(0x0a1f1c);
+            // Dark mode: Deep Indigo
+            this.bgMaterial.uniforms.topColor.value.setHex(0x2d2f5e);
+            this.bgMaterial.uniforms.bottomColor.value.setHex(0x1a1b3d);
 
-            // Grid: Lighter
+            // Grid: Cyan glow
             this.scene.remove(this.gridHelper);
-            this.gridHelper = new THREE.GridHelper(20, 40, 0x1e6b5c, 0x0d3530);
-            this.gridHelper.material.opacity = 0.3;
+            this.gridHelper = new THREE.GridHelper(20, 40, 0x00e5cc, 0x3d4080);
+            this.gridHelper.material.opacity = 0.25;
             this.gridHelper.material.transparent = true;
             this.gridHelper.visible = this.currentGridVisible !== undefined ? this.currentGridVisible : false;
             this.scene.add(this.gridHelper);
