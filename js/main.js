@@ -15,6 +15,7 @@ import { TransformerModule } from './modules/TransformerModule.js';
 import { LenzLawModule } from './modules/LenzLawModule.js';
 import { ElectromagnetModule } from './modules/ElectromagnetModule.js';
 import { SandboxModule } from './modules/SandboxModule.js';
+import { AssemblyModule } from './modules/AssemblyModule.js';
 
 class ElectromagneticLabApp {
     constructor() {
@@ -71,7 +72,8 @@ class ElectromagneticLabApp {
                 transformer: new TransformerModule(this),
                 lenz: new LenzLawModule(this),
                 electromagnet: new ElectromagnetModule(this),
-                sandbox: new SandboxModule(this)
+                sandbox: new SandboxModule(this),
+                assembly: new AssemblyModule(this)
             };
 
             this.currentModule = null;
