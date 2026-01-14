@@ -82,8 +82,16 @@ class ElectromagneticLabApp {
             // Setup in-scene click detection
             this.setupSceneClickDetection();
 
-            // Load first module
-            this.loadModule('barMagnet');
+            // Check URL parameters for module selection
+            const urlParams = new URLSearchParams(window.location.search);
+            const moduleParam = urlParams.get('module');
+
+            // Load requested module or default to barMagnet
+            if (moduleParam && this.modules[moduleParam]) {
+                this.loadModule(moduleParam);
+            } else {
+                this.loadModule('barMagnet');
+            }
 
         } catch (error) {
             console.error('Initialization error:', error);
