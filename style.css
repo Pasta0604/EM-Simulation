@@ -515,6 +515,8 @@ h4 {
     border-radius: var(--border-radius-sm);
     opacity: 0.8;
     transition: opacity var(--transition-base);
+    z-index: 60;
+    /* Ensure above other elements */
 }
 
 #instructions-overlay:hover {
@@ -541,7 +543,10 @@ h4 {
    Control Panel
    ======================================== */
 #control-panel {
-    height: var(--panel-height);
+    min-height: var(--panel-height);
+    /* Changed from fixed height */
+    max-height: 40vh;
+    /* Limit max height */
     padding: 1rem 1.5rem;
     background: var(--surface);
     backdrop-filter: blur(20px);
@@ -550,9 +555,13 @@ h4 {
     gap: 2rem;
     z-index: 50;
     transition: transform var(--transition-base), height var(--transition-base), padding var(--transition-base), opacity var(--transition-base);
+    overflow-y: auto;
+    /* Allow scrolling if content is too tall */
+    overflow-x: hidden;
 }
 
 #control-panel.hidden {
+    min-height: 0;
     height: 0;
     padding-top: 0;
     padding-bottom: 0;
@@ -620,6 +629,8 @@ h4 {
 .control-group {
     display: flex;
     gap: 0.5rem;
+    flex-wrap: wrap;
+    /* Allow wrapping */
 }
 
 .control-btn {
@@ -1343,13 +1354,15 @@ input[type="range"]::-moz-range-thumb {
     top: 130px;
     left: 1rem;
     width: 280px;
-    max-height: calc(100% - 160px);
+    max-height: calc(100vh - 160px);
+    /* Ensure it doesn't go off-screen */
     padding: 1.25rem;
     background: var(--glass-bg);
     backdrop-filter: blur(20px);
     border: 1px solid var(--glass-border);
     border-radius: var(--border-radius);
     overflow-y: auto;
+    /* Allow scrolling inside the panel */
 }
 
 .assembly-instructions-panel h3 {

@@ -105,7 +105,14 @@ export class AssemblyManager {
         this.pieces = [];
 
         definition.pieces.forEach((pieceDef, index) => {
+            // Override start position height to match correct height for 2D feel
             const piece = new PuzzlePiece(pieceDef, index);
+
+            // Set initial Y to correct Y so it's on the right "layer"
+            piece.mesh.position.y = piece.correctPosition.y;
+            // Store this as the effective start Y for return animation
+            piece.startPosition.y = piece.correctPosition.y;
+
             this.pieces.push(piece);
             this.assemblyGroup.add(piece.mesh);
         });
@@ -115,9 +122,15 @@ export class AssemblyManager {
      * Setup camera for optimal assembly view
      */
     setupCamera() {
-        // Position camera for better assembly view
-        this.sceneManager.camera.position.set(4, 4, 4);
+        // Position camera for top-down 2D-style view
+        this.sceneManager.camera.position.set(0, 6, 0);
+        this.sceneManager.camera.lookAt(0, 0, 0);
+        this.sceneManager.camera.up.set(0, 0, -1); // Orient so North (Z-) is up
         this.sceneManager.controls.target.set(0, 0, 0);
+
+        // Lock rotation to keep it "2D" until complete
+        this.sceneManager.controls.enableRotate = false;
+        this.sceneManager.controls.enableZoom = true;
         this.sceneManager.controls.update();
     }
 
@@ -213,12 +226,17 @@ export class AssemblyManager {
             this.isDragging = true;
             piece.setDragging(true);
 
-            // Update drag plane height
-            this.dragPlane.constant = -piece.mesh.position.y;
+            // Set drag plane to the EXACT height of the correct position
+            // This ensures we drag on the correct "layer"
+            this.dragPlane.setComponents(0, -1, 0, piece.correctPosition.y); // Plane y = correct y
 
-            // Calculate offset
+            // Calculate local offset from center of piece
             const intersection = this.getIntersectionPoint();
-            this.dragOffset.copy(piece.mesh.position).sub(intersection);
+            if (intersection) {
+                this.dragOffset.copy(piece.mesh.position).sub(intersection);
+                // Zero out Y offset to prevent vertical drift
+                this.dragOffset.y = 0;
+            }
 
             // Show placement preview
             this.guide.createPlacementPreview(piece);
@@ -237,17 +255,22 @@ export class AssemblyManager {
         this.updateMouse(event);
 
         if (this.isDragging && this.selectedPiece) {
-            // Update piece position
+            // Update piece position on the plane
             const intersection = this.getIntersectionPoint();
-            this.selectedPiece.mesh.position.x = intersection.x + this.dragOffset.x;
-            this.selectedPiece.mesh.position.z = intersection.z + this.dragOffset.z;
 
-            // Show proximity feedback
-            const proximity = this.selectedPiece.getProximityFeedback();
-            this.selectedPiece.showProximityFeedback(proximity);
+            if (intersection) {
+                // Only update X and Z, force Y to be correct height
+                this.selectedPiece.mesh.position.x = intersection.x + this.dragOffset.x;
+                this.selectedPiece.mesh.position.z = intersection.z + this.dragOffset.z;
+                this.selectedPiece.mesh.position.y = this.selectedPiece.correctPosition.y; // Enforce height
 
-            // Update connection line
-            this.guide.showConnectionLine(this.selectedPiece);
+                // Show proximity feedback
+                const proximity = this.selectedPiece.getProximityFeedback();
+                this.selectedPiece.showProximityFeedback(proximity);
+
+                // Update connection line
+                this.guide.showConnectionLine(this.selectedPiece);
+            }
         } else {
             // Hover effect
             const piece = this.raycastPieces();
@@ -384,6 +407,13 @@ export class AssemblyManager {
 
         if (validation.isComplete) {
             this.isComplete = true;
+
+            // Unlock camera for 3D view
+            this.sceneManager.controls.enableRotate = true;
+            // Smoothly move to perspective view (simple set for now)
+            this.sceneManager.camera.position.set(3, 3, 4);
+            this.sceneManager.camera.lookAt(0, 0, 0);
+            this.sceneManager.controls.update();
 
             // Calculate stats
             const elapsedTime = Math.round((Date.now() - this.startTime) / 1000);
