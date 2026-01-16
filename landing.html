@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
         content="Interactive 3D Electromagnetic Lab Simulator - Learn electromagnetic concepts through visual simulations including bar magnets, solenoids, induction, and more.">
-    <title>Electromag Learning Portal | Interactive Physics Learning</title>
+    <title>EM-Verse | Explore Electromagnetism</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
@@ -25,8 +25,8 @@
             </div>
 
             <div class="header-title">
-                <h1>ELECTRO<span class="accent">MAG</span></h1>
-                <p class="subtitle">LEARNING PORTAL v3.0</p>
+                <h1 class="header-headline">EM-<span class="accent">Verse</span></h1>
+                <p class="subtitle">Dive into EM-Verse, Explore Electromagnetism</p>
             </div>
 
             <div class="header-btn glass-button">
@@ -79,7 +79,7 @@
 
             <!-- Widget Row -->
             <section class="widgets-section">
-                <div class="widget-card glass-card ai-tutor-widget" id="ai-tutor-trigger">
+                <div class="widget-card glass-card ai-tutor-widget" id="ai-tutor-trigger" onclick="openAITutorModal()">
                     <div class="widget-glow cyan"></div>
                     <div class="widget-content">
                         <div class="widget-header">
@@ -93,13 +93,13 @@
                             <p class="widget-description">Stuck on a concept? Get instant answers and formula breakdowns
                                 from our specialized AI helper.</p>
                         </div>
-                        <a href="index.html#aiTutor" class="widget-action-btn">
+                        <button class="widget-action-btn" onclick="event.stopPropagation(); openAITutorModal()">
                             <span>ASK A QUESTION</span>
-                        </a>
+                        </button>
                     </div>
                 </div>
 
-                <div class="widget-card glass-card exam-widget">
+                <div class="widget-card glass-card exam-widget" onclick="openExamPracticeModal()">
                     <div class="widget-glow purple"></div>
                     <div class="widget-content">
                         <div class="widget-header">
@@ -123,9 +123,10 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="index.html#examPractice" class="widget-action-btn purple">
+                        <button class="widget-action-btn purple"
+                            onclick="event.stopPropagation(); openExamPracticeModal()">
                             <span>TAKE PRACTICE TEST</span>
-                        </a>
+                        </button>
                     </div>
                 </div>
             </section>
@@ -290,7 +291,195 @@
         </nav>
     </div>
 
+    <!-- AI Tutor Modal -->
+    <div id="ai-tutor-modal" class="modal-overlay" onclick="closeAITutorModal(event)">
+        <div class="modal-container glass-card" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title-area">
+                    <div class="widget-icon cyan">
+                        <span class="material-symbols-outlined">smart_toy</span>
+                    </div>
+                    <div>
+                        <h2 class="modal-title">AI Physics Tutor</h2>
+                        <p class="modal-subtitle">Powered by Gemini AI</p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" onclick="closeAITutorModal(event)">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="chat-container" id="ai-chat-container">
+                    <div class="chat-welcome">
+                        <span class="material-symbols-outlined chat-icon">psychology</span>
+                        <h3>Welcome to AI Physics Tutor!</h3>
+                        <p>Ask me anything about electromagnetism, from basic concepts to complex problems.</p>
+                    </div>
+                </div>
+                <div class="chat-input-area">
+                    <input type="text" id="ai-chat-input" placeholder="Ask a question about electromagnetism..."
+                        onkeypress="if(event.key==='Enter') sendAIMessage()">
+                    <button class="send-btn" onclick="sendAIMessage()">
+                        <span class="material-symbols-outlined">send</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Exam Practice Modal -->
+    <div id="exam-practice-modal" class="modal-overlay" onclick="closeExamPracticeModal(event)">
+        <div class="modal-container glass-card exam-modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title-area">
+                    <div class="widget-icon purple">
+                        <span class="material-symbols-outlined">school</span>
+                    </div>
+                    <div>
+                        <h2 class="modal-title">Exam Practice</h2>
+                        <p class="modal-subtitle">Test your EM knowledge</p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" onclick="closeExamPracticeModal(event)">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="modal-body exam-body">
+                <div class="exam-question-area" id="exam-question-area">
+                    <div class="exam-welcome">
+                        <span class="material-symbols-outlined exam-icon">quiz</span>
+                        <h3>Ready to Practice?</h3>
+                        <p>Challenge yourself with electromagnetism questions to test your understanding.</p>
+                        <button class="start-exam-btn glass-button-primary" onclick="startExamPractice()">
+                            <span>START PRACTICE</span>
+                            <span class="material-symbols-outlined">play_arrow</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Puzzle Intro Modal (for Launch Simulation) -->
+    <div id="puzzle-intro-modal" class="modal-overlay" onclick="closePuzzleModal(event)">
+        <div class="modal-container glass-card puzzle-modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title-area">
+                    <div class="widget-icon cyan">
+                        <span class="material-symbols-outlined">extension</span>
+                    </div>
+                    <div>
+                        <h2 class="modal-title">Welcome to EM-Verse!</h2>
+                        <p class="modal-subtitle">Build to understand</p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" onclick="closePuzzleModal(event)">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="modal-body puzzle-body">
+                <div class="puzzle-intro-content">
+                    <div class="puzzle-icon-large">
+                        <span class="material-symbols-outlined">toys_and_games</span>
+                    </div>
+                    <h3>Start with the Bar Magnet Puzzle</h3>
+                    <p>Before diving into the simulations, we recommend completing the Assembly Puzzle to understand how
+                        a bar magnet works from the ground up.</p>
+
+                    <div class="puzzle-buttons">
+                        <a href="index.html#assembly" class="puzzle-start-btn glass-button-primary">
+                            <span class="material-symbols-outlined">extension</span>
+                            <span>START PUZZLE</span>
+                        </a>
+                        <a href="index.html#barMagnet" class="puzzle-skip-btn glass-button">
+                            <span>Skip & Explore</span>
+                            <span class="material-symbols-outlined">arrow_forward</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
+        // Modal Functions
+        function openAITutorModal() {
+            document.getElementById('ai-tutor-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeAITutorModal(event) {
+            if (event) event.stopPropagation();
+            document.getElementById('ai-tutor-modal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function openExamPracticeModal() {
+            document.getElementById('exam-practice-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeExamPracticeModal(event) {
+            if (event) event.stopPropagation();
+            document.getElementById('exam-practice-modal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function openPuzzleModal() {
+            document.getElementById('puzzle-intro-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePuzzleModal(event) {
+            if (event) event.stopPropagation();
+            document.getElementById('puzzle-intro-modal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // AI Tutor chat placeholder
+        function sendAIMessage() {
+            const input = document.getElementById('ai-chat-input');
+            const message = input.value.trim();
+            if (!message) return;
+
+            const container = document.getElementById('ai-chat-container');
+            // Clear welcome if present
+            const welcome = container.querySelector('.chat-welcome');
+            if (welcome) welcome.remove();
+
+            // Add user message
+            container.innerHTML += `<div class="chat-message user"><p>${message}</p></div>`;
+
+            // Add AI response placeholder
+            container.innerHTML += `<div class="chat-message ai"><p>This AI Tutor feature is coming soon! For now, explore the simulations to learn about electromagnetism.</p></div>`;
+
+            input.value = '';
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // Exam Practice placeholder
+        function startExamPractice() {
+            const area = document.getElementById('exam-question-area');
+            area.innerHTML = `
+                <div class="exam-question">
+                    <span class="question-number">Question 1 of 10</span>
+                    <h3>What is the direction of the magnetic field inside a solenoid?</h3>
+                    <div class="answer-options">
+                        <button class="answer-btn" onclick="selectAnswer(this)">A. Circular around the wire</button>
+                        <button class="answer-btn" onclick="selectAnswer(this)">B. Parallel to the axis of the solenoid</button>
+                        <button class="answer-btn" onclick="selectAnswer(this)">C. Perpendicular to the axis</button>
+                        <button class="answer-btn" onclick="selectAnswer(this)">D. Random directions</button>
+                    </div>
+                    <p class="exam-coming-soon">Full exam practice is coming soon!</p>
+                </div>
+            `;
+        }
+
+        function selectAnswer(btn) {
+            document.querySelectorAll('.answer-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+        }
+
         // Handle module card clicks
         document.querySelectorAll('.module-card').forEach(card => {
             card.addEventListener('click', (e) => {
@@ -300,15 +489,29 @@
             });
         });
 
-        // Handle featured card click
+        // Handle featured card / Launch Simulation - show puzzle intro modal
+        document.querySelector('.launch-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            openPuzzleModal();
+        });
+
         document.querySelector('.featured-card').addEventListener('click', (e) => {
             if (e.target.closest('a') || e.target.closest('button')) return;
-            window.location.href = 'index.html';
+            openPuzzleModal();
         });
 
         // Material symbols filled for active state
         document.querySelectorAll('.material-symbols-outlined.filled').forEach(icon => {
             icon.style.fontVariationSettings = "'FILL' 1, 'wght' 300, 'GRAD' 0, 'opsz' 24";
+        });
+
+        // Close modals on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeAITutorModal();
+                closeExamPracticeModal();
+                closePuzzleModal();
+            }
         });
     </script>
 </body>
