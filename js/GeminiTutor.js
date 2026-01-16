@@ -39,7 +39,7 @@ export class GeminiTutor {
      */
     loadApiKey() {
         // Built-in API key for the application
-        const builtInKey = 'AIzaSyAHiI8Kt9VlD8dL5ZA3d2z1sF_gen-lang-client-0984887015'.replace('AIzaSyAHiI8Kt9VlD8dL5ZA3d2z1sF_', '');
+        const builtInKey = 'gen-lang-client-0984887015';
 
         // Try to get from localStorage first (user may have set custom key)
         const storedKey = localStorage.getItem('gemini_api_key');
@@ -430,7 +430,7 @@ export class GeminiTutor {
     async callGeminiAPI(userMessage) {
         const systemPrompt = this.buildSystemPrompt();
 
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${this.apiKey}`, {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${this.apiKey}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

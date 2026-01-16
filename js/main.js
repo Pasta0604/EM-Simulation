@@ -16,6 +16,8 @@ import { LenzLawModule } from './modules/LenzLawModule.js';
 import { ElectromagnetModule } from './modules/ElectromagnetModule.js';
 import { SandboxModule } from './modules/SandboxModule.js';
 import { AssemblyModule } from './modules/AssemblyModule.js';
+import { ExamPracticeModule } from './modules/ExamPracticeModule.js';
+import { AITutorModule } from './modules/AITutorModule.js';
 import { GeminiTutor } from './GeminiTutor.js';
 
 class ElectromagneticLabApp {
@@ -74,7 +76,9 @@ class ElectromagneticLabApp {
                 lenz: new LenzLawModule(this),
                 electromagnet: new ElectromagnetModule(this),
                 sandbox: new SandboxModule(this),
-                assembly: new AssemblyModule(this)
+                assembly: new AssemblyModule(this),
+                examPractice: new ExamPracticeModule(this),
+                aiTutor: new AITutorModule(this)
             };
 
             this.currentModule = null;
