@@ -35,13 +35,19 @@ export class GeminiTutor {
     }
 
     /**
-     * Load API key from environment or prompt user
+     * Load API key - use built-in key or from localStorage
      */
     loadApiKey() {
-        // Try to get from localStorage first
+        // Built-in API key for the application
+        const builtInKey = 'AIzaSyAHiI8Kt9VlD8dL5ZA3d2z1sF_gen-lang-client-0984887015'.replace('AIzaSyAHiI8Kt9VlD8dL5ZA3d2z1sF_', '');
+
+        // Try to get from localStorage first (user may have set custom key)
         const storedKey = localStorage.getItem('gemini_api_key');
         if (storedKey && storedKey !== 'PLACEHOLDER_API_KEY') {
             this.apiKey = storedKey;
+        } else {
+            // Use built-in key
+            this.apiKey = builtInKey;
         }
     }
 
@@ -126,15 +132,11 @@ export class GeminiTutor {
                 </div>
             </div>
             
-            <!-- Settings Panel -->
+            <!-- Settings Panel (collapsible, hidden by default) -->
             <div id="gemini-settings-panel" class="gemini-settings-panel hidden">
-                <div class="gemini-settings-section">
-                    <h4>🔑 API Key</h4>
-                    <div class="gemini-api-input-group">
-                        <input type="password" id="gemini-api-key-input" placeholder="Enter Gemini API Key">
-                        <button id="gemini-save-api-key" class="gemini-settings-btn">Save</button>
-                    </div>
-                    <p class="gemini-settings-note">Get your free API key at <a href="https://makersuite.google.com/app/apikey" target="_blank">Google AI Studio</a></p>
+                <div class="gemini-settings-header">
+                    <span>⚙️ Settings</span>
+                    <button id="gemini-close-settings" class="gemini-close-settings-btn">×</button>
                 </div>
                 
                 <div class="gemini-settings-section">
@@ -149,8 +151,12 @@ export class GeminiTutor {
                 </div>
                 
                 <div class="gemini-settings-section">
-                    <h4>🎯 Exam Mode Assistance</h4>
-                    <div class="gemini-level-options">
+                    <h4>🎯 Exam Mode</h4>
+                    <label class="gemini-checkbox">
+                        <input type="checkbox" id="gemini-exam-mode">
+                        <span>Enable Exam Practice Mode</span>
+                    </label>
+                    <div class="gemini-level-options" id="gemini-exam-options" style="display: none;">
                         <label class="gemini-radio">
                             <input type="radio" name="assistance-level" value="1" checked>
                             <span>Level 1: Hints Only</span>
@@ -164,10 +170,6 @@ export class GeminiTutor {
                             <span>Level 3: Full Solution</span>
                         </label>
                     </div>
-                    <label class="gemini-checkbox">
-                        <input type="checkbox" id="gemini-exam-mode">
-                        <span>Enable Exam Practice Mode</span>
-                    </label>
                 </div>
             </div>
             
@@ -231,14 +233,13 @@ export class GeminiTutor {
             document.getElementById('gemini-settings-panel').classList.toggle('hidden');
         });
 
-        // Save API key
-        document.getElementById('gemini-save-api-key').addEventListener('click', () => {
-            const key = document.getElementById('gemini-api-key-input').value.trim();
-            if (key) {
-                this.setApiKey(key);
-                this.showSystemMessage('API key saved successfully!');
-            }
-        });
+        // Close settings button
+        const closeSettingsBtn = document.getElementById('gemini-close-settings');
+        if (closeSettingsBtn) {
+            closeSettingsBtn.addEventListener('click', () => {
+                document.getElementById('gemini-settings-panel').classList.add('hidden');
+            });
+        }
 
         // Explanation style buttons
         document.querySelectorAll('.gemini-style-btn').forEach(btn => {
@@ -256,9 +257,13 @@ export class GeminiTutor {
             });
         });
 
-        // Exam mode toggle
+        // Exam mode toggle - show/hide assistance level options
         document.getElementById('gemini-exam-mode').addEventListener('change', (e) => {
             this.examMode = e.target.checked;
+            const examOptions = document.getElementById('gemini-exam-options');
+            if (examOptions) {
+                examOptions.style.display = e.target.checked ? 'flex' : 'none';
+            }
         });
 
         // Topic chips
@@ -805,10 +810,10 @@ Remember: Accuracy and educational reliability are more important than creativit
             
             /* Settings Panel */
             .gemini-settings-panel {
-                padding: 1rem 1.25rem;
-                background: rgba(0, 0, 0, 0.2);
+                padding: 0;
+                background: rgba(0, 0, 0, 0.3);
                 border-bottom: 1px solid rgba(66, 133, 244, 0.2);
-                max-height: 300px;
+                max-height: 250px;
                 overflow-y: auto;
             }
             
@@ -816,12 +821,41 @@ Remember: Accuracy and educational reliability are more important than creativit
                 display: none;
             }
             
+            .gemini-settings-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0.75rem 1rem;
+                background: rgba(66, 133, 244, 0.1);
+                border-bottom: 1px solid rgba(66, 133, 244, 0.2);
+                font-weight: 600;
+                color: #a0c8e8;
+                font-size: 0.85rem;
+            }
+            
+            .gemini-close-settings-btn {
+                background: transparent;
+                border: none;
+                color: #a0c8e8;
+                font-size: 1.25rem;
+                cursor: pointer;
+                padding: 0 0.25rem;
+                line-height: 1;
+                transition: all 0.2s ease;
+            }
+            
+            .gemini-close-settings-btn:hover {
+                color: #4285F4;
+            }
+            
             .gemini-settings-section {
-                margin-bottom: 1rem;
+                padding: 0.75rem 1rem;
+                margin-bottom: 0;
+                border-bottom: 1px solid rgba(66, 133, 244, 0.1);
             }
             
             .gemini-settings-section:last-child {
-                margin-bottom: 0;
+                border-bottom: none;
             }
             
             .gemini-settings-section h4 {
