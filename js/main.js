@@ -92,16 +92,49 @@ class ElectromagneticLabApp {
             // Setup in-scene click detection
             this.setupSceneClickDetection();
 
-            // Check URL parameters for module selection
+            // Check URL hash or parameters for module selection
+            const hashModule = window.location.hash.slice(1); // Remove '#' from hash
             const urlParams = new URLSearchParams(window.location.search);
             const moduleParam = urlParams.get('module');
 
-            // Load requested module or default to barMagnet
-            if (moduleParam && this.modules[moduleParam]) {
-                this.loadModule(moduleParam);
-            } else {
-                this.loadModule('barMagnet');
+            // Priority: hash > query param > default
+            let targetModule = 'barMagnet';
+            if (hashModule && this.modules[hashModule]) {
+                targetModule = hashModule;
+            } else if (moduleParam && this.modules[moduleParam]) {
+                targetModule = moduleParam;
             }
+
+            // Load the target module
+            this.loadModule(targetModule);
+
+            // Update sidebar active state to match
+            const moduleItems = document.querySelectorAll('.module-item');
+            moduleItems.forEach(item => {
+                if (item.dataset.module === targetModule) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+
+            // Listen for hash changes to allow dynamic module switching
+            window.addEventListener('hashchange', () => {
+                const newHash = window.location.hash.slice(1);
+                if (newHash && this.modules[newHash]) {
+                    this.loadModule(newHash);
+
+                    // Update sidebar active state
+                    const items = document.querySelectorAll('.module-item');
+                    items.forEach(item => {
+                        if (item.dataset.module === newHash) {
+                            item.classList.add('active');
+                        } else {
+                            item.classList.remove('active');
+                        }
+                    });
+                }
+            });
 
         } catch (error) {
             console.error('Initialization error:', error);

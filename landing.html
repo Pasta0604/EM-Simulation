@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Interactive 3D Electromagnetic Lab Simulator - Learn electromagnetic concepts through visual simulations including bar magnets, solenoids, induction, and more.">
+    <title>Electromag Learning Portal | Interactive Physics Learning</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="landing.css">
+</head>
+
+<body>
+    <div id="app" class="portal-container">
+        <!-- Header -->
+        <header class="portal-header">
+            <div class="header-btn glass-button">
+                <span class="material-symbols-outlined">account_circle</span>
+            </div>
+
+            <div class="header-title">
+                <h1>ELECTRO<span class="accent">MAG</span></h1>
+                <p class="subtitle">LEARNING PORTAL v3.0</p>
+            </div>
+
+            <div class="header-btn glass-button">
+                <button class="settings-btn">
+                    <span class="material-symbols-outlined">settings</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="portal-main">
+            <!-- Featured Card -->
+            <section class="featured-section">
+                <div class="featured-card glass-card">
+                    <div class="featured-gradient-overlay"></div>
+                    <div class="featured-grid">
+                        <div class="featured-image-container">
+                            <div class="featured-image"
+                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBaLF6mgFhNFQtd7kM9eOrxNHZ3skX08-JyQR54bkk4H1h-xU_3NdOc70neHrVQ5cn2zwMHykGD38BdHnTAgVHt4mkRhyJk1FN6QhNXQrk9JKgX6gZjqpoOakJH2znBv6KgR5kEPV8VhRUCzhOxonvY4Et677ZxbpV3LJyDPjVxnaAZLpqlGlDSX_mZq8MRGv55bniPsHCm0O5BgimdfH83vFR5WNehV5ciWpIsQPDoxFx2BP7Rd6QWVXaZrBj2FSlwQU5Wcsa2PVr9');">
+                            </div>
+                            <div class="featured-image-gradient"></div>
+                            <div class="featured-badge">
+                                <span class="pulse-dot"></span>
+                                Featured Simulation
+                            </div>
+                        </div>
+
+                        <div class="featured-content">
+                            <span class="featured-label">EM-Verse</span>
+                            <h2 class="featured-title">
+                                Enter the <br><span class="gradient-text">EM-verse</span>
+                            </h2>
+                            <p class="featured-description">
+                                Explore electromagnetism and observe how the compass needle aligns with field lines in
+                                this high-fidelity 3D environment.
+                            </p>
+                            <div class="featured-actions">
+                                <a href="index.html" class="launch-btn glass-button-primary">
+                                    <span>LAUNCH SIMULATION</span>
+                                    <span class="material-symbols-outlined">rocket_launch</span>
+                                </a>
+                                <button class="info-btn glass-button">
+                                    <span class="material-symbols-outlined">info</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Widget Row -->
+            <section class="widgets-section">
+                <div class="widget-card glass-card ai-tutor-widget" id="ai-tutor-trigger">
+                    <div class="widget-glow cyan"></div>
+                    <div class="widget-content">
+                        <div class="widget-header">
+                            <div class="widget-icon cyan">
+                                <span class="material-symbols-outlined">smart_toy</span>
+                            </div>
+                            <span class="widget-badge">BETA</span>
+                        </div>
+                        <div class="widget-body">
+                            <h3 class="widget-title cyan">AI Physics Tutor</h3>
+                            <p class="widget-description">Stuck on a concept? Get instant answers and formula breakdowns
+                                from our specialized AI helper.</p>
+                        </div>
+                        <a href="index.html#aiTutor" class="widget-action-btn">
+                            <span>ASK A QUESTION</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="widget-card glass-card exam-widget">
+                    <div class="widget-glow purple"></div>
+                    <div class="widget-content">
+                        <div class="widget-header">
+                            <div class="widget-icon purple">
+                                <span class="material-symbols-outlined">school</span>
+                            </div>
+                            <div class="mastery-stats">
+                                <p class="mastery-label">Mastery</p>
+                                <p class="mastery-value">72%</p>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <h3 class="widget-title purple">Exam Practice</h3>
+                            <div class="progress-container">
+                                <div class="progress-info">
+                                    <span>WEEKLY GOAL</span>
+                                    <span>15/20 Qs</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 75%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="index.html#examPractice" class="widget-action-btn purple">
+                            <span>TAKE PRACTICE TEST</span>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Module Grid -->
+            <section class="modules-section">
+                <div class="section-header">
+                    <h3 class="section-title">
+                        <span class="title-accent"></span>
+                        More Modules
+                    </h3>
+                    <button class="view-all-btn">VIEW ALL</button>
+                </div>
+
+                <div class="modules-grid">
+                    <!-- Solenoid -->
+                    <div class="module-card glass-card" data-module="solenoid">
+                        <div class="module-image-container">
+                            <div class="module-image"
+                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDvjt7d37cx3EC3kTHWExFtyvsUdHY63Rq_RU-T9VBlbULT7IUnsc56B9T0Pfcgyl8c7GwNcHZd7L016LbA1TIIVxnnYdDCjH5RioiXkKeUKXgHXhljFpt1lwCmPGkac58psD5WAbJH5KoN50LHH0nPi2Q3qgzhb7tGrrnhX8zU2q-eviYceBYPH5WdNG5X9cIly42rtuFnFKvZXA_H_jti9ndIsZgAKvHLrQEf97RL_l4eGpYKiLiXLYLnmG3EGiYqlzXM6Z9sEYa0');">
+                            </div>
+                            <div class="module-image-gradient"></div>
+                            <span class="module-tag">3D</span>
+                        </div>
+                        <div class="module-content">
+                            <h3 class="module-title">SOLENOID</h3>
+                            <p class="module-description">Analyze current-carrying coils and the core principles of
+                                electromagnetic fields.</p>
+                            <a href="index.html#solenoid" class="module-start-btn glass-button">
+                                <span class="btn-label">START</span>
+                                <span class="material-symbols-outlined">arrow_forward</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Induction -->
+                    <div class="module-card glass-card" data-module="induction">
+                        <div class="module-image-container">
+                            <div class="module-image"
+                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAejkUeuggYgxuniAEUC8fB-5gbxKI1KRMw00Rskq8p2rbZVREpIgxcVYL3A_4tbRwZ0U3ddw09LILfVzs3U0Flu_SXNxXiEjEF868s_fJLXb2lmjOsIKB_NSGe-GcYRQXe2StSC-Yo-tjabRzo9T1m9QPmcPHLltge94EMqLZkPpyDuXkAe7XAlO6Ok8uAB1ov8J5JLuBY0kLnz-DcPAYCXEuCDonrDNbTOedNj3qk5mTPhlQhpirDgNpJ1bKPewgVvrKV9U1l6Tpx');">
+                            </div>
+                            <div class="module-image-gradient"></div>
+                        </div>
+                        <div class="module-content">
+                            <h3 class="module-title">INDUCTION</h3>
+                            <p class="module-description">Visualize Faraday's Law through moving magnets and real-time
+                                changing flux.</p>
+                            <a href="index.html#induction" class="module-start-btn glass-button">
+                                <span class="btn-label">START</span>
+                                <span class="material-symbols-outlined">arrow_forward</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Transformer -->
+                    <div class="module-card glass-card" data-module="transformer">
+                        <div class="module-image-container">
+                            <div class="module-image"
+                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDKwo58-zOyxtIjsTm7i6Otoj88-5NM8KnOFLkhW2-676zHOWAMEvUcQa5sE__7a-f1vGALaurpXIwDRX6vqMyyNdGp4A0DLhBckoMVP7CiZpDndlg2OeSp908gUqnaHTmzhVyfTDVh2eRk7bWMIriTpvcxqjvN6Vk0AyCBiSIzGqDXFSGbZQ9rGEr6Uuxrr1rFkh4Kw4KAEF2nZQFmPUZYzmZe6EOrLOcGQwkdDqHIZNRlS6EAPV48WkcXgfTZBCT4IN8FDLP9lslB');">
+                            </div>
+                            <div class="module-image-gradient"></div>
+                        </div>
+                        <div class="module-content">
+                            <h3 class="module-title">TRANSFORMER</h3>
+                            <p class="module-description">Master the complexity of voltage transformation and mutual
+                                induction mechanics.</p>
+                            <a href="index.html#transformer" class="module-start-btn glass-button">
+                                <span class="btn-label">START</span>
+                                <span class="material-symbols-outlined">arrow_forward</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Lenz's Law -->
+                    <div class="module-card glass-card" data-module="lenz">
+                        <div class="module-image-container">
+                            <div class="module-image"
+                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB59Kq920i5oIB4cnoMjdAjUJlpoq7PqNF5ZRDsfovEaJYJgd9xfp86Mlr5t_I8KKcMEuNKMzxWqS85Lq1C0TCVQm7eWnjJqsxCbsdy9lewCqFHO_Zmb9Ya_0pDR321v1aS3U-bTDsGks2f0VgrlkUDd4nyAeezEI-E_72yXi04V0M5dsXEuoS6ENehV5DjSv42HKECJ4-LrW6Slu-BhCloXQASxK1-ckDRewyvyTiOWBlU61ebLxeIi91k2a0iEaa3RG0DFozldn2H');">
+                            </div>
+                            <div class="module-image-gradient"></div>
+                        </div>
+                        <div class="module-content">
+                            <h3 class="module-title">LENZ'S LAW</h3>
+                            <p class="module-description">Simulate induced currents and the fundamental conservation of
+                                energy principle.</p>
+                            <a href="index.html#lenz" class="module-start-btn glass-button">
+                                <span class="btn-label">START</span>
+                                <span class="material-symbols-outlined">arrow_forward</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Assembly Puzzle -->
+                    <div class="module-card glass-card" data-module="assembly">
+                        <div class="module-image-container">
+                            <div class="module-image"
+                                style="background-image: url('https://picsum.photos/seed/puzzle/800/400');"></div>
+                            <div class="module-image-gradient"></div>
+                            <span class="module-tag new">NEW</span>
+                        </div>
+                        <div class="module-content">
+                            <h3 class="module-title">ASSEMBLY PUZZLE</h3>
+                            <p class="module-description">Build your own motor. Piece together components to understand
+                                electromechanical systems.</p>
+                            <a href="index.html#assembly" class="module-start-btn glass-button">
+                                <span class="btn-label">START</span>
+                                <span class="material-symbols-outlined">arrow_forward</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Bar Magnet -->
+                    <div class="module-card glass-card" data-module="barMagnet">
+                        <div class="module-image-container">
+                            <div class="module-image magnet-gradient"></div>
+                            <div class="module-image-gradient"></div>
+                            <span class="module-tag">3D</span>
+                        </div>
+                        <div class="module-content">
+                            <h3 class="module-title">BAR MAGNET</h3>
+                            <p class="module-description">Explore magnetic fields and see how compasses respond to
+                                magnetic poles.</p>
+                            <a href="index.html#barMagnet" class="module-start-btn glass-button">
+                                <span class="btn-label">START</span>
+                                <span class="material-symbols-outlined">arrow_forward</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <div class="nav-container glass-nav">
+                <div class="nav-item active">
+                    <span class="material-symbols-outlined filled">home</span>
+                    <span class="nav-label">HOME</span>
+                </div>
+
+                <a href="index.html" class="nav-item">
+                    <span class="material-symbols-outlined">grid_view</span>
+                    <span class="nav-label">SIMS</span>
+                </a>
+
+                <div class="nav-search">
+                    <div class="search-btn">
+                        <span class="material-symbols-outlined">search</span>
+                    </div>
+                </div>
+
+                <div class="nav-item">
+                    <span class="material-symbols-outlined">leaderboard</span>
+                    <span class="nav-label">STATS</span>
+                </div>
+
+                <div class="nav-item">
+                    <span class="material-symbols-outlined">person</span>
+                    <span class="nav-label">PROFILE</span>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <script>
+        // Handle module card clicks
+        document.querySelectorAll('.module-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                if (e.target.closest('a')) return; // Let links work normally
+                const module = card.dataset.module;
+                window.location.href = `index.html#${module}`;
+            });
+        });
+
+        // Handle featured card click
+        document.querySelector('.featured-card').addEventListener('click', (e) => {
+            if (e.target.closest('a') || e.target.closest('button')) return;
+            window.location.href = 'index.html';
+        });
+
+        // Material symbols filled for active state
+        document.querySelectorAll('.material-symbols-outlined.filled').forEach(icon => {
+            icon.style.fontVariationSettings = "'FILL' 1, 'wght' 300, 'GRAD' 0, 'opsz' 24";
+        });
+    </script>
+</body>
+
+</html>

@@ -263,6 +263,29 @@ h4 {
     font-weight: 600;
 }
 
+/* Back to Portal Link */
+.back-to-portal-link {
+    display: inline-block;
+    margin-top: 0.75rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-decoration: none;
+    background: var(--surface-light);
+    border: 1px solid var(--border);
+    border-radius: var(--border-radius-sm);
+    transition: all var(--transition-base);
+}
+
+.back-to-portal-link:hover {
+    background: var(--lovable-gradient);
+    border-color: var(--secondary);
+    color: var(--text-primary);
+    box-shadow: var(--glow);
+    transform: translateX(-4px);
+}
+
 /* Module Navigation */
 .module-nav {
     flex: 1;
