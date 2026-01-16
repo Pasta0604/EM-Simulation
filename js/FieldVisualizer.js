@@ -219,8 +219,13 @@ export class FieldVisualizer {
                 seedRadius = 0.15;
             } else if (source.userData.type === 'solenoid') {
                 const { length, radius, currentDirection } = source.userData;
+                // Right-hand grip rule: with fingers following current, thumb points to North
+                // Field lines emanate from North pole
+                // When currentDirection = -1, North is at -length/2 (left side)
+                // When currentDirection = +1, North is at +length/2 (right side)
                 const dir = (currentDirection || 1);
-                const xOffset = (length / 2) * dir;
+                // Seed from North pole: negative direction means North is on negative x
+                const xOffset = -(length / 2) * dir;
                 seedCenter = new THREE.Vector3(xOffset, 0, 0).applyQuaternion(rotation).add(worldPos);
                 seedRadius = radius * 0.5;
                 if (source.userData.current < 0.1) continue;

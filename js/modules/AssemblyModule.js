@@ -391,7 +391,6 @@ export class AssemblyModule {
         // Map assembly component to simulation module
         const moduleMap = {
             'magnet': 'barMagnet',
-            'compass': 'barMagnet', // Compass uses bar magnet module
             'solenoid': 'solenoid'
         };
 
@@ -441,7 +440,6 @@ export class AssemblyModule {
     getComponentIcon(componentType) {
         const icons = {
             'magnet': '🧲',
-            'compass': '🧭',
             'solenoid': '🔧'
         };
         return icons[componentType] || '⚡';

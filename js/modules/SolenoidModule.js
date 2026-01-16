@@ -229,15 +229,20 @@ export class SolenoidModule {
 
 
     createPoleLabels() {
-        // North pole label (right side when current is positive)
+        // Right-hand grip rule: wrap right hand with fingers following current direction,
+        // thumb points to North pole.
+        // With currentDirection = -1 (initial), conventional current flows such that
+        // North pole is on the LEFT side (-x) when looking at the solenoid.
+
+        // North pole label (left side with initial current direction per right-hand rule)
         this.northLabel = this.createPoleSprite('N', 0xe74c3c);
-        this.northLabel.position.set(1.5, 0.5, 0);
+        this.northLabel.position.set(-1.5, 0.5, 0);
         this.northLabel.scale.set(0.4, 0.4, 1);
         this.app.sceneManager.scene.add(this.northLabel);
 
-        // South pole label
+        // South pole label (right side with initial current direction)
         this.southLabel = this.createPoleSprite('S', 0x3498db);
-        this.southLabel.position.set(-1.5, 0.5, 0);
+        this.southLabel.position.set(1.5, 0.5, 0);
         this.southLabel.scale.set(0.4, 0.4, 1);
         this.app.sceneManager.scene.add(this.southLabel);
     }
@@ -271,12 +276,15 @@ export class SolenoidModule {
 
     updatePoleLabels() {
         const direction = this.solenoid.userData.currentDirection;
-        // When current is positive (conventional), North is on right (+x)
-        // When current is negative, poles swap
+        // Right-hand grip rule: fingers follow current, thumb points to North
+        // With direction < 0 (initial state): North is on LEFT (-x)
+        // With direction > 0: North is on RIGHT (+x)
         if (direction > 0) {
+            // Current flows opposite way, so poles swap
             this.northLabel.position.x = 1.5;
             this.southLabel.position.x = -1.5;
         } else {
+            // Initial direction: North on left per right-hand rule
             this.northLabel.position.x = -1.5;
             this.southLabel.position.x = 1.5;
         }

@@ -16,6 +16,7 @@ import { LenzLawModule } from './modules/LenzLawModule.js';
 import { ElectromagnetModule } from './modules/ElectromagnetModule.js';
 import { SandboxModule } from './modules/SandboxModule.js';
 import { AssemblyModule } from './modules/AssemblyModule.js';
+import { GeminiTutor } from './GeminiTutor.js';
 
 class ElectromagneticLabApp {
     constructor() {
@@ -77,6 +78,9 @@ class ElectromagneticLabApp {
             };
 
             this.currentModule = null;
+
+            // Initialize AI Tutor
+            this.geminiTutor = new GeminiTutor(this);
 
             // Setup UI event listeners
             this.setupUIListeners();
