@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Physics without Crying in the Hall - Master Electromagnetic Induction with interactive learning materials.">
+    <title>Physics without Crying | EM-Verse</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="landing.css">
+    <style>
+        /* Syllabus Page Specific Styles */
+        .syllabus-container {
+            min-height: 100vh;
+            background: radial-gradient(circle at top right, #1a1a2e 0%, #101018 100%);
+            overflow-x: hidden;
+            padding-bottom: 8rem;
+        }
+
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            background: var(--glass-bg);
+            backdrop-filter: blur(50px);
+            -webkit-backdrop-filter: blur(50px);
+            padding: 1rem 1.5rem;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .back-button {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: none;
+            border: none;
+            color: var(--cyan-glow);
+            cursor: pointer;
+            transition: color var(--transition-fast);
+        }
+
+        .back-button:hover {
+            color: var(--text-primary);
+        }
+
+        .back-button .material-symbols-outlined {
+            font-size: 1.25rem;
+        }
+
+        .page-title {
+            font-size: 0.875rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .header-actions .material-symbols-outlined {
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            transition: color var(--transition-fast);
+        }
+
+        .header-actions .material-symbols-outlined:hover {
+            color: var(--cyan-glow);
+        }
+
+        /* Hero Section */
+        .syllabus-hero {
+            padding: 2rem 1.5rem 1.5rem;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            background: rgba(228, 76, 76, 0.2);
+            border: 1px solid rgba(228, 76, 76, 0.3);
+            margin-bottom: 1rem;
+        }
+
+        .hero-badge span {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            color: #E44C4C;
+            text-transform: uppercase;
+            font-style: italic;
+        }
+
+        .hero-title {
+            font-size: 1.875rem;
+            font-weight: 700;
+            line-height: 1.1;
+            text-transform: uppercase;
+            letter-spacing: -0.025em;
+        }
+
+        .hero-title .accent {
+            color: var(--cyan-glow);
+            font-style: italic;
+        }
+
+        /* Tab Controls */
+        .tab-controls {
+            display: flex;
+            padding: 0.25rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 0.75rem;
+            border: 1px solid var(--glass-border);
+            margin: 1rem;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 0.75rem;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            background: none;
+            border: none;
+            border-radius: 0.5rem;
+            color: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .tab-btn:hover {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .tab-btn.active {
+            background: var(--cyan-glow);
+            color: var(--primary-dark);
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
+        }
+
+        /* Media Container */
+        .media-container {
+            width: 100%;
+            transition: all 0.5s ease;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(8, 8, 33, 0.2);
+        }
+
+        .media-container.video-mode {
+            aspect-ratio: 16 / 9;
+        }
+
+        .media-container.expanded {
+            height: 75vh;
+        }
+
+        .media-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Mind Map */
+        .mindmap-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            background: rgba(8, 8, 33, 0.3);
+        }
+
+        .mindmap-controls {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            z-index: 20;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .mindmap-control-btn {
+            width: 48px;
+            height: 48px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(50px);
+            -webkit-backdrop-filter: blur(50px);
+            border: 1px solid var(--glass-border);
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .mindmap-control-btn:hover,
+        .mindmap-control-btn:active {
+            background: var(--cyan-glow);
+            color: var(--primary-dark);
+        }
+
+        .mindmap-canvas {
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            cursor: grab;
+            padding: 5rem;
+        }
+
+        .mindmap-canvas:active {
+            cursor: grabbing;
+        }
+
+        .mindmap-tree {
+            display: flex;
+            align-items: center;
+            min-width: max-content;
+            height: 100%;
+            transform-origin: center left;
+            transition: transform 0.3s ease;
+        }
+
+        .mindmap-node {
+            display: flex;
+            align-items: center;
+        }
+
+        .node-box {
+            background: var(--glass-bg);
+            backdrop-filter: blur(50px);
+            -webkit-backdrop-filter: blur(50px);
+            padding: 0.75rem 1.25rem;
+            border-radius: 1rem;
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            min-width: 160px;
+            max-width: 220px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .node-box:hover {
+            transform: scale(1.05);
+        }
+
+        .node-box:active {
+            transform: scale(0.95);
+        }
+
+        .node-box.root {
+            border: 2px solid var(--cyan-glow);
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.2);
+        }
+
+        .node-box.cyan {
+            border-left: 4px solid var(--cyan-glow);
+        }
+
+        .node-box.magenta {
+            border-left: 4px solid #B026FF;
+        }
+
+        .node-box.lime {
+            border-left: 4px solid #C9EB17;
+        }
+
+        .node-box.red {
+            border-left: 4px solid #E44C4C;
+        }
+
+        .node-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: -0.025em;
+            color: var(--text-primary);
+            line-height: 1.2;
+            flex: 1;
+        }
+
+        .node-box.root .node-label {
+            color: var(--cyan-glow);
+            font-size: 0.875rem;
+        }
+
+        .node-expand {
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .node-expand.expanded {
+            transform: rotate(90deg);
+            color: var(--text-primary);
+        }
+
+        .node-connector {
+            width: 3rem;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .node-children {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            position: relative;
+        }
+
+        .node-children::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .child-node {
+            display: flex;
+            align-items: center;
+        }
+
+        .child-connector {
+            width: 1rem;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.2);
+            margin-right: 1rem;
+        }
+
+        .mindmap-hint {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 0.5rem 1.5rem;
+            background: rgba(8, 8, 33, 0.8);
+            backdrop-filter: blur(50px);
+            -webkit-backdrop-filter: blur(50px);
+            border: 1px solid rgba(0, 242, 255, 0.2);
+            border-radius: 9999px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--cyan-glow);
+            pointer-events: none;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        /* Concepts Grid */
+        .concepts-section {
+            padding: 1.5rem;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .concept-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(50px);
+            -webkit-backdrop-filter: blur(50px);
+            border: 1px solid var(--glass-border);
+            padding: 1.25rem;
+            border-radius: 1rem;
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .concept-card.cyan {
+            border-left: 4px solid var(--cyan-glow);
+        }
+
+        .concept-card.magenta {
+            border-left: 4px solid #B026FF;
+        }
+
+        .concept-label {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        .concept-label.cyan {
+            color: var(--cyan-glow);
+        }
+
+        .concept-label.magenta {
+            color: #B026FF;
+        }
+
+        .concept-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-style: italic;
+            line-height: 1;
+            margin-top: 0.5rem;
+        }
+
+        .concept-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .concept-tag {
+            font-size: 11px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.375rem 0.75rem;
+            border-radius: 9999px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .concept-footer .material-symbols-outlined {
+            font-size: 1.25rem;
+            opacity: 0.8;
+        }
+
+        .concept-footer .material-symbols-outlined.cyan {
+            color: var(--cyan-glow);
+        }
+
+        .concept-footer .material-symbols-outlined.magenta {
+            color: #B026FF;
+        }
+
+        /* Analytics Section */
+        .analytics-section {
+            padding: 1.5rem 1.5rem 2rem;
+        }
+
+        .analytics-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+
+        .analytics-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .analytics-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .analytics-badge-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--cyan-glow);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .analytics-badge-text {
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--cyan-glow);
+        }
+
+        .chart-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(50px);
+            -webkit-backdrop-filter: blur(50px);
+            border: 1px solid var(--glass-border);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .chart-bars {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            height: 10rem;
+            gap: 1rem;
+        }
+
+        .chart-bar-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .chart-bar-wrapper {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: flex-end;
+        }
+
+        .chart-bar {
+            width: 100%;
+            background: var(--cyan-glow);
+            border-radius: 6px 6px 0 0;
+            opacity: 0.6;
+            transition: all var(--transition-fast);
+        }
+
+        .chart-bar:hover {
+            opacity: 1;
+        }
+
+        .chart-label {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Failure Radar */
+        .failure-section {
+            padding: 0 1.5rem 5rem;
+        }
+
+        .failure-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: #E44C4C;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .failure-title .material-symbols-outlined {
+            font-size: 0.875rem;
+        }
+
+        .failure-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(50px);
+            -webkit-backdrop-filter: blur(50px);
+            border: 1px solid var(--glass-border);
+            border-left: 4px solid rgba(228, 76, 76, 0.5);
+            padding: 1.25rem;
+            border-radius: 1rem;
+        }
+
+        .failure-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .failure-name {
+            font-size: 0.875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: -0.025em;
+            font-style: italic;
+        }
+
+        .failure-badge {
+            background: rgba(228, 76, 76, 0.2);
+            color: #E44C4C;
+            font-size: 8px;
+            font-weight: 900;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        .failure-description {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.5);
+            line-height: 1.5;
+            font-style: italic;
+        }
+
+        @media (min-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .concepts-section {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="syllabus-container">
+        <!-- Sticky Header -->
+        <header class="sticky-header">
+            <button class="back-button" onclick="window.history.back()">
+                <span class="material-symbols-outlined">arrow_back_ios_new</span>
+                <span class="page-title">Topic 5: Induction</span>
+            </button>
+            <div class="header-actions">
+                <span class="material-symbols-outlined">analytics</span>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="syllabus-hero">
+            <div class="hero-badge">
+                <span>Uncle Roger's Kitchen</span>
+            </div>
+            <h1 class="hero-title">Physics without <br><span class="accent">Crying in the Hall</span></h1>
+        </section>
+
+        <!-- Tab Controls -->
+        <div class="tab-controls">
+            <button class="tab-btn active" data-tab="video" onclick="switchTab('video')">Lecture</button>
+            <button class="tab-btn" data-tab="slides" onclick="switchTab('slides')">The Menu</button>
+            <button class="tab-btn" data-tab="map" onclick="switchTab('map')">Mind Map</button>
+        </div>
+
+        <!-- Media Container -->
+        <div class="media-container video-mode" id="media-container">
+            <!-- Video Tab -->
+            <div class="tab-content" id="video-content">
+                <iframe src="https://drive.google.com/file/d/10gC0UaXITHWwK-hZZ7nopDSN5UAtGy8e/preview" allow="autoplay"
+                    title="Physics Video Lecture"></iframe>
+            </div>
+
+            <!-- Slides Tab -->
+            <div class="tab-content" id="slides-content" style="display: none;">
+                <iframe src="https://drive.google.com/file/d/1Ar_7SyvgtZMPjfJVlX9ftK5sac6HddTe/preview"
+                    title="Course Slides" style="background: white;"></iframe>
+            </div>
+
+            <!-- Mind Map Tab -->
+            <div class="tab-content mindmap-container" id="map-content" style="display: none;">
+                <div class="mindmap-controls">
+                    <button class="mindmap-control-btn" onclick="zoomIn()">
+                        <span class="material-symbols-outlined">add</span>
+                    </button>
+                    <button class="mindmap-control-btn" onclick="zoomOut()">
+                        <span class="material-symbols-outlined">remove</span>
+                    </button>
+                    <button class="mindmap-control-btn" onclick="resetZoom()">
+                        <span class="material-symbols-outlined">restart_alt</span>
+                    </button>
+                </div>
+
+                <div class="mindmap-canvas" id="mindmap-canvas">
+                    <div class="mindmap-tree" id="mindmap-tree">
+                        <!-- Root Node -->
+                        <div class="mindmap-node">
+                            <div class="node-box root" onclick="toggleNode('root')">
+                                <span class="node-label">Electromagnetic Induction</span>
+                                <span class="material-symbols-outlined node-expand expanded"
+                                    id="root-expand">chevron_right</span>
+                            </div>
+                        </div>
+                        <div class="node-connector"></div>
+
+                        <!-- Children Container -->
+                        <div class="node-children" id="root-children">
+                            <!-- Flux Node -->
+                            <div class="child-node">
+                                <div class="child-connector"></div>
+                                <div class="mindmap-node">
+                                    <div class="node-box cyan" onclick="toggleNode('flux')">
+                                        <span class="node-label">Magnetic Flux (φ)</span>
+                                        <span class="material-symbols-outlined node-expand"
+                                            id="flux-expand">chevron_right</span>
+                                    </div>
+                                </div>
+                                <div class="node-connector" id="flux-connector" style="display: none;"></div>
+                                <div class="node-children" id="flux-children" style="display: none;">
+                                    <div class="child-node">
+                                        <div class="child-connector"></div>
+                                        <div class="node-box">
+                                            <span class="node-label">Definition</span>
+                                        </div>
+                                    </div>
+                                    <div class="child-node">
+                                        <div class="child-connector"></div>
+                                        <div class="node-box">
+                                            <span class="node-label">Formulas</span>
+                                        </div>
+                                    </div>
+                                    <div class="child-node">
+                                        <div class="child-connector"></div>
+                                        <div class="node-box">
+                                            <span class="node-label">Key Units</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- EMF Node -->
+                            <div class="child-node">
+                                <div class="child-connector"></div>
+                                <div class="mindmap-node">
+                                    <div class="node-box magenta" onclick="toggleNode('emf')">
+                                        <span class="node-label">Induced EMF (ε)</span>
+                                        <span class="material-symbols-outlined node-expand"
+                                            id="emf-expand">chevron_right</span>
+                                    </div>
+                                </div>
+                                <div class="node-connector" id="emf-connector" style="display: none;"></div>
+                                <div class="node-children" id="emf-children" style="display: none;">
+                                    <div class="child-node">
+                                        <div class="child-connector"></div>
+                                        <div class="node-box">
+                                            <span class="node-label">Faraday's Law</span>
+                                        </div>
+                                    </div>
+                                    <div class="child-node">
+                                        <div class="child-connector"></div>
+                                        <div class="node-box">
+                                            <span class="node-label">Lenz's Law</span>
+                                        </div>
+                                    </div>
+                                    <div class="child-node">
+                                        <div class="child-connector"></div>
+                                        <div class="node-box">
+                                            <span class="node-label">Applications</span>
+                                        </div>
+                                    </div>
+                                    <div class="child-node">
+                                        <div class="child-connector"></div>
+                                        <div class="node-box">
+                                            <span class="node-label">Direction Rules</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Self-Inductance Node -->
+                            <div class="child-node">
+                                <div class="child-connector"></div>
+                                <div class="mindmap-node">
+                                    <div class="node-box lime" onclick="toggleNode('self')">
+                                        <span class="node-label">Self-Inductance (L)</span>
+                                        <span class="material-symbols-outlined node-expand"
+                                            id="self-expand">chevron_right</span>
+                                    </div>
+                                </div>
+                                <div class="node-connector" id="self-connector" style="display: none;"></div>
+                                <div class="node-children" id="self-children" style="display: none;">
+                                    <div class="child-node">
+                                        <div class="child-connector"></div>
+                                        <div class="node-box">
+                                            <span class="node-label">Definition</span>
+                                        </div>
+                                    </div>
+                                    <div class="child-node">
+                                        <div class="child-connector"></div>
+                                        <div class="node-box">
+                                            <span class="node-label">Formulas</span>
+                                        </div>
+                                    </div>
+                                    <div class="child-node">
+                                        <div class="child-connector"></div>
+                                        <div class="node-box">
+                                            <span class="node-label">Unit: Henry (H)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Energy Node -->
+                            <div class="child-node">
+                                <div class="child-connector"></div>
+                                <div class="mindmap-node">
+                                    <div class="node-box red" onclick="toggleNode('energy')">
+                                        <span class="node-label">Energy in Inductor (U)</span>
+                                        <span class="material-symbols-outlined node-expand"
+                                            id="energy-expand">chevron_right</span>
+                                    </div>
+                                </div>
+                                <div class="node-connector" id="energy-connector" style="display: none;"></div>
+                                <div class="node-children" id="energy-children" style="display: none;">
+                                    <div class="child-node">
+                                        <div class="child-connector"></div>
+                                        <div class="node-box">
+                                            <span class="node-label">Formula: U = ½LI²</span>
+                                        </div>
+                                    </div>
+                                    <div class="child-node">
+                                        <div class="child-connector"></div>
+                                        <div class="node-box">
+                                            <span class="node-label">Stored in magnetic field</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Mutual Inductance Node -->
+                            <div class="child-node">
+                                <div class="child-connector"></div>
+                                <div class="mindmap-node">
+                                    <div class="node-box cyan" onclick="toggleNode('mutual')">
+                                        <span class="node-label">Mutual Inductance (M)</span>
+                                        <span class="material-symbols-outlined node-expand"
+                                            id="mutual-expand">chevron_right</span>
+                                    </div>
+                                </div>
+                                <div class="node-connector" id="mutual-connector" style="display: none;"></div>
+                                <div class="node-children" id="mutual-children" style="display: none;">
+                                    <div class="child-node">
+                                        <div class="child-connector"></div>
+                                        <div class="node-box">
+                                            <span class="node-label">Definition</span>
+                                        </div>
+                                    </div>
+                                    <div class="child-node">
+                                        <div class="child-connector"></div>
+                                        <div class="node-box">
+                                            <span class="node-label">Formulas</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mindmap-hint">
+                    Tap nodes to expand right • Pinch to zoom
+                </div>
+            </div>
+        </div>
+
+        <!-- Concepts Preview -->
+        <section class="concepts-section">
+            <div class="concept-card cyan">
+                <div>
+                    <span class="concept-label cyan">5.1 Concept</span>
+                    <h4 class="concept-title">Flux</h4>
+                </div>
+                <div class="concept-footer">
+                    <span class="concept-tag">Raw Spaghetti</span>
+                    <span class="material-symbols-outlined cyan">restaurant_menu</span>
+                </div>
+            </div>
+            <div class="concept-card magenta">
+                <div>
+                    <span class="concept-label magenta">5.2 Law</span>
+                    <h4 class="concept-title">Induction</h4>
+                </div>
+                <div class="concept-footer">
+                    <span class="concept-tag">Flavor Pulse</span>
+                    <span class="material-symbols-outlined magenta">bolt</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Analytics Section -->
+        <section class="analytics-section">
+            <div class="analytics-header">
+                <h2 class="analytics-title">Exam Frequency</h2>
+                <div class="analytics-badge">
+                    <div class="analytics-badge-dot"></div>
+                    <span class="analytics-badge-text">High Impact</span>
+                </div>
+            </div>
+            <div class="chart-container">
+                <div class="chart-bars">
+                    <div class="chart-bar-container">
+                        <div class="chart-bar-wrapper">
+                            <div class="chart-bar" style="height: 82%;"></div>
+                        </div>
+                        <span class="chart-label">2020</span>
+                    </div>
+                    <div class="chart-bar-container">
+                        <div class="chart-bar-wrapper">
+                            <div class="chart-bar" style="height: 78%;"></div>
+                        </div>
+                        <span class="chart-label">2021</span>
+                    </div>
+                    <div class="chart-bar-container">
+                        <div class="chart-bar-wrapper">
+                            <div class="chart-bar" style="height: 91%;"></div>
+                        </div>
+                        <span class="chart-label">2022</span>
+                    </div>
+                    <div class="chart-bar-container">
+                        <div class="chart-bar-wrapper">
+                            <div class="chart-bar" style="height: 85%;"></div>
+                        </div>
+                        <span class="chart-label">2023</span>
+                    </div>
+                    <div class="chart-bar-container">
+                        <div class="chart-bar-wrapper">
+                            <div class="chart-bar" style="height: 88%;"></div>
+                        </div>
+                        <span class="chart-label">2024</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Failure Radar -->
+        <section class="failure-section">
+            <h2 class="failure-title">
+                <span class="material-symbols-outlined">warning</span>
+                FAILURE RADAR
+            </h2>
+            <div class="failure-card">
+                <div class="failure-header">
+                    <h4 class="failure-name">Lenz's Law Signs</h4>
+                    <span class="failure-badge">Avoid Haiyaa!</span>
+                </div>
+                <p class="failure-description">Negative sign means it fights the change! Don't forget, or you are
+                    failure.</p>
+            </div>
+        </section>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <div class="nav-container glass-nav">
+                <a href="landing.html" class="nav-item">
+                    <span class="material-symbols-outlined">home</span>
+                    <span class="nav-label">HOME</span>
+                </a>
+
+                <a href="history.html" class="nav-item">
+                    <span class="material-symbols-outlined">history_edu</span>
+                    <span class="nav-label">HISTORY</span>
+                </a>
+
+                <div class="nav-search">
+                    <a href="index.html" class="search-btn">
+                        <span class="material-symbols-outlined">grid_view</span>
+                    </a>
+                </div>
+
+                <a href="syllabus.html" class="nav-item active">
+                    <span class="material-symbols-outlined filled">menu_book</span>
+                    <span class="nav-label">LEARN</span>
+                </a>
+
+                <a href="applications.html" class="nav-item">
+                    <span class="material-symbols-outlined">explore</span>
+                    <span class="nav-label">EXPLORE</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <script>
+        let currentZoom = 0.85;
+
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.tab === tabName) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // Hide all content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.style.display = 'none';
+            });
+
+            // Show selected content
+            document.getElementById(`${tabName}-content`).style.display = 'block';
+
+            // Adjust container mode
+            const container = document.getElementById('media-container');
+            if (tabName === 'video') {
+                container.classList.add('video-mode');
+                container.classList.remove('expanded');
+            } else {
+                container.classList.remove('video-mode');
+                container.classList.add('expanded');
+            }
+        }
+
+        function toggleNode(nodeId) {
+            const children = document.getElementById(`${nodeId}-children`);
+            const connector = document.getElementById(`${nodeId}-connector`);
+            const expand = document.getElementById(`${nodeId}-expand`);
+
+            if (!children) return;
+
+            const isVisible = children.style.display !== 'none';
+
+            children.style.display = isVisible ? 'none' : 'flex';
+            if (connector) connector.style.display = isVisible ? 'none' : 'block';
+            if (expand) expand.classList.toggle('expanded', !isVisible);
+        }
+
+        function zoomIn() {
+            currentZoom = Math.min(currentZoom + 0.1, 2.5);
+            updateZoom();
+        }
+
+        function zoomOut() {
+            currentZoom = Math.max(currentZoom - 0.1, 0.3);
+            updateZoom();
+        }
+
+        function resetZoom() {
+            currentZoom = 0.85;
+            updateZoom();
+            // Also reset node states
+            document.querySelectorAll('.node-children').forEach(el => {
+                if (el.id !== 'root-children') {
+                    el.style.display = 'none';
+                }
+            });
+            document.querySelectorAll('.node-expand').forEach(el => {
+                if (el.id !== 'root-expand') {
+                    el.classList.remove('expanded');
+                } else {
+                    el.classList.add('expanded');
+                }
+            });
+        }
+
+        function updateZoom() {
+            document.getElementById('mindmap-tree').style.transform = `scale(${currentZoom})`;
+        }
+
+        // Material symbols filled for active state
+        document.querySelectorAll('.material-symbols-outlined.filled').forEach(icon => {
+            icon.style.fontVariationSettings = "'FILL' 1, 'wght' 300, 'GRAD' 0, 'opsz' 24";
+        });
+    </script>
+</body>
+
+</html>

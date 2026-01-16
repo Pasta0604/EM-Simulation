@@ -1440,3 +1440,293 @@ body {
     background: rgba(255, 255, 255, 0.1);
     color: var(--text-primary);
 }
+
+/* ========================================
+   What is Electromagnetism Section
+   ======================================== */
+
+.em-intro-section {
+    margin-top: 1rem;
+}
+
+.em-intro-card {
+    border-radius: 2rem;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.em-intro-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.em-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(0, 242, 255, 0.1);
+    border: 1px solid rgba(0, 242, 255, 0.3);
+    padding: 0.375rem 1rem;
+    border-radius: 9999px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--cyan-glow);
+    margin-bottom: 1.5rem;
+}
+
+.em-intro-title {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    margin-bottom: 1rem;
+}
+
+.em-intro-description {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    font-weight: 300;
+    max-width: 320px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.em-features {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.em-feature-item {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 1rem;
+    padding: 1.25rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    transition: all var(--transition-fast);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.em-feature-item:hover {
+    border-color: rgba(0, 242, 255, 0.3);
+    background: var(--glass-bg-hover);
+}
+
+.em-feature-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.em-feature-icon.cyan {
+    background: rgba(0, 242, 255, 0.2);
+}
+
+.em-feature-icon.cyan .material-symbols-outlined {
+    color: var(--cyan-glow);
+}
+
+.em-feature-icon.purple {
+    background: rgba(176, 38, 255, 0.2);
+}
+
+.em-feature-icon.purple .material-symbols-outlined {
+    color: #C084FC;
+}
+
+.em-feature-icon.white {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.em-feature-icon.white .material-symbols-outlined {
+    color: var(--text-primary);
+}
+
+.em-feature-icon.red {
+    background: rgba(228, 76, 76, 0.2);
+}
+
+.em-feature-icon.red .material-symbols-outlined {
+    color: #E44C4C;
+}
+
+.em-feature-content {
+    flex: 1;
+}
+
+.em-feature-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.em-feature-title.cyan {
+    color: var(--cyan-glow);
+}
+
+.em-feature-title.purple {
+    color: #C084FC;
+}
+
+.em-feature-title.red {
+    color: #E44C4C;
+}
+
+.em-feature-description {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.em-cta-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    width: 100%;
+    height: 56px;
+    border-radius: 9999px;
+    font-weight: 700;
+    font-size: 0.875rem;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    box-shadow: 0 0 25px rgba(0, 242, 255, 0.4);
+    transition: all var(--transition-fast);
+}
+
+.em-cta-btn:hover {
+    box-shadow: 0 0 40px rgba(0, 242, 255, 0.6);
+    transform: scale(1.02);
+}
+
+.em-cta-btn:active {
+    transform: scale(0.98);
+}
+
+/* ========================================
+   Quick Links Section
+   ======================================== */
+
+.quick-links-section {
+    margin-top: 1rem;
+}
+
+.quick-links-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.quick-link-card {
+    border-radius: 1.5rem;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    transition: all var(--transition-fast);
+}
+
+.quick-link-card:hover {
+    transform: translateX(4px);
+}
+
+.quick-link-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 1rem;
+    background: rgba(0, 242, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.quick-link-icon .material-symbols-outlined {
+    font-size: 1.75rem;
+    color: var(--cyan-glow);
+}
+
+.quick-link-icon.purple {
+    background: rgba(176, 38, 255, 0.15);
+}
+
+.quick-link-icon.purple .material-symbols-outlined {
+    color: #C084FC;
+}
+
+.quick-link-icon.red {
+    background: rgba(228, 76, 76, 0.15);
+}
+
+.quick-link-icon.red .material-symbols-outlined {
+    color: #E44C4C;
+}
+
+.quick-link-content {
+    flex: 1;
+}
+
+.quick-link-content h3 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.quick-link-content p {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+.quick-link-card .arrow {
+    color: var(--text-dim);
+    font-size: 1.25rem;
+    transition: all var(--transition-fast);
+}
+
+.quick-link-card:hover .arrow {
+    color: var(--cyan-glow);
+    transform: translateX(4px);
+}
+
+@media (min-width: 768px) {
+    .em-intro-title {
+        font-size: 2.5rem;
+    }
+
+    .em-features {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .quick-links-grid {
+        flex-direction: row;
+    }
+
+    .quick-link-card {
+        flex: 1;
+        flex-direction: column;
+        text-align: center;
+        padding: 2rem 1.5rem;
+    }
+
+    .quick-link-card .arrow {
+        display: none;
+    }
+}
