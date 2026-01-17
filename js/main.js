@@ -14,10 +14,13 @@ import { InductionModule } from './modules/InductionModule.js';
 import { TransformerModule } from './modules/TransformerModule.js';
 import { LenzLawModule } from './modules/LenzLawModule.js';
 import { ElectromagnetModule } from './modules/ElectromagnetModule.js';
-import { SandboxModule } from './modules/SandboxModule.js';
+
+
 import { AssemblyModule } from './modules/AssemblyModule.js';
 import { ExamPracticeModule } from './modules/ExamPracticeModule.js';
 import { AITutorModule } from './modules/AITutorModule.js';
+import { WirelessChargingModule } from './modules/WirelessChargingModule.js';
+import { InductionCooktopModule } from './modules/InductionCooktopModule.js';
 import { GeminiTutor } from './GeminiTutor.js';
 
 class ElectromagneticLabApp {
@@ -75,7 +78,8 @@ class ElectromagneticLabApp {
                 transformer: new TransformerModule(this),
                 lenz: new LenzLawModule(this),
                 electromagnet: new ElectromagnetModule(this),
-                sandbox: new SandboxModule(this),
+                wirelessCharging: new WirelessChargingModule(this),
+                inductionCooktop: new InductionCooktopModule(this),
                 assembly: new AssemblyModule(this),
                 examPractice: new ExamPracticeModule(this),
                 aiTutor: new AITutorModule(this)

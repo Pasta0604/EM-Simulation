@@ -364,8 +364,9 @@ export class GeminiTutor {
             transformer: 'Transformer',
             lenz: "Lenz's Law",
             electromagnet: 'Electromagnet',
-            sandbox: 'Free Experimentation',
-            assembly: 'Component Assembly'
+            assembly: 'Component Assembly',
+            wirelessCharging: 'Wireless Charging (Mutual Inductance)',
+            inductionCooktop: 'Induction Cooktop (Eddy Currents)'
         };
         return names[moduleName] || moduleName;
     }

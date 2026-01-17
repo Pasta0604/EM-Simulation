@@ -133,19 +133,61 @@
                             <span class="module-desc">Build &amp; experiment</span>
                         </div>
                     </li>
-                    <li class="module-item" data-module="sandbox">
+
+                </ul>
+
+                <h3 style="margin-top: 1.5rem;">Real-World Applications</h3>
+                <ul id="module-list-apps">
+                    <li class="module-item" data-module="wirelessCharging">
                         <svg class="module-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M4 14L12 8L20 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <path d="M4 19L12 13L20 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" opacity="0.5" />
-                            <circle cx="12" cy="8" r="1.5" fill="currentColor" />
-                            <circle cx="8" cy="11" r="1" fill="currentColor" opacity="0.7" />
-                            <circle cx="16" cy="11" r="1" fill="currentColor" opacity="0.7" />
+                            <!-- Charging pad -->
+                            <rect x="4" y="16" width="16" height="4" rx="2" fill="currentColor" opacity="0.3" />
+                            <!-- Coil rings -->
+                            <circle cx="12" cy="18" r="4" stroke="currentColor" stroke-width="1" opacity="0.5"
+                                fill="none" />
+                            <circle cx="12" cy="18" r="2" stroke="currentColor" stroke-width="1" opacity="0.5"
+                                fill="none" />
+                            <!-- Phone outline -->
+                            <rect x="8" y="4" width="8" height="10" rx="1" stroke="currentColor" stroke-width="1.5"
+                                fill="currentColor" opacity="0.2" />
+                            <!-- Charging bolt -->
+                            <path d="M13 6L10 10H12L11 14L14 9H12L13 6Z" fill="currentColor" />
+                            <!-- Magnetic waves -->
+                            <path d="M6 14C7 12 9 11 12 11C15 11 17 12 18 14" stroke="currentColor" stroke-width="1"
+                                stroke-linecap="round" opacity="0.4" />
                         </svg>
                         <div class="module-info">
-                            <span class="module-name">Sandbox Mode</span>
-                            <span class="module-desc">Free experimentation</span>
+                            <span class="module-name">Wireless Charging</span>
+                            <span class="module-desc">Mutual inductance demo</span>
+                        </div>
+                    </li>
+                    <li class="module-item" data-module="inductionCooktop">
+                        <svg class="module-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Cooktop surface -->
+                            <rect x="3" y="14" width="18" height="6" rx="1" fill="currentColor" opacity="0.2" />
+                            <!-- Coil underneath -->
+                            <circle cx="12" cy="17" r="5" stroke="#b87333" stroke-width="1.5" fill="none"
+                                opacity="0.6" />
+                            <circle cx="12" cy="17" r="3" stroke="#b87333" stroke-width="1.5" fill="none"
+                                opacity="0.6" />
+                            <!-- Pan -->
+                            <ellipse cx="12" cy="12" rx="6" ry="2" fill="currentColor" opacity="0.4" />
+                            <path d="M6 12V10C6 8 8 6 12 6C16 6 18 8 18 10V12" stroke="currentColor" stroke-width="1.5"
+                                fill="none" />
+                            <!-- Heat waves -->
+                            <path d="M9 4C9 4 10 3 10 2" stroke="#ff6600" stroke-width="1" stroke-linecap="round"
+                                opacity="0.6" />
+                            <path d="M12 4C12 4 13 2.5 12 1" stroke="#ff6600" stroke-width="1" stroke-linecap="round"
+                                opacity="0.8" />
+                            <path d="M15 4C15 4 14 3 14 2" stroke="#ff6600" stroke-width="1" stroke-linecap="round"
+                                opacity="0.6" />
+                            <!-- Eddy current swirl -->
+                            <path d="M10 9.5C10 9.5 11 10 12 10C13 10 14 9.5 14 9.5" stroke="#ff4400" stroke-width="1"
+                                stroke-linecap="round" opacity="0.5" />
+                        </svg>
+                        <div class="module-info">
+                            <span class="module-name">Induction Cooktop</span>
+                            <span class="module-desc">Eddy currents &amp; heat</span>
                         </div>
                     </li>
                     <li class="module-item" data-module="assembly">
@@ -164,7 +206,6 @@
                             <span class="module-desc">Build components piece by piece</span>
                         </div>
                     </li>
-
                 </ul>
 
                 <!-- Learn More Link -->
@@ -297,36 +338,7 @@
             </div>
         </main>
 
-        <!-- Component Palette (for Sandbox mode) -->
-        <aside id="component-palette" class="hidden">
-            <h3>Components</h3>
-            <div class="component-grid">
-                <div class="component-item" data-component="barMagnet">
-                    <div class="component-preview magnet-preview"></div>
-                    <span>Bar Magnet</span>
-                </div>
-                <div class="component-item" data-component="compass">
-                    <div class="component-preview compass-preview"></div>
-                    <span>Compass</span>
-                </div>
-                <div class="component-item" data-component="solenoid">
-                    <div class="component-preview solenoid-preview"></div>
-                    <span>Solenoid</span>
-                </div>
-                <div class="component-item" data-component="wire">
-                    <div class="component-preview wire-preview"></div>
-                    <span>Wire</span>
-                </div>
-                <div class="component-item" data-component="battery">
-                    <div class="component-preview battery-preview"></div>
-                    <span>Battery</span>
-                </div>
-            </div>
-            <div class="palette-actions">
-                <button id="clear-scene-btn" class="action-btn danger">Clear All</button>
-                <button id="save-config-btn" class="action-btn">Save Setup</button>
-            </div>
-        </aside>
+
     </div>
 
     <!-- Three.js and Application Scripts -->
