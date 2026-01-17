@@ -86,11 +86,11 @@ body {
    ======================================== */
 
 .glass-card {
-    background: var(--glass-bg);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-border);
-    box-shadow: var(--card-shadow);
+    background: rgba(20, 10, 40, 0.6);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
 
 .glass-card:hover {
@@ -284,6 +284,47 @@ body {
 /* ========================================
    Featured Card
    ======================================== */
+
+/* Section Background Images */
+.featured-section {
+    background-image: url('assets/images/section-bg-hero.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 4rem 2rem;
+}
+
+.widgets-section {
+    background-image: url('assets/images/section-bg-widgets.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 4rem 2rem;
+}
+
+.em-intro-section {
+    background-image: url('assets/images/section-bg-intro.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 4rem 2rem;
+}
+
+.core-modules-section {
+    background-image: url('assets/images/section-bg-explore.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 4rem 2rem;
+}
+
+.featured-section>*,
+.widgets-section>*,
+.em-intro-section>*,
+.core-modules-section>* {
+    position: relative;
+    z-index: 1;
+}
 
 .featured-section {
     width: 100%;
@@ -1029,8 +1070,11 @@ body {
     overflow: hidden;
     text-decoration: none;
     display: block;
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
+    background: rgba(20, 10, 40, 0.6);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
     transition: all var(--transition-base);
     cursor: pointer;
 }
