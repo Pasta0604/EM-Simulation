@@ -7,3 +7,11 @@ Thumbs.db
 
 # Gemini/Antigravity metadata (optional, but usually good to keep local)
 .gemini/
+
+# Reference/source materials (not part of production)
+_reference/
+
+# Empty placeholder folders
+pages/
+css/
+tech/
