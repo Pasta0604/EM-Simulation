@@ -364,9 +364,8 @@ export class GeminiTutor {
             transformer: 'Transformer',
             lenz: "Lenz's Law",
             electromagnet: 'Electromagnet',
-            assembly: 'Component Assembly',
-            wirelessCharging: 'Wireless Charging (Mutual Inductance)',
-            inductionCooktop: 'Induction Cooktop (Eddy Currents)'
+            magnetCutting: 'Magnet Cutting Experiment',
+            assembly: 'Component Assembly'
         };
         return names[moduleName] || moduleName;
     }

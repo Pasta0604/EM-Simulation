@@ -136,58 +136,32 @@
 
                 </ul>
 
-                <h3 style="margin-top: 1.5rem;">Real-World Applications</h3>
-                <ul id="module-list-apps">
-                    <li class="module-item" data-module="wirelessCharging">
+                <h3 style="margin-top: 1.5rem;">Magnet Properties</h3>
+                <ul id="module-list-props">
+                    <li class="module-item" data-module="magnetCutting">
                         <svg class="module-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <!-- Charging pad -->
-                            <rect x="4" y="16" width="16" height="4" rx="2" fill="currentColor" opacity="0.3" />
-                            <!-- Coil rings -->
-                            <circle cx="12" cy="18" r="4" stroke="currentColor" stroke-width="1" opacity="0.5"
-                                fill="none" />
-                            <circle cx="12" cy="18" r="2" stroke="currentColor" stroke-width="1" opacity="0.5"
-                                fill="none" />
-                            <!-- Phone outline -->
-                            <rect x="8" y="4" width="8" height="10" rx="1" stroke="currentColor" stroke-width="1.5"
-                                fill="currentColor" opacity="0.2" />
-                            <!-- Charging bolt -->
-                            <path d="M13 6L10 10H12L11 14L14 9H12L13 6Z" fill="currentColor" />
-                            <!-- Magnetic waves -->
-                            <path d="M6 14C7 12 9 11 12 11C15 11 17 12 18 14" stroke="currentColor" stroke-width="1"
-                                stroke-linecap="round" opacity="0.4" />
+                            <!-- Bar magnet (full) -->
+                            <rect x="3" y="9" width="8" height="6" fill="#e74c3c" rx="1" />
+                            <rect x="11" y="9" width="8" height="6" fill="#3498db" rx="1" />
+                            <!-- Cut line (laser beam) -->
+                            <line x1="11" y1="4" x2="11" y2="20" stroke="#00ff88" stroke-width="2"
+                                stroke-dasharray="2,2" />
+                            <!-- Scissors/laser icon -->
+                            <path d="M11 2L9 5L11 4L13 5L11 2Z" fill="#00ff88" />
+                            <!-- N and S labels -->
+                            <text x="7" y="13" font-size="4" fill="white" text-anchor="middle"
+                                font-weight="bold">N</text>
+                            <text x="15" y="13" font-size="4" fill="white" text-anchor="middle"
+                                font-weight="bold">S</text>
+                            <!-- Split indication arrows -->
+                            <path d="M6 17L4 19" stroke="currentColor" stroke-width="1" stroke-linecap="round"
+                                opacity="0.5" />
+                            <path d="M16 17L18 19" stroke="currentColor" stroke-width="1" stroke-linecap="round"
+                                opacity="0.5" />
                         </svg>
                         <div class="module-info">
-                            <span class="module-name">Wireless Charging</span>
-                            <span class="module-desc">Mutual inductance demo</span>
-                        </div>
-                    </li>
-                    <li class="module-item" data-module="inductionCooktop">
-                        <svg class="module-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <!-- Cooktop surface -->
-                            <rect x="3" y="14" width="18" height="6" rx="1" fill="currentColor" opacity="0.2" />
-                            <!-- Coil underneath -->
-                            <circle cx="12" cy="17" r="5" stroke="#b87333" stroke-width="1.5" fill="none"
-                                opacity="0.6" />
-                            <circle cx="12" cy="17" r="3" stroke="#b87333" stroke-width="1.5" fill="none"
-                                opacity="0.6" />
-                            <!-- Pan -->
-                            <ellipse cx="12" cy="12" rx="6" ry="2" fill="currentColor" opacity="0.4" />
-                            <path d="M6 12V10C6 8 8 6 12 6C16 6 18 8 18 10V12" stroke="currentColor" stroke-width="1.5"
-                                fill="none" />
-                            <!-- Heat waves -->
-                            <path d="M9 4C9 4 10 3 10 2" stroke="#ff6600" stroke-width="1" stroke-linecap="round"
-                                opacity="0.6" />
-                            <path d="M12 4C12 4 13 2.5 12 1" stroke="#ff6600" stroke-width="1" stroke-linecap="round"
-                                opacity="0.8" />
-                            <path d="M15 4C15 4 14 3 14 2" stroke="#ff6600" stroke-width="1" stroke-linecap="round"
-                                opacity="0.6" />
-                            <!-- Eddy current swirl -->
-                            <path d="M10 9.5C10 9.5 11 10 12 10C13 10 14 9.5 14 9.5" stroke="#ff4400" stroke-width="1"
-                                stroke-linecap="round" opacity="0.5" />
-                        </svg>
-                        <div class="module-info">
-                            <span class="module-name">Induction Cooktop</span>
-                            <span class="module-desc">Eddy currents &amp; heat</span>
+                            <span class="module-name">Magnet Cutting</span>
+                            <span class="module-desc">Dipoles vs monopoles</span>
                         </div>
                     </li>
                     <li class="module-item" data-module="assembly">
