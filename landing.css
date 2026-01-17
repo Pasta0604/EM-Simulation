@@ -285,37 +285,47 @@ body {
    Featured Card
    ======================================== */
 
-/* Section Background Images */
-.featured-section {
-    background-image: url('assets/images/section-bg-hero.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    padding: 4rem 2rem;
-}
-
-.widgets-section {
-    background-image: url('assets/images/section-bg-widgets.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    padding: 4rem 2rem;
-}
-
-.em-intro-section {
-    background-image: url('assets/images/section-bg-intro.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    padding: 4rem 2rem;
-}
-
+/* Section Background Images with Depth of Field Effect */
+.featured-section,
+.widgets-section,
+.em-intro-section,
 .core-modules-section {
-    background-image: url('assets/images/section-bg-explore.png');
+    position: relative;
+    overflow: hidden;
+    padding: 4rem 2rem;
+}
+
+.featured-section::before,
+.widgets-section::before,
+.em-intro-section::before,
+.core-modules-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
-    padding: 4rem 2rem;
+    filter: blur(5px);
+    transform: scale(1.1);
+}
+
+.featured-section::before {
+    background-image: url('assets/images/section-bg-hero.png');
+}
+
+.widgets-section::before {
+    background-image: url('assets/images/section-bg-widgets.png');
+}
+
+.em-intro-section::before {
+    background-image: url('assets/images/section-bg-intro.png');
+}
+
+.core-modules-section::before {
+    background-image: url('assets/images/section-bg-explore.png');
 }
 
 .featured-section>*,
