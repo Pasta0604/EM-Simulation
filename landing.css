@@ -1343,7 +1343,7 @@ body {
     flex-direction: column;
 }
 
-/* Chat Container (AI Tutor) */
+/* Chat Container (EM-Vee) */
 .chat-container {
     flex: 1;
     min-height: 300px;

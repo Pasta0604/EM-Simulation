@@ -1,12 +1,12 @@
 /**
- * AI Tutor Module - Full page AI Chat experience
+ * EM-Vee Module - Full page AI Chat experience
  */
 
 export class AITutorModule {
     constructor(app) {
         this.app = app;
         this.name = 'aiTutor';
-        this.title = 'AI Tutor';
+        this.title = 'EM-Vee';
         this.description = 'Chat with Gemini to understand electromagnetic concepts';
     }
 
@@ -39,7 +39,7 @@ export class AITutorModule {
             <div class="ai-fullpage-container">
                 <div class="ai-header">
                     <div class="ai-title-section">
-                        <h1 class="ai-main-title">Gemini Physics Tutor</h1>
+                        <h1 class="ai-main-title">EM-Vee</h1>
                         <h2 class="ai-subtitle">Your AI-powered Electromagnetic Induction Expert</h2>
                     </div>
                 </div>
@@ -53,7 +53,7 @@ export class AITutorModule {
                                     <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                                 </svg>
                             </div>
-                            <h3>Welcome! I'm your Physics Tutor</h3>
+                            <h3>Welcome! I'm EM-Vee</h3>
                             <p>I specialize in Electromagnetic Induction. Ask me about:</p>
                             <div class="topic-grid">
                                 <button class="topic-card" data-topic="Faraday's Law">
@@ -191,7 +191,7 @@ export class AITutorModule {
             }
         } else {
             this.hideTyping();
-            this.addMessage('assistant', 'AI Tutor is not available. Please refresh the page.');
+            this.addMessage('assistant', 'EM-Vee is not available. Please refresh the page.');
         }
     }
 

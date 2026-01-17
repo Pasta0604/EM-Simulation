@@ -74,7 +74,7 @@ export class GeminiTutor {
                     <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-                <span class="gemini-btn-label">AI Tutor</span>
+                <span class="gemini-btn-label">EM-Vee</span>
             </div>
         `;
         this.chatButton.addEventListener('click', () => this.toggleChat());
@@ -108,7 +108,7 @@ export class GeminiTutor {
                         </svg>
                     </div>
                     <div class="gemini-header-info">
-                        <h3>Gemini Physics Tutor</h3>
+                        <h3>EM-Vee</h3>
                         <span class="gemini-status">Ready to help</span>
                     </div>
                 </div>
@@ -177,7 +177,7 @@ export class GeminiTutor {
             <div id="gemini-messages" class="gemini-messages">
                 <div class="gemini-welcome-message">
                     <div class="gemini-welcome-icon">⚡</div>
-                    <h4>Welcome to the Physics Tutor!</h4>
+                    <h4>Welcome to EM-Vee!</h4>
                     <p>I'm here to help you understand electromagnetic concepts. Ask me anything about:</p>
                     <div class="gemini-topic-chips">
                         <button class="gemini-chip" data-topic="Faraday's Law">Faraday's Law</button>

@@ -83,7 +83,7 @@ class ElectromagneticLabApp {
 
             this.currentModule = null;
 
-            // Initialize AI Tutor
+            // Initialize EM-Vee
             this.geminiTutor = new GeminiTutor(this);
 
             // Setup UI event listeners

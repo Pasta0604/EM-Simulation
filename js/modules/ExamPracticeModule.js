@@ -202,7 +202,7 @@ export class ExamPracticeModule {
                     </button>
                     <button class="exam-btn secondary" id="ask-ai-btn">
                         <span class="btn-icon">🤖</span>
-                        Ask AI Tutor
+                        Ask EM-Vee
                     </button>
                     <button class="exam-btn primary" id="show-answer-btn">
                         <span class="btn-icon">✓</span>
@@ -331,7 +331,7 @@ export class ExamPracticeModule {
     askAITutor() {
         const q = this.questions[this.currentQuestion];
 
-        // Open AI Tutor with context
+        // Open EM-Vee with context
         if (this.app.geminiTutor) {
             if (!this.app.geminiTutor.isOpen) {
                 this.app.geminiTutor.toggleChat();

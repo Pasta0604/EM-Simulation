@@ -89,7 +89,7 @@
                             <span class="widget-badge">BETA</span>
                         </div>
                         <div class="widget-body">
-                            <h3 class="widget-title cyan">AI Physics Tutor</h3>
+                            <h3 class="widget-title cyan">EM-Vee</h3>
                             <p class="widget-description">Stuck on a concept? Get instant answers and formula breakdowns
                                 from our specialized AI helper.</p>
                         </div>
@@ -294,7 +294,7 @@
         </nav>
     </div>
 
-    <!-- AI Tutor Modal -->
+    <!-- EM-Vee Modal -->
     <div id="ai-tutor-modal" class="modal-overlay" onclick="closeAITutorModal(event)">
         <div class="modal-container glass-card" onclick="event.stopPropagation()">
             <div class="modal-header">
@@ -303,7 +303,7 @@
                         <span class="material-symbols-outlined">smart_toy</span>
                     </div>
                     <div>
-                        <h2 class="modal-title">AI Physics Tutor</h2>
+                        <h2 class="modal-title">EM-Vee</h2>
                         <p class="modal-subtitle">Powered by Gemini AI</p>
                     </div>
                 </div>
@@ -315,7 +315,7 @@
                 <div class="chat-container" id="ai-chat-container">
                     <div class="chat-welcome">
                         <span class="material-symbols-outlined chat-icon">psychology</span>
-                        <h3>Welcome to AI Physics Tutor!</h3>
+                        <h3>Welcome to EM-Vee!</h3>
                         <p>Ask me anything about electromagnetism, from basic concepts to complex problems.</p>
                     </div>
                 </div>
@@ -439,7 +439,7 @@
             document.body.style.overflow = '';
         }
 
-        // AI Tutor chat placeholder
+        // EM-Vee chat placeholder
         function sendAIMessage() {
             const input = document.getElementById('ai-chat-input');
             const message = input.value.trim();
@@ -454,7 +454,7 @@
             container.innerHTML += `<div class="chat-message user"><p>${message}</p></div>`;
 
             // Add AI response placeholder
-            container.innerHTML += `<div class="chat-message ai"><p>This AI Tutor feature is coming soon! For now, explore the simulations to learn about electromagnetism.</p></div>`;
+            container.innerHTML += `<div class="chat-message ai"><p>EM-Vee is here to help! Ask me anything about electromagnetism.</p></div>`;
 
             input.value = '';
             container.scrollTop = container.scrollHeight;
@@ -708,11 +708,11 @@
         });
     </script>
 
-    <!-- AI Tutor Floating Button (same as index.html) -->
+    <!-- EM-Vee Floating Button (same as index.html) -->
     <script type="module">
         import { GeminiTutor } from './js/GeminiTutor.js';
 
-        // Initialize AI Tutor on the landing page
+        // Initialize EM-Vee on the landing page
         document.addEventListener('DOMContentLoaded', () => {
             // Create a minimal app object for the tutor
             const tutorApp = {
