@@ -1,344 +1,728 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
         content="Interactive 3D Electromagnetic Lab Simulator - Learn electromagnetic concepts through visual simulations including bar magnets, solenoids, induction, and more.">
-    <title>Electromagnetic Lab Simulator | Interactive Physics Learning</title>
+    <title>EM-Verse | Explore Electromagnetism</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="landing.css">
 </head>
 
 <body>
-    <!-- Loading Screen -->
-    <div id="loading-screen">
-        <div class="loader-content">
-            <div class="loader-spinner"></div>
-            <h2>Electromagnetic Lab</h2>
-            <p>Initializing simulation...</p>
+    <div id="app" class="portal-container">
+        <!-- Header -->
+        <header class="portal-header">
+            <div class="header-btn glass-button">
+                <span class="material-symbols-outlined">account_circle</span>
+            </div>
+
+            <div class="header-title">
+                <h1 class="header-headline">EM-<span class="accent">Verse</span></h1>
+                <p class="subtitle">Dive into EM-Verse, Explore Electromagnetism</p>
+            </div>
+
+            <div class="header-btn glass-button">
+                <button class="settings-btn">
+                    <span class="material-symbols-outlined">settings</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="portal-main">
+            <!-- Featured Card -->
+            <section class="featured-section">
+                <div class="featured-card glass-card">
+                    <div class="featured-gradient-overlay"></div>
+                    <div class="featured-grid">
+                        <div class="featured-image-container">
+                            <div class="featured-image"
+                                style="background-image: url('assets/images/em-verse-landing.jpg');">
+                            </div>
+                            <div class="featured-image-gradient"></div>
+                            <div class="featured-badge">
+                                <span class="pulse-dot"></span>
+                                Featured Simulation
+                            </div>
+                        </div>
+
+                        <div class="featured-content">
+                            <span class="featured-label">EM-Verse</span>
+                            <h2 class="featured-title">
+                                Enter the <br><span class="gradient-text">EM-verse</span>
+                            </h2>
+                            <p class="featured-description">
+                                Explore electromagnetism and observe how the compass needle aligns with field lines in
+                                this high-fidelity 3D environment.
+                            </p>
+                            <div class="featured-actions">
+                                <a href="simulator.html" class="launch-btn glass-button-primary">
+                                    <span>LAUNCH SIMULATION</span>
+                                    <span class="material-symbols-outlined">rocket_launch</span>
+                                </a>
+                                <button class="info-btn glass-button">
+                                    <span class="material-symbols-outlined">info</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Widget Row -->
+            <section class="widgets-section">
+                <div class="widget-card glass-card ai-tutor-widget" id="ai-tutor-trigger" onclick="openAITutorModal()">
+                    <div class="widget-glow cyan"></div>
+                    <div class="widget-content">
+                        <div class="widget-header">
+                            <div class="widget-icon cyan">
+                                <span class="material-symbols-outlined">smart_toy</span>
+                            </div>
+                            <span class="widget-badge">BETA</span>
+                        </div>
+                        <div class="widget-body">
+                            <h3 class="widget-title cyan">EM-Vee</h3>
+                            <p class="widget-description">Stuck on a concept? Get instant answers and formula breakdowns
+                                from our specialized AI helper.</p>
+                        </div>
+                        <button class="widget-action-btn" onclick="event.stopPropagation(); openAITutorModal()">
+                            <span>ASK A QUESTION</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="widget-card glass-card exam-widget" onclick="openExamPracticeModal()">
+                    <div class="widget-glow purple"></div>
+                    <div class="widget-content">
+                        <div class="widget-header">
+                            <div class="widget-icon purple">
+                                <span class="material-symbols-outlined">school</span>
+                            </div>
+                            <div class="mastery-stats">
+                                <p class="mastery-label">Mastery</p>
+                                <p class="mastery-value">72%</p>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <h3 class="widget-title purple">Exam Practice</h3>
+                            <div class="progress-container">
+                                <div class="progress-info">
+                                    <span>WEEKLY GOAL</span>
+                                    <span>15/20 Qs</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 75%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="widget-action-btn purple"
+                            onclick="event.stopPropagation(); openExamPracticeModal()">
+                            <span>TAKE PRACTICE TEST</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- What is Electromagnetism Section -->
+            <section class="em-intro-section">
+                <div class="section-header">
+                    <div class="section-title">
+                        <span class="title-accent"></span>
+                        What is Electromagnetism?
+                    </div>
+                </div>
+                <div class="em-intro-card glass-card">
+                    <div class="em-intro-header">
+                        <div class="em-badge">
+                            <span class="pulse-dot"></span>
+                            The Core Foundation
+                        </div>
+                        <h2 class="em-intro-title">
+                            What is <br><span class="gradient-text">Electromagnetism,</span><br> really?
+                        </h2>
+                        <p class="em-intro-description">
+                            Beyond the formulas lies the pulse of reality. Master the force that powers the universe.
+                        </p>
+                    </div>
+                    <div class="em-features">
+                        <a href="syllabus.html" class="em-feature-item">
+                            <div class="em-feature-icon cyan">
+                                <span class="material-symbols-outlined">public</span>
+                            </div>
+                            <div class="em-feature-content">
+                                <h3 class="em-feature-title cyan">Universal Force</h3>
+                                <p class="em-feature-description">It governs everything from the spin of subatomic
+                                    particles to the gravity-defying drift of galaxies.</p>
+                            </div>
+                        </a>
+                        <div class="em-feature-item">
+                            <div class="em-feature-icon purple">
+                                <span class="material-symbols-outlined">settings_input_component</span>
+                            </div>
+                            <div class="em-feature-content">
+                                <h3 class="em-feature-title purple">Engineering Power</h3>
+                                <p class="em-feature-description">The ultimate bridge between abstract physics and the
+                                    circuit boards in your pocket.</p>
+                            </div>
+                        </div>
+                        <div class="em-feature-item">
+                            <div class="em-feature-icon white">
+                                <span class="material-symbols-outlined">psychology</span>
+                            </div>
+                            <div class="em-feature-content">
+                                <h3 class="em-feature-title">Cognitive Leap</h3>
+                                <p class="em-feature-description">Mastering these fields rewires your brain to solve
+                                    complex problems with unprecedented clarity.</p>
+                            </div>
+                        </div>
+                        <div class="em-feature-item">
+                            <div class="em-feature-icon red">
+                                <span class="material-symbols-outlined">bolt</span>
+                            </div>
+                            <div class="em-feature-content">
+                                <h3 class="em-feature-title red">Formula to Tech</h3>
+                                <p class="em-feature-description">Move past the textbook. Learn how a single Maxwell
+                                    equation becomes a global communications network.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="history.html" class="em-cta-btn glass-button-primary">
+                        <span>Start the Journey</span>
+                        <span class="material-symbols-outlined">rocket_launch</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Core Modules Section -->
+            <section class="core-modules-section">
+                <div class="section-header">
+                    <div class="section-title">
+                        <span class="title-accent"></span>
+                        Explore More
+                    </div>
+                </div>
+                <div class="core-modules-grid">
+                    <!-- History & Foundations Card -->
+                    <a href="history.html" class="module-feature-card">
+                        <div class="module-card-image"
+                            style="background-image: url('assets/images/history-card-bg.png');"></div>
+                        <div class="module-card-gradient"></div>
+                        <div class="module-card-content">
+                            <div class="module-card-badge cyan">
+                                <span class="material-symbols-outlined">auto_awesome</span>
+                                <span>HISTORY & FOUNDATIONS</span>
+                            </div>
+                            <h3 class="module-card-title">THE ARCHITECTS OF LIGHT</h3>
+                            <p class="module-card-description">Journey through the origins of electromagnetic theory.
+                                Master Maxwell's equations and the brilliant minds that defined the speed of light.</p>
+                        </div>
+                    </a>
+
+                    <!-- Student Support Card -->
+                    <a href="syllabus.html" class="module-feature-card">
+                        <div class="module-card-image"
+                            style="background-image: url('assets/images/physics-card-bg.png');"></div>
+                        <div class="module-card-gradient"></div>
+                        <div class="module-card-content">
+                            <div class="module-card-badge green">
+                                <span class="material-symbols-outlined">school</span>
+                                <span>STUDENT SUPPORT</span>
+                            </div>
+                            <h3 class="module-card-title">PHYSICS WITHOUT CRYING</h3>
+                            <p class="module-card-description">Our signature empathetic support module. Designed to
+                                bridge the gap between complex vector calculus and intuitive physical understanding.</p>
+                        </div>
+                    </a>
+
+                    <!-- Modern Tech Card -->
+                    <a href="applications.html" class="module-feature-card">
+                        <div class="module-card-image"
+                            style="background-image: url('assets/images/modern-tech-bg.png');"></div>
+                        <div class="module-card-gradient"></div>
+                        <div class="module-card-content">
+                            <div class="module-card-badge magenta">
+                                <span class="material-symbols-outlined">rocket_launch</span>
+                                <span>MODERN TECH</span>
+                            </div>
+                            <h3 class="module-card-title">EM IN TODAY'S WORLD</h3>
+                            <p class="module-card-description">From 5G networks to wireless charging and fiber optics.
+                                Explore the real-world applications driving the future of communication.</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <div class="nav-container glass-nav">
+                <div class="nav-item active">
+                    <span class="material-symbols-outlined filled">home</span>
+                    <span class="nav-label">HOME</span>
+                </div>
+
+                <a href="history.html" class="nav-item">
+                    <span class="material-symbols-outlined">history_edu</span>
+                    <span class="nav-label">HISTORY</span>
+                </a>
+
+                <div class="nav-search">
+                    <a href="simulator.html" class="search-btn">
+                        <span class="material-symbols-outlined">grid_view</span>
+                    </a>
+                </div>
+
+                <a href="syllabus.html" class="nav-item">
+                    <span class="material-symbols-outlined">menu_book</span>
+                    <span class="nav-label">LEARN</span>
+                </a>
+
+                <a href="applications.html" class="nav-item">
+                    <span class="material-symbols-outlined">explore</span>
+                    <span class="nav-label">EXPLORE</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <!-- EM-Vee Modal -->
+    <div id="ai-tutor-modal" class="modal-overlay" onclick="closeAITutorModal(event)">
+        <div class="modal-container glass-card" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title-area">
+                    <div class="widget-icon cyan">
+                        <span class="material-symbols-outlined">smart_toy</span>
+                    </div>
+                    <div>
+                        <h2 class="modal-title">EM-Vee</h2>
+                        <p class="modal-subtitle">Powered by Gemini AI</p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" onclick="closeAITutorModal(event)">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="chat-container" id="ai-chat-container">
+                    <div class="chat-welcome">
+                        <span class="material-symbols-outlined chat-icon">psychology</span>
+                        <h3>Welcome to EM-Vee!</h3>
+                        <p>Ask me anything about electromagnetism, from basic concepts to complex problems.</p>
+                    </div>
+                </div>
+                <div class="chat-input-area">
+                    <input type="text" id="ai-chat-input" placeholder="Ask a question about electromagnetism..."
+                        onkeypress="if(event.key==='Enter') sendAIMessage()">
+                    <button class="send-btn" onclick="sendAIMessage()">
+                        <span class="material-symbols-outlined">send</span>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Main Application -->
-    <div id="app">
-        <!-- Sidebar Toggle Button -->
-        <button id="sidebar-toggle" class="sidebar-toggle-btn" title="Toggle Sidebar">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M3 12h18M3 6h18M3 18h18" />
-            </svg>
-        </button>
-
-        <!-- Sidebar Navigation -->
-        <aside id="sidebar">
-            <div class="sidebar-header">
-                <div class="logo">
-                    <span class="logo-icon">⚡</span>
-                    <h1>EM Lab</h1>
+    <!-- Exam Practice Modal -->
+    <div id="exam-practice-modal" class="modal-overlay" onclick="closeExamPracticeModal(event)">
+        <div class="modal-container glass-card exam-modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title-area">
+                    <div class="widget-icon purple">
+                        <span class="material-symbols-outlined">school</span>
+                    </div>
+                    <div>
+                        <h2 class="modal-title">Exam Practice</h2>
+                        <p class="modal-subtitle">Test your EM knowledge</p>
+                    </div>
                 </div>
-                <p class="tagline">Interactive Physics Simulator</p>
-                <a href="landing.html" class="back-to-portal-link">
-                    ← Back to Portal
-                </a>
+                <button class="modal-close-btn" onclick="closeExamPracticeModal(event)">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
             </div>
-
-            <nav class="module-nav">
-                <h3>Simulation Modules</h3>
-                <ul id="module-list">
-                    <li class="module-item active" data-module="barMagnet">
-                        <svg class="module-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="4" y="9" width="16" height="6" rx="1" fill="currentColor" opacity="0.3" />
-                            <rect x="4" y="9" width="8" height="6" fill="#e74c3c" />
-                            <rect x="12" y="9" width="8" height="6" fill="#3498db" />
-                            <path d="M8 12L6 10M8 12L6 14M16 12L18 10M16 12L18 14" stroke="currentColor"
-                                stroke-width="1.5" stroke-linecap="round" />
-                        </svg>
-                        <div class="module-info">
-                            <span class="module-name">Bar Magnet &amp; Compass</span>
-                            <span class="module-desc">Explore magnetic fields</span>
-                        </div>
-                    </li>
-                    <li class="module-item" data-module="solenoid">
-                        <svg class="module-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="7" y="4" width="10" height="16" rx="1" fill="currentColor" opacity="0.2" />
-                            <path
-                                d="M7 8C7 6 9 6 9 8C9 10 7 10 7 12C7 14 9 14 9 16M15 8C15 6 17 6 17 8C17 10 15 10 15 12C15 14 17 14 17 16"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                            <circle cx="12" cy="12" r="2" fill="currentColor" opacity="0.4" />
-                        </svg>
-                        <div class="module-info">
-                            <span class="module-name">Solenoid</span>
-                            <span class="module-desc">Right-hand rule demo</span>
-                        </div>
-                    </li>
-                    <li class="module-item" data-module="induction">
-                        <svg class="module-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.5" opacity="0.3" />
-                            <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                            <path d="M8 4L10 6M16 4L14 6M4 8L6 10M20 8L18 10" stroke="currentColor" stroke-width="1.5"
-                                stroke-linecap="round" />
-                        </svg>
-                        <div class="module-info">
-                            <span class="module-name">Electromagnetic Induction</span>
-                            <span class="module-desc">Generate electricity</span>
-                        </div>
-                    </li>
-                    <li class="module-item" data-module="transformer">
-                        <svg class="module-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="5" y="6" width="4" height="12" rx="1" fill="currentColor" opacity="0.3" />
-                            <rect x="15" y="6" width="4" height="12" rx="1" fill="currentColor" opacity="0.3" />
-                            <path
-                                d="M5 9C5 7 7 7 7 9C7 11 5 11 5 13C5 15 7 15 7 17M9 9C9 7 11 7 11 9C11 11 9 11 9 13C9 15 11 15 11 17"
-                                stroke="currentColor" stroke-width="1.5" />
-                            <path
-                                d="M13 9C13 7 15 7 15 9C15 11 13 11 13 13C13 15 15 15 15 17M17 9C17 7 19 7 19 9C19 11 17 11 17 13C17 15 19 15 19 17"
-                                stroke="currentColor" stroke-width="1.5" />
-                        </svg>
-                        <div class="module-info">
-                            <span class="module-name">Transformer</span>
-                            <span class="module-desc">AC voltage transfer</span>
-                        </div>
-                    </li>
-                    <li class="module-item" data-module="lenz">
-                        <svg class="module-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="8" y="4" width="8" height="4" rx="1" fill="#e74c3c" />
-                            <rect x="7" y="12" width="10" height="8" rx="1" stroke="currentColor" stroke-width="1.5"
-                                fill="none" />
-                            <path d="M9 14L9 18M15 14L15 18M12 14L12 18" stroke="currentColor" stroke-width="1.5" />
-                            <path d="M10 6L10 10M14 6L14 10" stroke="currentColor" stroke-width="1.5" />
-                        </svg>
-                        <div class="module-info">
-                            <span class="module-name">Lenz's Law</span>
-                            <span class="module-desc">Magnetic braking</span>
-                        </div>
-                    </li>
-                    <li class="module-item" data-module="electromagnet">
-                        <svg class="module-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="9" y="4" width="6" height="10" rx="1" fill="currentColor" opacity="0.2" />
-                            <path d="M9 7C9 5 11 5 11 7C11 9 9 9 9 11M13 7C13 5 15 5 15 7C15 9 13 9 13 11"
-                                stroke="currentColor" stroke-width="2" />
-                            <rect x="7" y="13" width="10" height="4" rx="1" fill="currentColor" opacity="0.4" />
-                            <line x1="9" y1="17" x2="9" y2="20" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" />
-                            <line x1="15" y1="17" x2="15" y2="20" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" />
-                        </svg>
-                        <div class="module-info">
-                            <span class="module-name">Electromagnet</span>
-                            <span class="module-desc">Build &amp; experiment</span>
-                        </div>
-                    </li>
-                    <li class="module-item" data-module="sandbox">
-                        <svg class="module-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M4 14L12 8L20 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <path d="M4 19L12 13L20 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" opacity="0.5" />
-                            <circle cx="12" cy="8" r="1.5" fill="currentColor" />
-                            <circle cx="8" cy="11" r="1" fill="currentColor" opacity="0.7" />
-                            <circle cx="16" cy="11" r="1" fill="currentColor" opacity="0.7" />
-                        </svg>
-                        <div class="module-info">
-                            <span class="module-name">Sandbox Mode</span>
-                            <span class="module-desc">Free experimentation</span>
-                        </div>
-                    </li>
-                    <li class="module-item" data-module="assembly">
-                        <svg class="module-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="4" y="4" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5"
-                                fill="currentColor" opacity="0.2" />
-                            <rect x="13" y="4" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5"
-                                fill="currentColor" opacity="0.3" />
-                            <rect x="4" y="13" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5"
-                                fill="currentColor" opacity="0.3" />
-                            <rect x="13" y="13" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5"
-                                fill="currentColor" opacity="0.4" />
-                        </svg>
-                        <div class="module-info">
-                            <span class="module-name">Assembly Puzzle</span>
-                            <span class="module-desc">Build components piece by piece</span>
-                        </div>
-                    </li>
-
-                </ul>
-
-                <!-- Learn More Link -->
-                <div class="learn-more-section">
-                    <a href="https://www.damtp.cam.ac.uk/user/tong/em/em.pdf" target="_blank" rel="noopener noreferrer"
-                        class="learn-more-link">
-                        <div class="learn-info">
-                            <span class="learn-title">Learn More</span>
-                            <span class="learn-desc">Cambridge Physics Notes (PDF)</span>
-                        </div>
-                        <span class="external-icon">↗</span>
-                    </a>
-                </div>
-            </nav>
-        </aside>
-
-        <!-- Main Content Area -->
-        <main id="main-content">
-            <!-- Top Bar -->
-            <header id="top-bar">
-                <div class="module-title">
-                    <h2 id="current-module-title">Bar Magnet & Compass</h2>
-                    <p id="current-module-desc">Drag the magnet to see how compasses respond to magnetic fields</p>
-                </div>
-                <div class="view-controls">
-                    <button id="reset-view-btn" class="icon-btn" title="Reset View">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
-                            <path d="M3 3v5h5" />
-                        </svg>
-                    </button>
-                    <button id="theme-toggle-btn" class="icon-btn" title="Toggle Light/Dark Mode">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <circle cx="12" cy="12" r="5" />
-                            <path
-                                d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
-                        </svg>
-                    </button>
-                    <button id="panel-toggle-btn" class="icon-btn" title="Toggle Control Panel">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                            <path d="M9 3v18M3 15h18" />
-                        </svg>
-                    </button>
-                    <button id="fullscreen-btn" class="icon-btn" title="Fullscreen">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <path
-                                d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
-                        </svg>
-                    </button>
-                </div>
-            </header>
-
-            <!-- 3D Canvas Container -->
-            <div id="canvas-container">
-                <canvas id="simulator-canvas"></canvas>
-
-                <!-- FPS Counter -->
-                <div id="fps-counter">60 FPS</div>
-
-                <!-- Instructions Overlay -->
-                <div id="instructions-overlay">
-                    <div class="instruction-item">
-                        <span class="key">Left Click + Drag</span>
-                        <span class="action">Rotate view</span>
-                    </div>
-                    <div class="instruction-item">
-                        <span class="key">Right Click + Drag</span>
-                        <span class="action">Pan view</span>
-                    </div>
-                    <div class="instruction-item">
-                        <span class="key">Scroll</span>
-                        <span class="action">Zoom in/out</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Control Panel -->
-            <div id="control-panel">
-                <div class="panel-section" id="simulation-controls">
-                    <h4>Simulation</h4>
-                    <div class="control-group">
-                        <button id="play-pause-btn" class="control-btn primary">
-                            <span class="play-icon">▶</span>
-                            <span class="pause-icon" style="display:none;">⏸</span>
+            <div class="modal-body exam-body">
+                <div class="exam-question-area" id="exam-question-area">
+                    <div class="exam-welcome">
+                        <span class="material-symbols-outlined exam-icon">quiz</span>
+                        <h3>Ready to Practice?</h3>
+                        <p>Challenge yourself with electromagnetism questions to test your understanding.</p>
+                        <button class="start-exam-btn glass-button-primary" onclick="startExamPractice()">
+                            <span>START PRACTICE</span>
+                            <span class="material-symbols-outlined">play_arrow</span>
                         </button>
-                        <button id="reset-btn" class="control-btn">Reset</button>
-                    </div>
-                </div>
-
-                <div class="panel-section" id="parameter-controls">
-                    <h4>Parameters</h4>
-                    <div id="sliders-container">
-                        <!-- Dynamic sliders will be inserted here -->
-                    </div>
-                </div>
-
-                <!-- Module-specific options panel -->
-                <div class="panel-section" id="module-options">
-                    <h4>Options</h4>
-                    <div id="options-container">
-                        <!-- Dynamic options will be inserted here -->
-                    </div>
-                </div>
-
-                <div class="panel-section" id="visualization-controls">
-                    <h4>Visualization</h4>
-                    <div class="toggle-group">
-                        <label class="toggle-label">
-                            <input type="checkbox" id="show-field-lines" checked>
-                            <span class="toggle-switch"></span>
-                            <span>Field Lines</span>
-                        </label>
-                        <label class="toggle-label">
-                            <input type="checkbox" id="show-arrows" checked>
-                            <span class="toggle-switch"></span>
-                            <span>Direction Arrows</span>
-                        </label>
-                        <label class="toggle-label">
-                            <input type="checkbox" id="show-grid">
-                            <span class="toggle-switch"></span>
-                            <span>Reference Grid</span>
-                        </label>
                     </div>
                 </div>
             </div>
-        </main>
-
-        <!-- Component Palette (for Sandbox mode) -->
-        <aside id="component-palette" class="hidden">
-            <h3>Components</h3>
-            <div class="component-grid">
-                <div class="component-item" data-component="barMagnet">
-                    <div class="component-preview magnet-preview"></div>
-                    <span>Bar Magnet</span>
-                </div>
-                <div class="component-item" data-component="compass">
-                    <div class="component-preview compass-preview"></div>
-                    <span>Compass</span>
-                </div>
-                <div class="component-item" data-component="solenoid">
-                    <div class="component-preview solenoid-preview"></div>
-                    <span>Solenoid</span>
-                </div>
-                <div class="component-item" data-component="wire">
-                    <div class="component-preview wire-preview"></div>
-                    <span>Wire</span>
-                </div>
-                <div class="component-item" data-component="battery">
-                    <div class="component-preview battery-preview"></div>
-                    <span>Battery</span>
-                </div>
-            </div>
-            <div class="palette-actions">
-                <button id="clear-scene-btn" class="action-btn danger">Clear All</button>
-                <button id="save-config-btn" class="action-btn">Save Setup</button>
-            </div>
-        </aside>
+        </div>
     </div>
 
-    <!-- Three.js and Application Scripts -->
-    <script type="importmap">
-    {
-        "imports": {
-            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    <!-- Puzzle Intro Modal (for Launch Simulation) -->
+    <div id="puzzle-intro-modal" class="modal-overlay" onclick="closePuzzleModal(event)">
+        <div class="modal-container glass-card puzzle-modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title-area">
+                    <div class="widget-icon cyan">
+                        <span class="material-symbols-outlined">extension</span>
+                    </div>
+                    <div>
+                        <h2 class="modal-title">Welcome to EM-Verse!</h2>
+                        <p class="modal-subtitle">Build to understand</p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" onclick="closePuzzleModal(event)">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="modal-body puzzle-body">
+                <div class="puzzle-intro-content">
+                    <div class="puzzle-icon-large">
+                        <span class="material-symbols-outlined">toys_and_games</span>
+                    </div>
+                    <h3>Start with the Bar Magnet Puzzle</h3>
+                    <p>Before diving into the simulations, we recommend completing the Assembly Puzzle to understand how
+                        a bar magnet works from the ground up.</p>
+
+                    <div class="puzzle-buttons">
+                        <a href="simulator.html#assembly" class="puzzle-start-btn glass-button-primary">
+                            <span class="material-symbols-outlined">extension</span>
+                            <span>START PUZZLE</span>
+                        </a>
+                        <a href="simulator.html#barMagnet" class="puzzle-skip-btn glass-button">
+                            <span>Skip & Explore</span>
+                            <span class="material-symbols-outlined">arrow_forward</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Modal Functions
+        function openAITutorModal() {
+            document.getElementById('ai-tutor-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
         }
-    }
+
+        function closeAITutorModal(event) {
+            if (event) event.stopPropagation();
+            document.getElementById('ai-tutor-modal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function openExamPracticeModal() {
+            document.getElementById('exam-practice-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeExamPracticeModal(event) {
+            if (event) event.stopPropagation();
+            document.getElementById('exam-practice-modal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function openPuzzleModal() {
+            document.getElementById('puzzle-intro-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePuzzleModal(event) {
+            if (event) event.stopPropagation();
+            document.getElementById('puzzle-intro-modal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // EM-Vee chat placeholder
+        function sendAIMessage() {
+            const input = document.getElementById('ai-chat-input');
+            const message = input.value.trim();
+            if (!message) return;
+
+            const container = document.getElementById('ai-chat-container');
+            // Clear welcome if present
+            const welcome = container.querySelector('.chat-welcome');
+            if (welcome) welcome.remove();
+
+            // Add user message
+            container.innerHTML += `<div class="chat-message user"><p>${message}</p></div>`;
+
+            // Add AI response placeholder
+            container.innerHTML += `<div class="chat-message ai"><p>EM-Vee is here to help! Ask me anything about electromagnetism.</p></div>`;
+
+            input.value = '';
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // Exam Practice - Full Question Bank
+        const examQuestions = [
+            {
+                id: 1,
+                scenario: "A generator coil rotates through one-fourth of a revolution (θ=0° to θ=90°) in 15 ms.",
+                data: "Turns (N) = 200, Radius (r) = 5.00 cm, Magnetic Field (B) = 1.25 T",
+                question: "What is the magnitude of the induced EMF?",
+                options: ["65.5 V", "131 V", "262 V", "98 V"],
+                correct: 1,
+                explanation: "Using ε = -NBA(Δcos θ/Δt) = -200(1.25)(π×0.05²)((cos90° - cos0°)/(15×10⁻³)) = 131 V"
+            },
+            {
+                id: 2,
+                scenario: "A coil with self-inductance L = 5.0 H is connected in series with a switch to a 12V battery. Total resistance R = 6.0 Ω.",
+                data: "L = 5.0 H, V = 12 V, R = 6.0 Ω",
+                question: "What is the rate of growth of current (dI/dt) when the switch is first closed?",
+                options: ["1.2 A/s", "2.4 A/s", "4.8 A/s", "0.6 A/s"],
+                correct: 1,
+                explanation: "At t=0, current I=0. Back EMF = -V. So -L(dI/dt) = -12, therefore dI/dt = 12/5 = 2.4 A/s"
+            },
+            {
+                id: 3,
+                scenario: "Using the same circuit (L=5.0H, V=12V, R=6.0Ω), when current reaches maximum:",
+                data: "L = 5.0 H, V = 12 V, R = 6.0 Ω",
+                question: "What is the energy stored in the inductor at maximum current?",
+                options: ["5 J", "10 J", "20 J", "2.5 J"],
+                correct: 1,
+                explanation: "Maximum current I = V/R = 12/6 = 2A. Energy E = ½LI² = 0.5 × 5 × (2²) = 10 J"
+            },
+            {
+                id: 4,
+                scenario: "A bar magnet (North pole facing solenoid) is moved away from a solenoid connected to a galvanometer.",
+                data: "Magnet moving away, N-pole facing solenoid",
+                question: "According to Lenz's Law, what happens at the solenoid end facing the magnet?",
+                options: [
+                    "It becomes a North pole to repel the magnet",
+                    "It becomes a South pole to attract the magnet",
+                    "No magnetic pole is induced",
+                    "It alternates between N and S poles"
+                ],
+                correct: 1,
+                explanation: "According to Lenz's Law, the induced current opposes the change. To attract the retreating North pole, the solenoid end becomes a South pole."
+            },
+            {
+                id: 5,
+                scenario: "A small coil (N=150, Area=1.0 cm²) is inside a patient's chest. A large external coil (N=500, r=10cm, R=10Ω) is connected to a 60V battery (internal resistance 10Ω). Current drops to zero in 10⁻⁴ s.",
+                data: "Small coil: N=150, A=10⁻⁴ m². Large coil: N=500, r=0.1m. Battery: 60V, r=10Ω. Δt=10⁻⁴s",
+                question: "Why is the induced EMF larger when switching OFF compared to switching ON?",
+                options: [
+                    "The magnetic field is stronger when OFF",
+                    "The time for current change is much shorter when switching OFF, increasing dΦ/dt",
+                    "The coil has more turns when OFF",
+                    "The resistance decreases when OFF"
+                ],
+                correct: 1,
+                explanation: "When switching OFF, current drops to zero very rapidly (short Δt). Since EMF ∝ dΦ/dt, the shorter time during OFF results in much larger induced EMF."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answered = false;
+
+        function startExamPractice() {
+            currentQuestion = 0;
+            score = 0;
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const area = document.getElementById('exam-question-area');
+            const q = examQuestions[currentQuestion];
+            answered = false;
+
+            area.innerHTML = `
+                <div class="exam-question fade-in">
+                    <div class="question-header">
+                        <span class="question-number">Question ${q.id} of ${examQuestions.length}</span>
+                        <span class="score-display">Score: ${score}/${currentQuestion}</span>
+                    </div>
+                    <div class="scenario-box">
+                        <p class="scenario-label">📋 Scenario</p>
+                        <p class="scenario-text">${q.scenario}</p>
+                        <p class="data-text"><strong>Given:</strong> ${q.data}</p>
+                    </div>
+                    <h3 class="question-text">${q.question}</h3>
+                    <div class="answer-options">
+                        ${q.options.map((opt, idx) => `
+                            <button class="answer-btn" data-index="${idx}" onclick="selectExamAnswer(${idx})">
+                                <span class="option-letter">${String.fromCharCode(65 + idx)}</span>
+                                <span class="option-text">${opt}</span>
+                            </button>
+                        `).join('')}
+                    </div>
+                    <div id="feedback-area"></div>
+                    <div class="exam-actions">
+                        <button id="next-btn" class="next-question-btn glass-button" style="display:none;" onclick="nextQuestion()">
+                            ${currentQuestion < examQuestions.length - 1 ? 'Next Question' : 'See Results'}
+                            <span class="material-symbols-outlined">arrow_forward</span>
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function selectExamAnswer(selectedIdx) {
+            if (answered) return;
+            answered = true;
+
+            const q = examQuestions[currentQuestion];
+            const buttons = document.querySelectorAll('.answer-btn');
+            const feedbackArea = document.getElementById('feedback-area');
+            const nextBtn = document.getElementById('next-btn');
+
+            buttons.forEach((btn, idx) => {
+                btn.disabled = true;
+                if (idx === q.correct) {
+                    btn.classList.add('correct');
+                } else if (idx === selectedIdx) {
+                    btn.classList.add('incorrect');
+                }
+            });
+
+            if (selectedIdx === q.correct) {
+                score++;
+                feedbackArea.innerHTML = `
+                    <div class="feedback correct">
+                        <span class="material-symbols-outlined">check_circle</span>
+                        <div>
+                            <strong>Correct!</strong>
+                            <p>${q.explanation}</p>
+                        </div>
+                    </div>
+                `;
+            } else {
+                feedbackArea.innerHTML = `
+                    <div class="feedback incorrect">
+                        <span class="material-symbols-outlined">cancel</span>
+                        <div>
+                            <strong>Incorrect</strong>
+                            <p>${q.explanation}</p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            nextBtn.style.display = 'flex';
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < examQuestions.length) {
+                showQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            const area = document.getElementById('exam-question-area');
+            const percentage = Math.round((score / examQuestions.length) * 100);
+            let message = '';
+            let emoji = '';
+
+            if (percentage >= 80) {
+                message = 'Excellent! You have a strong grasp of Electromagnetic Induction!';
+                emoji = '🏆';
+            } else if (percentage >= 60) {
+                message = 'Good job! Review the concepts you missed and try again.';
+                emoji = '👍';
+            } else {
+                message = 'Keep studying! Review the electromagnetic induction principles and try again.';
+                emoji = '📚';
+            }
+
+            area.innerHTML = `
+                <div class="exam-results fade-in">
+                    <div class="results-emoji">${emoji}</div>
+                    <h3>Practice Complete!</h3>
+                    <div class="results-score">
+                        <span class="score-big">${score}</span>
+                        <span class="score-divider">/</span>
+                        <span class="score-total">${examQuestions.length}</span>
+                    </div>
+                    <p class="score-percentage">${percentage}% Correct</p>
+                    <p class="results-message">${message}</p>
+                    <div class="results-actions">
+                        <button class="retry-btn glass-button-primary" onclick="startExamPractice()">
+                            <span class="material-symbols-outlined">replay</span>
+                            <span>Try Again</span>
+                        </button>
+                        <button class="close-btn glass-button" onclick="closeExamPracticeModal()">
+                            <span>Close</span>
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Handle module card clicks
+        document.querySelectorAll('.module-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                if (e.target.closest('a')) return;
+                const module = card.dataset.module;
+                window.location.href = `simulator.html#${module}`;
+            });
+        });
+
+        // Handle featured card / Launch Simulation - show puzzle intro modal
+        document.querySelector('.launch-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            openPuzzleModal();
+        });
+
+        document.querySelector('.featured-card').addEventListener('click', (e) => {
+            if (e.target.closest('a') || e.target.closest('button')) return;
+            openPuzzleModal();
+        });
+
+        // Material symbols filled for active state
+        document.querySelectorAll('.material-symbols-outlined.filled').forEach(icon => {
+            icon.style.fontVariationSettings = "'FILL' 1, 'wght' 300, 'GRAD' 0, 'opsz' 24";
+        });
+
+        // Close modals on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeAITutorModal();
+                closeExamPracticeModal();
+                closePuzzleModal();
+            }
+        });
+
+        // Fade-in animation on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const fadeElements = document.querySelectorAll('.featured-section, .widgets-section, .em-intro-section, .core-modules-section, .portal-header');
+            fadeElements.forEach((el, idx) => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                setTimeout(() => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, 100 + (idx * 150));
+            });
+        });
     </script>
-    <script type="module" src="js/main.js"></script>
+
+    <!-- EM-Vee Floating Button (same as simulator.html) -->
+    <script type="module">
+        import { GeminiTutor } from './js/GeminiTutor.js';
+
+        // Initialize EM-Vee on the landing page
+        document.addEventListener('DOMContentLoaded', () => {
+            // Create a minimal app object for the tutor
+            const tutorApp = {
+                currentModule: { name: 'landing' }
+            };
+
+            // Initialize Gemini Tutor
+            window.geminiTutor = new GeminiTutor(tutorApp);
+        });
+    </script>
 </body>
 
 </html>

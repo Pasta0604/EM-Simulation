@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Interactive 3D Electromagnetic Lab Simulator - Learn electromagnetic concepts through visual simulations including bar magnets, solenoids, induction, and more.">
+    <title>Electromagnetic Lab Simulator | Interactive Physics Learning</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <h2>Electromagnetic Lab</h2>
+            <p>Initializing simulation...</p>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div id="app">
+        <!-- Sidebar Toggle Button -->
+        <button id="sidebar-toggle" class="sidebar-toggle-btn" title="Toggle Sidebar">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 12h18M3 6h18M3 18h18" />
+            </svg>
+        </button>
+
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <span class="logo-icon">⚡</span>
+                    <h1>EM Lab</h1>
+                </div>
+                <p class="tagline">Interactive Physics Simulator</p>
+                <a href="index.html" class="back-to-portal-link">
+                    ← Back to Portal
+                </a>
+            </div>
+
+            <nav class="module-nav">
+                <h3>Simulation Modules</h3>
+                <ul id="module-list">
+                    <li class="module-item active" data-module="barMagnet">
+                        <svg class="module-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="4" y="9" width="16" height="6" rx="1" fill="currentColor" opacity="0.3" />
+                            <rect x="4" y="9" width="8" height="6" fill="#e74c3c" />
+                            <rect x="12" y="9" width="8" height="6" fill="#3498db" />
+                            <path d="M8 12L6 10M8 12L6 14M16 12L18 10M16 12L18 14" stroke="currentColor"
+                                stroke-width="1.5" stroke-linecap="round" />
+                        </svg>
+                        <div class="module-info">
+                            <span class="module-name">Bar Magnet &amp; Compass</span>
+                            <span class="module-desc">Explore magnetic fields</span>
+                        </div>
+                    </li>
+                    <li class="module-item" data-module="solenoid">
+                        <svg class="module-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="7" y="4" width="10" height="16" rx="1" fill="currentColor" opacity="0.2" />
+                            <path
+                                d="M7 8C7 6 9 6 9 8C9 10 7 10 7 12C7 14 9 14 9 16M15 8C15 6 17 6 17 8C17 10 15 10 15 12C15 14 17 14 17 16"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                            <circle cx="12" cy="12" r="2" fill="currentColor" opacity="0.4" />
+                        </svg>
+                        <div class="module-info">
+                            <span class="module-name">Solenoid</span>
+                            <span class="module-desc">Right-hand rule demo</span>
+                        </div>
+                    </li>
+                    <li class="module-item" data-module="induction">
+                        <svg class="module-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.5" opacity="0.3" />
+                            <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                            <path d="M8 4L10 6M16 4L14 6M4 8L6 10M20 8L18 10" stroke="currentColor" stroke-width="1.5"
+                                stroke-linecap="round" />
+                        </svg>
+                        <div class="module-info">
+                            <span class="module-name">Electromagnetic Induction</span>
+                            <span class="module-desc">Generate electricity</span>
+                        </div>
+                    </li>
+                    <li class="module-item" data-module="transformer">
+                        <svg class="module-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="5" y="6" width="4" height="12" rx="1" fill="currentColor" opacity="0.3" />
+                            <rect x="15" y="6" width="4" height="12" rx="1" fill="currentColor" opacity="0.3" />
+                            <path
+                                d="M5 9C5 7 7 7 7 9C7 11 5 11 5 13C5 15 7 15 7 17M9 9C9 7 11 7 11 9C11 11 9 11 9 13C9 15 11 15 11 17"
+                                stroke="currentColor" stroke-width="1.5" />
+                            <path
+                                d="M13 9C13 7 15 7 15 9C15 11 13 11 13 13C13 15 15 15 15 17M17 9C17 7 19 7 19 9C19 11 17 11 17 13C17 15 19 15 19 17"
+                                stroke="currentColor" stroke-width="1.5" />
+                        </svg>
+                        <div class="module-info">
+                            <span class="module-name">Transformer</span>
+                            <span class="module-desc">AC voltage transfer</span>
+                        </div>
+                    </li>
+                    <li class="module-item" data-module="lenz">
+                        <svg class="module-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="8" y="4" width="8" height="4" rx="1" fill="#e74c3c" />
+                            <rect x="7" y="12" width="10" height="8" rx="1" stroke="currentColor" stroke-width="1.5"
+                                fill="none" />
+                            <path d="M9 14L9 18M15 14L15 18M12 14L12 18" stroke="currentColor" stroke-width="1.5" />
+                            <path d="M10 6L10 10M14 6L14 10" stroke="currentColor" stroke-width="1.5" />
+                        </svg>
+                        <div class="module-info">
+                            <span class="module-name">Lenz's Law</span>
+                            <span class="module-desc">Magnetic braking</span>
+                        </div>
+                    </li>
+                    <li class="module-item" data-module="electromagnet">
+                        <svg class="module-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="9" y="4" width="6" height="10" rx="1" fill="currentColor" opacity="0.2" />
+                            <path d="M9 7C9 5 11 5 11 7C11 9 9 9 9 11M13 7C13 5 15 5 15 7C15 9 13 9 13 11"
+                                stroke="currentColor" stroke-width="2" />
+                            <rect x="7" y="13" width="10" height="4" rx="1" fill="currentColor" opacity="0.4" />
+                            <line x1="9" y1="17" x2="9" y2="20" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" />
+                            <line x1="15" y1="17" x2="15" y2="20" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" />
+                        </svg>
+                        <div class="module-info">
+                            <span class="module-name">Electromagnet</span>
+                            <span class="module-desc">Build &amp; experiment</span>
+                        </div>
+                    </li>
+                    <li class="module-item" data-module="sandbox">
+                        <svg class="module-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 14L12 8L20 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path d="M4 19L12 13L20 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" opacity="0.5" />
+                            <circle cx="12" cy="8" r="1.5" fill="currentColor" />
+                            <circle cx="8" cy="11" r="1" fill="currentColor" opacity="0.7" />
+                            <circle cx="16" cy="11" r="1" fill="currentColor" opacity="0.7" />
+                        </svg>
+                        <div class="module-info">
+                            <span class="module-name">Sandbox Mode</span>
+                            <span class="module-desc">Free experimentation</span>
+                        </div>
+                    </li>
+                    <li class="module-item" data-module="assembly">
+                        <svg class="module-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="4" y="4" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5"
+                                fill="currentColor" opacity="0.2" />
+                            <rect x="13" y="4" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5"
+                                fill="currentColor" opacity="0.3" />
+                            <rect x="4" y="13" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5"
+                                fill="currentColor" opacity="0.3" />
+                            <rect x="13" y="13" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5"
+                                fill="currentColor" opacity="0.4" />
+                        </svg>
+                        <div class="module-info">
+                            <span class="module-name">Assembly Puzzle</span>
+                            <span class="module-desc">Build components piece by piece</span>
+                        </div>
+                    </li>
+
+                </ul>
+
+                <!-- Learn More Link -->
+                <div class="learn-more-section">
+                    <a href="https://www.damtp.cam.ac.uk/user/tong/em/em.pdf" target="_blank" rel="noopener noreferrer"
+                        class="learn-more-link">
+                        <div class="learn-info">
+                            <span class="learn-title">Learn More</span>
+                            <span class="learn-desc">Cambridge Physics Notes (PDF)</span>
+                        </div>
+                        <span class="external-icon">↗</span>
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main id="main-content">
+            <!-- Top Bar -->
+            <header id="top-bar">
+                <div class="module-title">
+                    <h2 id="current-module-title">Bar Magnet & Compass</h2>
+                    <p id="current-module-desc">Drag the magnet to see how compasses respond to magnetic fields</p>
+                </div>
+                <div class="view-controls">
+                    <button id="reset-view-btn" class="icon-btn" title="Reset View">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                            <path d="M3 3v5h5" />
+                        </svg>
+                    </button>
+                    <button id="theme-toggle-btn" class="icon-btn" title="Toggle Light/Dark Mode">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <circle cx="12" cy="12" r="5" />
+                            <path
+                                d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+                        </svg>
+                    </button>
+                    <button id="panel-toggle-btn" class="icon-btn" title="Toggle Control Panel">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                            <path d="M9 3v18M3 15h18" />
+                        </svg>
+                    </button>
+                    <button id="fullscreen-btn" class="icon-btn" title="Fullscreen">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path
+                                d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
+                        </svg>
+                    </button>
+                </div>
+            </header>
+
+            <!-- 3D Canvas Container -->
+            <div id="canvas-container">
+                <canvas id="simulator-canvas"></canvas>
+
+                <!-- FPS Counter -->
+                <div id="fps-counter">60 FPS</div>
+
+                <!-- Instructions Overlay -->
+                <div id="instructions-overlay">
+                    <div class="instruction-item">
+                        <span class="key">Left Click + Drag</span>
+                        <span class="action">Rotate view</span>
+                    </div>
+                    <div class="instruction-item">
+                        <span class="key">Right Click + Drag</span>
+                        <span class="action">Pan view</span>
+                    </div>
+                    <div class="instruction-item">
+                        <span class="key">Scroll</span>
+                        <span class="action">Zoom in/out</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Control Panel -->
+            <div id="control-panel">
+                <div class="panel-section" id="simulation-controls">
+                    <h4>Simulation</h4>
+                    <div class="control-group">
+                        <button id="play-pause-btn" class="control-btn primary">
+                            <span class="play-icon">▶</span>
+                            <span class="pause-icon" style="display:none;">⏸</span>
+                        </button>
+                        <button id="reset-btn" class="control-btn">Reset</button>
+                    </div>
+                </div>
+
+                <div class="panel-section" id="parameter-controls">
+                    <h4>Parameters</h4>
+                    <div id="sliders-container">
+                        <!-- Dynamic sliders will be inserted here -->
+                    </div>
+                </div>
+
+                <!-- Module-specific options panel -->
+                <div class="panel-section" id="module-options">
+                    <h4>Options</h4>
+                    <div id="options-container">
+                        <!-- Dynamic options will be inserted here -->
+                    </div>
+                </div>
+
+                <div class="panel-section" id="visualization-controls">
+                    <h4>Visualization</h4>
+                    <div class="toggle-group">
+                        <label class="toggle-label">
+                            <input type="checkbox" id="show-field-lines" checked>
+                            <span class="toggle-switch"></span>
+                            <span>Field Lines</span>
+                        </label>
+                        <label class="toggle-label">
+                            <input type="checkbox" id="show-arrows" checked>
+                            <span class="toggle-switch"></span>
+                            <span>Direction Arrows</span>
+                        </label>
+                        <label class="toggle-label">
+                            <input type="checkbox" id="show-grid">
+                            <span class="toggle-switch"></span>
+                            <span>Reference Grid</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Component Palette (for Sandbox mode) -->
+        <aside id="component-palette" class="hidden">
+            <h3>Components</h3>
+            <div class="component-grid">
+                <div class="component-item" data-component="barMagnet">
+                    <div class="component-preview magnet-preview"></div>
+                    <span>Bar Magnet</span>
+                </div>
+                <div class="component-item" data-component="compass">
+                    <div class="component-preview compass-preview"></div>
+                    <span>Compass</span>
+                </div>
+                <div class="component-item" data-component="solenoid">
+                    <div class="component-preview solenoid-preview"></div>
+                    <span>Solenoid</span>
+                </div>
+                <div class="component-item" data-component="wire">
+                    <div class="component-preview wire-preview"></div>
+                    <span>Wire</span>
+                </div>
+                <div class="component-item" data-component="battery">
+                    <div class="component-preview battery-preview"></div>
+                    <span>Battery</span>
+                </div>
+            </div>
+            <div class="palette-actions">
+                <button id="clear-scene-btn" class="action-btn danger">Clear All</button>
+                <button id="save-config-btn" class="action-btn">Save Setup</button>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Three.js and Application Scripts -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
+    <script type="module" src="js/main.js"></script>
+</body>
+
+</html>
