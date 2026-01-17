@@ -423,16 +423,17 @@ export class FieldVisualizer {
 
     createArrowGeometry(scale) {
         const shape = new THREE.Shape();
+        // Arrow pointing in +X direction (forward along field line flow)
         shape.moveTo(0, 0);
-        shape.lineTo(-0.6 * scale, 0.15 * scale);
-        shape.lineTo(-0.4 * scale, 0);
-        shape.lineTo(-0.6 * scale, -0.15 * scale);
+        shape.lineTo(0.6 * scale, 0.15 * scale);
+        shape.lineTo(0.4 * scale, 0);
+        shape.lineTo(0.6 * scale, -0.15 * scale);
         shape.lineTo(0, 0);
 
         const extrudeSettings = { depth: 0.02, bevelEnabled: false };
         const geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
         geometry.rotateY(Math.PI / 2);
-        geometry.translate(scale * 0.3, 0, 0);
+        geometry.translate(-scale * 0.3, 0, 0);
 
         return geometry;
     }

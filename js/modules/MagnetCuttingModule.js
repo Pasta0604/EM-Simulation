@@ -13,9 +13,11 @@ export class MagnetCuttingModule {
 
         // Magnet parts
         this.originalMagnet = null;
+        this.magnetPieces = []; // Array to hold all pieces after cutting
         this.leftHalf = null;
         this.rightHalf = null;
         this.isCut = false;
+        this.cutCount = 0; // 0 = whole, 1 = 2 pieces, 2 = 4 pieces
 
         // Domain visualization
         this.domainArrows = [];
@@ -383,19 +385,20 @@ export class MagnetCuttingModule {
         ctx.fillStyle = '#e8f4ff';
         ctx.font = 'bold 22px Inter, sans-serif';
         ctx.textAlign = 'center';
-        ctx.fillText(this.isCut ? '✂️ Magnet Has Been Cut!' : '🧲 Original Magnet', 250, 45);
+        ctx.fillText(this.isCut ? '✂️ Cut into 4 Pieces!' : '🧲 Original Magnet', 250, 45);
 
         // Status text
         ctx.font = '16px Inter, sans-serif';
         ctx.fillStyle = '#a0c8e8';
 
         if (this.isCut) {
-            ctx.fillText('Each piece is now a complete dipole magnet', 250, 75);
+            ctx.fillText('Each of the 4 pieces is a complete dipole!', 250, 70);
             ctx.fillStyle = '#00ff88';
-            ctx.fillText('Left: [N | s]    Right: [n | S]', 250, 100);
+            ctx.font = '13px Inter, sans-serif';
+            ctx.fillText('[N|s]  [n|s]  [n|s]  [n|S]', 250, 95);
             ctx.fillStyle = '#ff8888';
             ctx.font = 'italic 14px Inter, sans-serif';
-            ctx.fillText('Monopoles cannot exist!', 250, 125);
+            ctx.fillText('You cannot create a magnetic monopole!', 250, 120);
         } else {
             ctx.fillText('Swipe across the magnet to cut it', 250, 75);
             ctx.fillStyle = '#ffcc00';
@@ -588,15 +591,16 @@ export class MagnetCuttingModule {
     }
 
     performCut() {
-        if (this.isCut) return;
+        if (this.cutCount >= 2) return; // Max 4 pieces (2 cuts)
 
+        this.cutCount++;
         this.isCut = true;
 
-        // Hide original magnet
-        this.originalMagnet.visible = false;
-
-        // Create two halves
-        this.createCutHalves();
+        if (this.cutCount === 1) {
+            // First cut: Hide original magnet, create 4 pieces
+            this.originalMagnet.visible = false;
+            this.createFourPieces();
+        }
 
         // Animate cut particles
         this.spawnCutParticles();
@@ -608,7 +612,7 @@ export class MagnetCuttingModule {
         const cutBtn = document.getElementById('cut-magnet-btn');
         if (cutBtn) {
             cutBtn.disabled = true;
-            cutBtn.textContent = '✅ Cut Complete';
+            cutBtn.textContent = '✅ Cut into 4 Pieces!';
         }
 
         // Update HUD
@@ -712,13 +716,121 @@ export class MagnetCuttingModule {
         rightGroup.userData.isDraggable = true;
         this.rightHalf = rightGroup;
         this.app.sceneManager.add(rightGroup);
-
         // Make pieces draggable
         this.app.interaction.addDraggable(this.leftHalf);
         this.app.interaction.addDraggable(this.rightHalf);
 
         // Update domain arrows to split
         this.splitDomainArrows();
+    }
+
+    createFourPieces() {
+        const magnetWidth = 3;
+        const magnetHeight = 0.8;
+        const magnetDepth = 0.8;
+        const pieceWidth = magnetWidth / 4; // Each piece is 1/4 of original
+
+        // Colors: gradient from red (N) to blue (S)
+        const colors = {
+            strongN: 0xe74c3c,  // Deep red (original N)
+            weakN: 0xf1948a,    // Light red (new n)
+            weakS: 0x5dade2,    // Light blue (new s)
+            strongS: 0x3498db   // Deep blue (original S)
+        };
+
+        // Create 4 pieces, each is a complete dipole
+        // Piece 1: Far left [N|s] - original North end
+        // Piece 2: Left-center [n|s]
+        // Piece 3: Right-center [n|s]
+        // Piece 4: Far right [n|S] - original South end
+
+        const pieceConfigs = [
+            { leftColor: colors.strongN, rightColor: colors.weakS, leftLabel: 'N', rightLabel: 's', posX: -1.5 },
+            { leftColor: colors.weakN, rightColor: colors.weakS, leftLabel: 'n', rightLabel: 's', posX: -0.5 },
+            { leftColor: colors.weakN, rightColor: colors.weakS, leftLabel: 'n', rightLabel: 's', posX: 0.5 },
+            { leftColor: colors.weakN, rightColor: colors.strongS, leftLabel: 'n', rightLabel: 'S', posX: 1.5 }
+        ];
+
+        this.magnetPieces = [];
+
+        pieceConfigs.forEach((config, index) => {
+            const pieceGroup = new THREE.Group();
+
+            // Left half of piece (North side)
+            const leftGeom = new THREE.BoxGeometry(pieceWidth / 2, magnetHeight, magnetDepth);
+            const leftMat = new THREE.MeshStandardMaterial({
+                color: config.leftColor,
+                metalness: 0.3,
+                roughness: 0.6,
+                emissive: config.leftLabel === 'N' ? 0 : config.leftColor,
+                emissiveIntensity: config.leftLabel === 'N' ? 0 : 0.15
+            });
+            const leftHalf = new THREE.Mesh(leftGeom, leftMat);
+            leftHalf.position.x = -pieceWidth / 4;
+            pieceGroup.add(leftHalf);
+
+            // Right half of piece (South side)
+            const rightGeom = new THREE.BoxGeometry(pieceWidth / 2, magnetHeight, magnetDepth);
+            const rightMat = new THREE.MeshStandardMaterial({
+                color: config.rightColor,
+                metalness: 0.3,
+                roughness: 0.6,
+                emissive: config.rightLabel === 'S' ? 0 : config.rightColor,
+                emissiveIntensity: config.rightLabel === 'S' ? 0 : 0.15
+            });
+            const rightHalf = new THREE.Mesh(rightGeom, rightMat);
+            rightHalf.position.x = pieceWidth / 4;
+            pieceGroup.add(rightHalf);
+
+            // Labels
+            const leftLabelColor = config.leftLabel === 'N' ? '#ffffff' : '#ffcccc';
+            const rightLabelColor = config.rightLabel === 'S' ? '#ffffff' : '#ccddff';
+
+            const labelLeft = this.createLabelSprite(config.leftLabel, leftLabelColor);
+            labelLeft.position.set(-pieceWidth / 4, 0, magnetDepth / 2 + 0.1);
+            labelLeft.scale.set(0.2, 0.2, 0.2);
+            pieceGroup.add(labelLeft);
+
+            const labelRight = this.createLabelSprite(config.rightLabel, rightLabelColor);
+            labelRight.position.set(pieceWidth / 4, 0, magnetDepth / 2 + 0.1);
+            labelRight.scale.set(0.2, 0.2, 0.2);
+            pieceGroup.add(labelRight);
+
+            // Position piece
+            pieceGroup.position.set(config.posX, 0.5, 0);
+            pieceGroup.userData.pieceIndex = index;
+            pieceGroup.userData.isDraggable = true;
+
+            this.magnetPieces.push(pieceGroup);
+            this.app.sceneManager.add(pieceGroup);
+            this.app.interaction.addDraggable(pieceGroup);
+        });
+
+        // For compatibility with existing code
+        this.leftHalf = this.magnetPieces[0];
+        this.rightHalf = this.magnetPieces[3];
+
+        // Update domain arrows for 4 pieces
+        this.splitDomainArrowsFour();
+    }
+
+    splitDomainArrowsFour() {
+        // Redistribute arrows to show they're now in four pieces
+        const magnetWidth = 3;
+        this.domainArrows.forEach(arrow => {
+            const originalX = arrow.userData.originalX;
+            const normalizedX = (originalX + magnetWidth / 2) / magnetWidth; // 0 to 1
+
+            if (normalizedX < 0.25) {
+                arrow.userData.piece = 0;
+            } else if (normalizedX < 0.5) {
+                arrow.userData.piece = 1;
+            } else if (normalizedX < 0.75) {
+                arrow.userData.piece = 2;
+            } else {
+                arrow.userData.piece = 3;
+            }
+        });
     }
 
     splitDomainArrows() {
@@ -778,22 +890,21 @@ export class MagnetCuttingModule {
     }
 
     reset() {
-        // Remove cut halves
-        if (this.leftHalf) {
-            this.app.interaction.removeDraggable(this.leftHalf);
-            this.app.sceneManager.remove(this.leftHalf);
-            this.leftHalf = null;
+        // Remove all magnet pieces (4 pieces)
+        for (const piece of this.magnetPieces) {
+            this.app.interaction.removeDraggable(piece);
+            this.app.sceneManager.remove(piece);
         }
+        this.magnetPieces = [];
 
-        if (this.rightHalf) {
-            this.app.interaction.removeDraggable(this.rightHalf);
-            this.app.sceneManager.remove(this.rightHalf);
-            this.rightHalf = null;
-        }
+        // Legacy cleanup for leftHalf/rightHalf references
+        this.leftHalf = null;
+        this.rightHalf = null;
 
         // Show original magnet
         this.originalMagnet.visible = true;
         this.isCut = false;
+        this.cutCount = 0;
         this.separationAnimation = 0;
 
         // Reset domain arrows
@@ -822,17 +933,18 @@ export class MagnetCuttingModule {
     update(deltaTime) {
         this.time += deltaTime;
 
-        // Animate separation after cut
+        // Animate separation after cut (4 pieces spreading apart)
         if (this.isCut && this.separationAnimation < 1) {
             this.separationAnimation += deltaTime * 0.5;
 
-            const separation = Math.min(1, this.separationAnimation) * 0.8;
+            const separation = Math.min(1, this.separationAnimation) * 0.4;
 
-            if (this.leftHalf) {
-                this.leftHalf.position.x = -0.75 - separation;
-            }
-            if (this.rightHalf) {
-                this.rightHalf.position.x = 0.75 + separation;
+            // Animate all 4 pieces spreading apart
+            if (this.magnetPieces.length === 4) {
+                this.magnetPieces[0].position.x = -1.5 - separation * 1.5;  // Far left moves further left
+                this.magnetPieces[1].position.x = -0.5 - separation * 0.5;  // Left-center moves slightly left
+                this.magnetPieces[2].position.x = 0.5 + separation * 0.5;   // Right-center moves slightly right
+                this.magnetPieces[3].position.x = 1.5 + separation * 1.5;   // Far right moves further right
             }
         }
 
@@ -849,15 +961,19 @@ export class MagnetCuttingModule {
             }
         });
 
-        // Animate domain arrows position following the magnet pieces
-        if (this.isCut && this.showDomains) {
+        // Animate domain arrows position following the magnet pieces (4 pieces)
+        if (this.isCut && this.showDomains && this.magnetPieces.length === 4) {
+            const magnetWidth = 3;
             this.domainArrows.forEach(arrow => {
                 const basePos = arrow.userData.basePosition;
+                const pieceIndex = arrow.userData.piece;
 
-                if (arrow.userData.piece === 'left' && this.leftHalf) {
-                    arrow.position.x = basePos.x + this.leftHalf.position.x + 0.75;
-                } else if (arrow.userData.piece === 'right' && this.rightHalf) {
-                    arrow.position.x = basePos.x + this.rightHalf.position.x - 0.75;
+                if (typeof pieceIndex === 'number' && this.magnetPieces[pieceIndex]) {
+                    const piece = this.magnetPieces[pieceIndex];
+                    // Calculate offset based on which quarter of the magnet this arrow belongs to
+                    const quarterWidth = magnetWidth / 4;
+                    const quarterCenter = -magnetWidth / 2 + quarterWidth * (pieceIndex + 0.5);
+                    arrow.position.x = basePos.x - quarterCenter + piece.position.x;
                 }
             });
         }
@@ -869,16 +985,8 @@ export class MagnetCuttingModule {
             this.laserPlane.material.opacity = pulse * 0.4;
         }
 
-        // Repulsion visual feedback
-        if (this.repulsionActive && this.leftHalf && this.rightHalf) {
-            // Add shake effect
-            const shake = Math.sin(this.time * 50) * 0.02;
-            this.leftHalf.position.y = 0.5 + shake;
-            this.rightHalf.position.y = 0.5 - shake;
-        } else if (this.leftHalf && this.rightHalf) {
-            this.leftHalf.position.y = 0.5;
-            this.rightHalf.position.y = 0.5;
-        }
+        // Repulsion visual feedback (simplified for 4 pieces - check adjacent pieces)
+        // Not implementing full repulsion for 4 pieces to keep it simple
 
         // Animate swipe guide
         if (!this.isCut) {
@@ -893,15 +1001,12 @@ export class MagnetCuttingModule {
             this.app.sceneManager.remove(this.originalMagnet);
         }
 
-        // Remove cut halves
-        if (this.leftHalf) {
-            this.app.interaction.removeDraggable(this.leftHalf);
-            this.app.sceneManager.remove(this.leftHalf);
+        // Remove all magnet pieces (4 pieces)
+        for (const piece of this.magnetPieces) {
+            this.app.interaction.removeDraggable(piece);
+            this.app.sceneManager.remove(piece);
         }
-        if (this.rightHalf) {
-            this.app.interaction.removeDraggable(this.rightHalf);
-            this.app.sceneManager.remove(this.rightHalf);
-        }
+        this.magnetPieces = [];
 
         // Remove laser cutter
         if (this.laserLine) this.app.sceneManager.remove(this.laserLine);
