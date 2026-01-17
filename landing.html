@@ -460,33 +460,209 @@
             container.scrollTop = container.scrollHeight;
         }
 
-        // Exam Practice placeholder
+        // Exam Practice - Full Question Bank
+        const examQuestions = [
+            {
+                id: 1,
+                scenario: "A generator coil rotates through one-fourth of a revolution (θ=0° to θ=90°) in 15 ms.",
+                data: "Turns (N) = 200, Radius (r) = 5.00 cm, Magnetic Field (B) = 1.25 T",
+                question: "What is the magnitude of the induced EMF?",
+                options: ["65.5 V", "131 V", "262 V", "98 V"],
+                correct: 1,
+                explanation: "Using ε = -NBA(Δcos θ/Δt) = -200(1.25)(π×0.05²)((cos90° - cos0°)/(15×10⁻³)) = 131 V"
+            },
+            {
+                id: 2,
+                scenario: "A coil with self-inductance L = 5.0 H is connected in series with a switch to a 12V battery. Total resistance R = 6.0 Ω.",
+                data: "L = 5.0 H, V = 12 V, R = 6.0 Ω",
+                question: "What is the rate of growth of current (dI/dt) when the switch is first closed?",
+                options: ["1.2 A/s", "2.4 A/s", "4.8 A/s", "0.6 A/s"],
+                correct: 1,
+                explanation: "At t=0, current I=0. Back EMF = -V. So -L(dI/dt) = -12, therefore dI/dt = 12/5 = 2.4 A/s"
+            },
+            {
+                id: 3,
+                scenario: "Using the same circuit (L=5.0H, V=12V, R=6.0Ω), when current reaches maximum:",
+                data: "L = 5.0 H, V = 12 V, R = 6.0 Ω",
+                question: "What is the energy stored in the inductor at maximum current?",
+                options: ["5 J", "10 J", "20 J", "2.5 J"],
+                correct: 1,
+                explanation: "Maximum current I = V/R = 12/6 = 2A. Energy E = ½LI² = 0.5 × 5 × (2²) = 10 J"
+            },
+            {
+                id: 4,
+                scenario: "A bar magnet (North pole facing solenoid) is moved away from a solenoid connected to a galvanometer.",
+                data: "Magnet moving away, N-pole facing solenoid",
+                question: "According to Lenz's Law, what happens at the solenoid end facing the magnet?",
+                options: [
+                    "It becomes a North pole to repel the magnet",
+                    "It becomes a South pole to attract the magnet",
+                    "No magnetic pole is induced",
+                    "It alternates between N and S poles"
+                ],
+                correct: 1,
+                explanation: "According to Lenz's Law, the induced current opposes the change. To attract the retreating North pole, the solenoid end becomes a South pole."
+            },
+            {
+                id: 5,
+                scenario: "A small coil (N=150, Area=1.0 cm²) is inside a patient's chest. A large external coil (N=500, r=10cm, R=10Ω) is connected to a 60V battery (internal resistance 10Ω). Current drops to zero in 10⁻⁴ s.",
+                data: "Small coil: N=150, A=10⁻⁴ m². Large coil: N=500, r=0.1m. Battery: 60V, r=10Ω. Δt=10⁻⁴s",
+                question: "Why is the induced EMF larger when switching OFF compared to switching ON?",
+                options: [
+                    "The magnetic field is stronger when OFF",
+                    "The time for current change is much shorter when switching OFF, increasing dΦ/dt",
+                    "The coil has more turns when OFF",
+                    "The resistance decreases when OFF"
+                ],
+                correct: 1,
+                explanation: "When switching OFF, current drops to zero very rapidly (short Δt). Since EMF ∝ dΦ/dt, the shorter time during OFF results in much larger induced EMF."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answered = false;
+
         function startExamPractice() {
+            currentQuestion = 0;
+            score = 0;
+            showQuestion();
+        }
+
+        function showQuestion() {
             const area = document.getElementById('exam-question-area');
+            const q = examQuestions[currentQuestion];
+            answered = false;
+
             area.innerHTML = `
-                <div class="exam-question">
-                    <span class="question-number">Question 1 of 10</span>
-                    <h3>What is the direction of the magnetic field inside a solenoid?</h3>
-                    <div class="answer-options">
-                        <button class="answer-btn" onclick="selectAnswer(this)">A. Circular around the wire</button>
-                        <button class="answer-btn" onclick="selectAnswer(this)">B. Parallel to the axis of the solenoid</button>
-                        <button class="answer-btn" onclick="selectAnswer(this)">C. Perpendicular to the axis</button>
-                        <button class="answer-btn" onclick="selectAnswer(this)">D. Random directions</button>
+                <div class="exam-question fade-in">
+                    <div class="question-header">
+                        <span class="question-number">Question ${q.id} of ${examQuestions.length}</span>
+                        <span class="score-display">Score: ${score}/${currentQuestion}</span>
                     </div>
-                    <p class="exam-coming-soon">Full exam practice is coming soon!</p>
+                    <div class="scenario-box">
+                        <p class="scenario-label">📋 Scenario</p>
+                        <p class="scenario-text">${q.scenario}</p>
+                        <p class="data-text"><strong>Given:</strong> ${q.data}</p>
+                    </div>
+                    <h3 class="question-text">${q.question}</h3>
+                    <div class="answer-options">
+                        ${q.options.map((opt, idx) => `
+                            <button class="answer-btn" data-index="${idx}" onclick="selectExamAnswer(${idx})">
+                                <span class="option-letter">${String.fromCharCode(65 + idx)}</span>
+                                <span class="option-text">${opt}</span>
+                            </button>
+                        `).join('')}
+                    </div>
+                    <div id="feedback-area"></div>
+                    <div class="exam-actions">
+                        <button id="next-btn" class="next-question-btn glass-button" style="display:none;" onclick="nextQuestion()">
+                            ${currentQuestion < examQuestions.length - 1 ? 'Next Question' : 'See Results'}
+                            <span class="material-symbols-outlined">arrow_forward</span>
+                        </button>
+                    </div>
                 </div>
             `;
         }
 
-        function selectAnswer(btn) {
-            document.querySelectorAll('.answer-btn').forEach(b => b.classList.remove('selected'));
-            btn.classList.add('selected');
+        function selectExamAnswer(selectedIdx) {
+            if (answered) return;
+            answered = true;
+
+            const q = examQuestions[currentQuestion];
+            const buttons = document.querySelectorAll('.answer-btn');
+            const feedbackArea = document.getElementById('feedback-area');
+            const nextBtn = document.getElementById('next-btn');
+
+            buttons.forEach((btn, idx) => {
+                btn.disabled = true;
+                if (idx === q.correct) {
+                    btn.classList.add('correct');
+                } else if (idx === selectedIdx) {
+                    btn.classList.add('incorrect');
+                }
+            });
+
+            if (selectedIdx === q.correct) {
+                score++;
+                feedbackArea.innerHTML = `
+                    <div class="feedback correct">
+                        <span class="material-symbols-outlined">check_circle</span>
+                        <div>
+                            <strong>Correct!</strong>
+                            <p>${q.explanation}</p>
+                        </div>
+                    </div>
+                `;
+            } else {
+                feedbackArea.innerHTML = `
+                    <div class="feedback incorrect">
+                        <span class="material-symbols-outlined">cancel</span>
+                        <div>
+                            <strong>Incorrect</strong>
+                            <p>${q.explanation}</p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            nextBtn.style.display = 'flex';
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < examQuestions.length) {
+                showQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            const area = document.getElementById('exam-question-area');
+            const percentage = Math.round((score / examQuestions.length) * 100);
+            let message = '';
+            let emoji = '';
+
+            if (percentage >= 80) {
+                message = 'Excellent! You have a strong grasp of Electromagnetic Induction!';
+                emoji = '🏆';
+            } else if (percentage >= 60) {
+                message = 'Good job! Review the concepts you missed and try again.';
+                emoji = '👍';
+            } else {
+                message = 'Keep studying! Review the electromagnetic induction principles and try again.';
+                emoji = '📚';
+            }
+
+            area.innerHTML = `
+                <div class="exam-results fade-in">
+                    <div class="results-emoji">${emoji}</div>
+                    <h3>Practice Complete!</h3>
+                    <div class="results-score">
+                        <span class="score-big">${score}</span>
+                        <span class="score-divider">/</span>
+                        <span class="score-total">${examQuestions.length}</span>
+                    </div>
+                    <p class="score-percentage">${percentage}% Correct</p>
+                    <p class="results-message">${message}</p>
+                    <div class="results-actions">
+                        <button class="retry-btn glass-button-primary" onclick="startExamPractice()">
+                            <span class="material-symbols-outlined">replay</span>
+                            <span>Try Again</span>
+                        </button>
+                        <button class="close-btn glass-button" onclick="closeExamPracticeModal()">
+                            <span>Close</span>
+                        </button>
+                    </div>
+                </div>
+            `;
         }
 
         // Handle module card clicks
         document.querySelectorAll('.module-card').forEach(card => {
             card.addEventListener('click', (e) => {
-                if (e.target.closest('a')) return; // Let links work normally
+                if (e.target.closest('a')) return;
                 const module = card.dataset.module;
                 window.location.href = `index.html#${module}`;
             });
@@ -515,6 +691,20 @@
                 closeExamPracticeModal();
                 closePuzzleModal();
             }
+        });
+
+        // Fade-in animation on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const fadeElements = document.querySelectorAll('.featured-section, .widgets-section, .em-intro-section, .core-modules-section, .portal-header');
+            fadeElements.forEach((el, idx) => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                setTimeout(() => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, 100 + (idx * 150));
+            });
         });
     </script>
 </body>

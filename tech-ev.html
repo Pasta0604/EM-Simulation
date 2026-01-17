@@ -192,12 +192,17 @@
             background-size: cover !important;
             background-position: center !important;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            z-index: 1;
         }
 
         .module-content {
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
+            position: relative;
+            z-index: 10;
+            padding-top: 0.5rem;
         }
 
         .module-subtitle {
@@ -252,7 +257,7 @@
                 <span class="gradient">Vehicles</span>
             </h1>
             <p class="hero-description">
-                Comprehensive overview of the electromagnetic principles powering the future of global transportation.
+                Electromagnetism provides the core mechanisms for both propulsion and efficiency in electric vehicles.
             </p>
         </div>
 
@@ -272,12 +277,12 @@
                 <div class="module-image"
                     style="background-image: url('https://images.unsplash.com/photo-1593941707882-de92a1ed3ee9?q=80&w=2072&auto=format&fit=crop');">
                 </div>
-                <div>
-                    <p class="module-subtitle">Lorentz Force Focus</p>
+                <div class="module-content">
+                    <p class="module-subtitle">Lorentz Force Principle</p>
                     <p class="module-description">
-                        Electric currents within a magnetic field generate the necessary torque to drive the motor. This
-                        interaction provides near-instantaneous power delivery and high efficiency across all RPM
-                        ranges.
+                        EV motors function on the Lorentz force principle, where the interaction between an electric
+                        current and a magnetic field generates the torque necessary to turn the vehicle's wheels. This
+                        provides near-instantaneous power delivery and high efficiency across all RPM ranges.
                     </p>
                 </div>
             </div>
@@ -296,11 +301,12 @@
                 <div class="module-image"
                     style="background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=2070&auto=format&fit=crop');">
                 </div>
-                <div>
+                <div class="module-content">
                     <p class="module-subtitle">Electromagnetic Induction</p>
                     <p class="module-description">
-                        Utilizing Faraday's Law, the motor transitions into a generator during deceleration. This
-                        process converts kinetic energy back into electrical potential, stored within the battery pack.
+                        When an EV slows down, the electric motor is reversed to act as a generator. Using the principle
+                        of electromagnetic induction, the vehicle's kinetic energy is converted back into electrical
+                        energy and stored in the battery, significantly extending range.
                     </p>
                 </div>
             </div>
@@ -319,10 +325,11 @@
                 <div class="module-image"
                     style="background-image: url('https://images.unsplash.com/photo-1647166545674-ce28ce93bdca?q=80&w=2070&auto=format&fit=crop');">
                 </div>
-                <div>
+                <div class="module-content">
                     <p class="module-subtitle">Transformers & WPT</p>
                     <p class="module-description">
-                        Advanced charging involves mutual induction and resonance for wireless power transfer (WPT).
+                        Electromagnetism is used in transformers to regulate voltage for wired charging and is the basis
+                        for wireless power transfer (WPT) systems that charge batteries via oscillating magnetic fields.
                         High-voltage transformers manage the interface between grid distribution and vehicle storage.
                     </p>
                 </div>
