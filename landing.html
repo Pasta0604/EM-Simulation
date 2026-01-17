@@ -707,6 +707,22 @@
             });
         });
     </script>
+
+    <!-- AI Tutor Floating Button (same as index.html) -->
+    <script type="module">
+        import { GeminiTutor } from './js/GeminiTutor.js';
+
+        // Initialize AI Tutor on the landing page
+        document.addEventListener('DOMContentLoaded', () => {
+            // Create a minimal app object for the tutor
+            const tutorApp = {
+                currentModule: { name: 'landing' }
+            };
+
+            // Initialize Gemini Tutor
+            window.geminiTutor = new GeminiTutor(tutorApp);
+        });
+    </script>
 </body>
 
 </html>
