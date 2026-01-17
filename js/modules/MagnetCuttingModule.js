@@ -39,19 +39,25 @@ export class MagnetCuttingModule {
         // HUD elements
         this.infoSprite = null;
         this.tooltipSprite = null;
+        this.swipeGuideSprite = null;
+        this.swipeArrowTime = 0;
     }
 
     init() {
+        // Disable orbit controls for this module - we need swipe interaction
+        this.app.sceneManager.controls.enabled = false;
+
         this.createOriginalMagnet();
         this.createLaserCutter();
         this.createDomainArrows();
         this.createHUD();
+        this.createSwipeGuide();
         this.setupOptions();
         this.setupInteraction();
 
-        // Set up camera for better view
-        this.app.sceneManager.camera.position.set(0, 3, 5);
-        this.app.sceneManager.camera.lookAt(0, 0, 0);
+        // Set up camera for better frontal view
+        this.app.sceneManager.camera.position.set(0, 2, 6);
+        this.app.sceneManager.camera.lookAt(0, 0.5, 0);
     }
 
     createOriginalMagnet() {
@@ -252,6 +258,110 @@ export class MagnetCuttingModule {
         this.app.sceneManager.add(tooltipSprite);
 
         this.updateHUD();
+    }
+
+    createSwipeGuide() {
+        // Create animated swipe guide sprite
+        const guideCanvas = document.createElement('canvas');
+        guideCanvas.width = 200;
+        guideCanvas.height = 400;
+        this.guideCanvas = guideCanvas;
+        this.guideTexture = new THREE.CanvasTexture(guideCanvas);
+
+        const guideSprite = new THREE.Sprite(
+            new THREE.SpriteMaterial({ map: this.guideTexture, transparent: true })
+        );
+        guideSprite.scale.set(1, 2, 1);
+        guideSprite.position.set(2.5, 0.5, 0);
+        this.swipeGuideSprite = guideSprite;
+        this.app.sceneManager.add(guideSprite);
+
+        this.updateSwipeGuide(0);
+    }
+
+    updateSwipeGuide(animProgress) {
+        if (!this.guideCanvas) return;
+
+        const ctx = this.guideCanvas.getContext('2d');
+        ctx.clearRect(0, 0, 200, 400);
+
+        if (this.isCut) {
+            // Hide guide after cut
+            if (this.swipeGuideSprite) {
+                this.swipeGuideSprite.visible = false;
+            }
+            return;
+        }
+
+        // Background
+        ctx.fillStyle = 'rgba(26, 27, 61, 0.85)';
+        ctx.roundRect(10, 10, 180, 380, 15);
+        ctx.fill();
+
+        // Border
+        ctx.strokeStyle = '#00ff88';
+        ctx.lineWidth = 2;
+        ctx.roundRect(10, 10, 180, 380, 15);
+        ctx.stroke();
+
+        // Title
+        ctx.fillStyle = '#e8f4ff';
+        ctx.font = 'bold 18px Inter, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('SWIPE TO CUT', 100, 45);
+
+        // Animated arrow going down
+        const arrowY = 80 + (animProgress % 1) * 200;
+
+        // Arrow trail
+        const gradient = ctx.createLinearGradient(100, arrowY - 80, 100, arrowY);
+        gradient.addColorStop(0, 'rgba(0, 255, 136, 0)');
+        gradient.addColorStop(1, 'rgba(0, 255, 136, 0.8)');
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.moveTo(100, arrowY - 80);
+        ctx.lineTo(100, arrowY);
+        ctx.stroke();
+
+        // Arrow head
+        ctx.fillStyle = '#00ff88';
+        ctx.beginPath();
+        ctx.moveTo(100, arrowY + 20);
+        ctx.lineTo(85, arrowY);
+        ctx.lineTo(115, arrowY);
+        ctx.closePath();
+        ctx.fill();
+
+        // Dashed line through center (representing cut line)
+        ctx.strokeStyle = '#00ff88';
+        ctx.lineWidth = 2;
+        ctx.setLineDash([8, 8]);
+        ctx.beginPath();
+        ctx.moveTo(100, 70);
+        ctx.lineTo(100, 290);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Mini magnet representation
+        ctx.fillStyle = '#e74c3c';
+        ctx.fillRect(40, 300, 55, 40);
+        ctx.fillStyle = '#3498db';
+        ctx.fillRect(105, 300, 55, 40);
+
+        // Labels
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 16px Inter, sans-serif';
+        ctx.fillText('N', 67, 325);
+        ctx.fillText('S', 132, 325);
+
+        // Hint text
+        ctx.fillStyle = '#a0c8e8';
+        ctx.font = '12px Inter, sans-serif';
+        ctx.fillText('Drag down through', 100, 360);
+        ctx.fillText('the magnet', 100, 375);
+
+        this.guideTexture.needsUpdate = true;
     }
 
     updateHUD() {
@@ -503,6 +613,11 @@ export class MagnetCuttingModule {
 
         // Update HUD
         this.updateHUD();
+
+        // Hide swipe guide
+        if (this.swipeGuideSprite) {
+            this.swipeGuideSprite.visible = false;
+        }
     }
 
     createCutHalves() {
@@ -697,6 +812,11 @@ export class MagnetCuttingModule {
 
         // Update HUD
         this.updateHUD();
+
+        // Show swipe guide again
+        if (this.swipeGuideSprite) {
+            this.swipeGuideSprite.visible = true;
+        }
     }
 
     update(deltaTime) {
@@ -759,6 +879,12 @@ export class MagnetCuttingModule {
             this.leftHalf.position.y = 0.5;
             this.rightHalf.position.y = 0.5;
         }
+
+        // Animate swipe guide
+        if (!this.isCut) {
+            this.swipeArrowTime += deltaTime * 0.8;
+            this.updateSwipeGuide(this.swipeArrowTime);
+        }
     }
 
     cleanup() {
@@ -794,6 +920,7 @@ export class MagnetCuttingModule {
         // Remove HUD
         if (this.infoSprite) this.app.sceneManager.remove(this.infoSprite);
         if (this.tooltipSprite) this.app.sceneManager.remove(this.tooltipSprite);
+        if (this.swipeGuideSprite) this.app.sceneManager.remove(this.swipeGuideSprite);
 
         // Clear options
         if (this.app.optionsContainer) {
@@ -802,5 +929,8 @@ export class MagnetCuttingModule {
 
         // Clear sliders
         this.app.sliders.clear();
+
+        // Re-enable orbit controls for other modules
+        this.app.sceneManager.controls.enabled = true;
     }
 }
